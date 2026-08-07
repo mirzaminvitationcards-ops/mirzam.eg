@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Professional SEO & Social Sharing -->
+    <meta name="description" content="Mirzam.eg - Bespoke Digital Wedding and Engagement Invitations in Egypt. Premium artistry for your most beautiful days.">
+    <title>Mirzam | Premium Invitation Cards</title>
+    
+    <!-- Modern Frameworks -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { 
+            --primary-color: #0a1128; 
+            --accent-gold: #c5a059; 
+            --bg-soft: #fdfbf7; 
+        }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--bg-soft); 
+            scroll-behavior: smooth; 
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+        /* Cinematic Hero Animation */
+        @keyframes subtleZoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+        .animate-hero {
+            animation: subtleZoom 15s infinite alternate ease-in-out;
+        }
+
+        .hero-overlay { 
+            background: linear-gradient(to bottom, rgba(10, 17, 40, 0.3), rgba(10, 17, 40, 0.6)); 
+        }
+
+        .btn-theme { 
+            background-color: var(--accent-gold); 
+            color: white; 
+            letter-spacing: 0.2em;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
+            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.2);
+        }
+
+        .btn-theme:hover { 
+            background-color: var(--primary-color); 
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(10, 17, 40, 0.3);
+        }
+
+        /* Fade In Animation */
+        .fade-in {
+            animation: fadeIn 1.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased text-[#0a1128]">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-xl border-b border-gray-100 px-6 py-5">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-[0.2em] uppercase text-[#0a1128]">
+                MIRZAM<span class="text-[#c5a059] font-light">.EG</span>
+            </div>
+            
+            <div class="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-semibold">
+                <!-- Home is Active: Set to Gold -->
+                <a href="Mirzam's_Main_page.html" class="text-[#c5a059]">Home</a>
+                
+                <!-- Collections is Inactive: Set to Navy, turns Gold on hover -->
+                <a href="collection.html" class="text-[#0a1128] hover:text-[#c5a059] transition-colors">Collections</a>
+                
+                <!-- Contact Us: Navy/Black and Bold -->
+                <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="mainphoto.webp" alt="Mirzam Background" class="w-full h-full object-cover animate-hero">
+            <div class="absolute inset-0 hero-overlay"></div>
+        </div>
+        
+        <div class="relative z-10 text-center px-4 text-white fade-in">
+            <h1 class="text-6xl md:text-9xl mb-6 italic tracking-tight">Mirzam</h1>
+            <p class="text-sm md:text-base font-extralight max-w-2xl mx-auto mb-12 tracking-[0.6em] uppercase opacity-80">
+                The Art of Invitation
+            </p>
+            <a href="collection.html" class="btn-theme px-14 py-5 inline-block uppercase text-[11px] font-bold">
+                Explore Collections
+            </a>
+        </div>
+    </section>
+
+    <!-- Elegance Redefined Section -->
+    <section class="py-32 px-6 text-center bg-white">
+        <div class="max-w-3xl mx-auto fade-in">
+            <h2 class="text-4xl md:text-5xl italic mb-8 text-[#0a1128]">Elegance Redefined</h2>
+            <p class="text-gray-400 italic text-lg mb-4 tracking-wide">
+                "Your wedding begins the moment they open the envelope."
+            </p>
+            <p class="text-gray-500 text-sm leading-relaxed max-w-lg mx-auto font-light">
+                Based in Cairo, Mirzam crafts bespoke invitations that combine Egyptian heritage with modern luxury.
+            </p>
+        </div>
+    </section>
+
+    <!-- Media Section -->
+    <section id="media" class="py-32 text-center bg-[#fdfbf7]">
+        <div class="max-w-7xl mx-auto px-6">
+            <h3 class="text-[#c5a059] uppercase tracking-[0.6em] text-[10px] font-bold mb-20 opacity-80">Our Media</h3>
+            
+            <div class="flex flex-col md:flex-row justify-center items-center space-y-12 md:space-y-0 md:space-x-24">
+                <a href="https://instagram.com/mirzam.eg" target="_blank" class="group flex flex-col items-center transition-all duration-300 transform hover:scale-105">
+                    <span class="p-6 rounded-full border border-gray-200 mb-4 group-hover:border-[#c5a059] bg-white transition-colors">
+                        <i class="fab fa-instagram text-2xl group-hover:text-[#c5a059]"></i>
+                    </span>
+                    <span class="text-[11px] font-bold tracking-[0.3em] uppercase">Instagram</span>
+                </a>
+
+                <a href="https://www.tiktok.com/@mirzam.eg?_r=1&_t=ZS-98gnVz79sYv" target="_blank" class="group flex flex-col items-center transition-all duration-300 transform hover:scale-105">
+                    <span class="p-6 rounded-full border border-gray-200 mb-4 group-hover:border-[#c5a059] bg-white transition-colors">
+                        <i class="fab fa-tiktok text-2xl group-hover:text-[#c5a059]"></i>
+                    </span>
+                    <span class="text-[11px] font-bold tracking-[0.3em] uppercase">TikTok</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer - Background now Pure White -->
+    <footer class="py-20 bg-white border-t border-gray-100 text-center">
+        <div class="text-[10px] tracking-[0.6em] uppercase text-[#0a1128] font-bold">
+            © 2026 MIRZAM EGYPT
+        </div>
+        <div class="mt-4 flex justify-center space-x-4 opacity-20 text-[#0a1128]">
+            <i class="fa-solid fa-star text-[8px]"></i>
+            <i class="fa-solid fa-star text-[8px]"></i>
+            <i class="fa-solid fa-star text-[8px]"></i>
+        </div>
+    </footer>
+
+</body>
+</html>

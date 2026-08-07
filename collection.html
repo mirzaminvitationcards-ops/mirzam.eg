@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Collections | Mirzam</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { 
+            --navy: #0a1128; 
+            --gold: #c5a059;
+            --sage: #8f9f8b;
+            --bg-soft: #fdfbf7;
+        }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--bg-soft); 
+            color: var(--navy);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
+
+        /* Professional Fade-In Animation */
+        .fade-in {
+            animation: fadeIn 1.2s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Modal Backdrop Blur */
+        #dateModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 17, 40, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .calendar-box {
+            background-color: var(--sage);
+            width: 100%;
+            max-width: 400px;
+            padding: 45px 25px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            margin-top: 25px;
+        }
+
+        .day-node {
+            font-size: 13px;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .day-node:hover:not(.disabled) { background: rgba(255,255,255,0.25); }
+        .day-node.selected { background: white; color: var(--sage); font-weight: 600; }
+        .disabled { opacity: 0.2; cursor: not-allowed; }
+
+        .weekday-header {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            opacity: 0.6;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .category-card img {
+            transition: transform 1.8s cubic-bezier(0.1, 0, 0, 1);
+        }
+        .category-card:hover img {
+            transform: scale(1.08);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation (Matching Home Page) -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-xl border-b border-gray-100 px-6 py-5">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-[0.2em] uppercase text-[#0a1128]">
+                MIRZAM<span class="text-[#c5a059] font-light">.EG</span>
+            </div>
+            <div class="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-semibold">
+                <a href="Mirzam's_Main_page.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Home</a>
+                <a href="collection.html" class="text-[#c5a059]">Collections</a>
+                
+                <!-- Contact Us: Navy/Black color + Instagram DM link -->
+                <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="pt-48 pb-16 text-center fade-in">
+        <h1 class="text-5xl md:text-6xl italic text-[#0a1128] mb-4">Our Collections</h1>
+        <div class="w-20 h-[1px] bg-[#c5a059] mx-auto mb-4"></div>
+        <p class="text-[10px] uppercase tracking-[0.5em] text-gray-400">Exquisite Digital Artistry</p>
+    </header>
+
+    <!-- Gallery Section -->
+    <main class="max-w-7xl mx-auto px-6 pb-24 fade-in" style="animation-delay: 0.2s;">
+        <div class="grid md:grid-cols-2 gap-12">
+            <!-- Wedding -->
+            <div class="relative group category-card cursor-pointer overflow-hidden shadow-2xl h-[600px]" onclick="openDatePicker('Wedding')">
+                <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&q=80" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black/40 flex items-center justify-center transition-all group-hover:bg-black/55">
+                    <div class="text-center text-white p-4">
+                        <h2 class="text-4xl md:text-5xl italic mb-3">Wedding</h2>
+                        <p class="uppercase tracking-[0.4em] text-[10px] opacity-80 mb-6">Royal & Traditional</p>
+                        <button class="border border-white/50 px-10 py-3 uppercase text-[10px] tracking-widest hover:bg-white hover:text-black transition-all">Request Catalog</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Engagement -->
+            <div class="relative group category-card cursor-pointer overflow-hidden shadow-2xl h-[600px]" onclick="openDatePicker('Engagement')">
+                <img src="https://images.unsplash.com/photo-1510076857177-7470076d4098?auto=format&fit=crop&q=80" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black/40 flex items-center justify-center transition-all group-hover:bg-black/55">
+                    <div class="text-center text-white p-4">
+                        <h2 class="text-4xl md:text-5xl italic mb-3">Engagement</h2>
+                        <p class="uppercase tracking-[0.4em] text-[10px] opacity-80 mb-6">Modern & Chic</p>
+                        <button class="border border-white/50 px-10 py-3 uppercase text-[10px] tracking-widest hover:bg-white hover:text-black transition-all">Request Catalog</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ENHANCED ORDER PROCESS SECTION (High Contrast) -->
+        <div class="mt-40 border-t border-gray-100 pt-24 pb-10">
+            <div class="grid md:grid-cols-3 gap-16 text-center">
+                <div class="px-6">
+                    <span class="text-[#c5a059] text-3xl italic serif block mb-2 opacity-80">01.</span>
+                    <h3 class="font-bold uppercase tracking-[0.4em] text-[#0a1128] text-xs mb-6">Choose</h3>
+                    <p class="text-sm text-gray-500 font-light leading-relaxed">Browse our digital collections and select the design that resonates with your vision.</p>
+                </div>
+                <div class="px-6 border-x border-gray-50">
+                    <span class="text-[#c5a059] text-3xl italic serif block mb-2 opacity-80">02.</span>
+                    <h3 class="font-bold uppercase tracking-[0.4em] text-[#0a1128] text-xs mb-6">Customize</h3>
+                    <p class="text-sm text-gray-500 font-light leading-relaxed">Connect with us on Instagram to tailor the typography and details to your story.</p>
+                </div>
+                <div class="px-6">
+                    <span class="text-[#c5a059] text-3xl italic serif block mb-2 opacity-80">03.</span>
+                    <h3 class="font-bold uppercase tracking-[0.4em] text-[#0a1128] text-xs mb-6">Delivery</h3>
+                    <p class="text-sm text-gray-500 font-light leading-relaxed">Receive your high-resolution digital invitation directly via instagram.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Calendar Modal -->
+    <div id="dateModal">
+        <div class="flex flex-col items-center w-full">
+            <div class="calendar-box">
+                <div class="flex justify-between items-center mb-6 px-4">
+                    <button onclick="changeMonth(-1)" class="text-2xl hover:opacity-50 transition">←</button>
+                    <div>
+                        <h3 id="calendarMonth" class="text-3xl italic">Month</h3>
+                        <p id="calendarYear" class="text-[10px] tracking-widest opacity-80">2026</p>
+                    </div>
+                    <button onclick="changeMonth(1)" class="text-2xl hover:opacity-50 transition">→</button>
+                </div>
+                <div class="calendar-grid px-4">
+                    <div class="weekday-header">S</div><div class="weekday-header">M</div><div class="weekday-header">T</div><div class="weekday-header">W</div><div class="weekday-header">T</div><div class="weekday-header">F</div><div class="weekday-header">S</div>
+                </div>
+                <div id="daysContainer" class="calendar-grid px-4"></div>
+            </div>
+            <div class="mt-10 flex space-x-8">
+                <button onclick="closeDatePicker()" class="text-white opacity-50 uppercase text-[10px] tracking-widest hover:opacity-100 transition">Cancel</button>
+                <button id="confirmBtn" onclick="confirmDate()" class="hidden bg-white text-[#0a1128] px-10 py-4 uppercase text-[10px] tracking-[0.2em] font-bold shadow-2xl">See Collection</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer (Matching Home Page White Background) -->
+    <footer class="py-20 bg-white border-t border-gray-100 text-center">
+        <div class="text-[10px] tracking-[0.6em] uppercase text-[#0a1128] font-bold">
+            © 2026 MIRZAM EGYPT
+        </div>
+        <div class="mt-6">
+            <a href="Mirzam's_Main_page.html" class="text-[9px] uppercase tracking-widest border-b border-[#0a1128]/20 pb-1 hover:text-[#c5a059] transition-colors">Back to Home</a>
+        </div>
+        <div class="mt-4 flex justify-center space-x-4 opacity-10 text-[#0a1128]">
+            <i class="fa-solid fa-star text-[8px]"></i>
+            <i class="fa-solid fa-star text-[8px]"></i>
+            <i class="fa-solid fa-star text-[8px]"></i>
+        </div>
+    </footer>
+
+    <script>
+        let selectedDay = null;
+        let displayedDate = new Date();
+        let currentCategory = "";
+
+        function openDatePicker(type) {
+            currentCategory = type;
+            displayedDate = new Date(); 
+            document.getElementById('dateModal').style.display = 'flex';
+            renderCalendar();
+        }
+
+        function closeDatePicker() {
+            document.getElementById('dateModal').style.display = 'none';
+            selectedDay = null;
+            document.getElementById('confirmBtn').classList.add('hidden');
+        }
+
+        function changeMonth(step) {
+            displayedDate.setMonth(displayedDate.getMonth() + step);
+            renderCalendar();
+        }
+
+        function renderCalendar() {
+            const container = document.getElementById('daysContainer');
+            container.innerHTML = '';
+            const year = displayedDate.getFullYear();
+            const month = displayedDate.getMonth();
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            
+            document.getElementById('calendarMonth').innerText = monthNames[month];
+            document.getElementById('calendarYear').innerText = year;
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const lastDay = new Date(year, month + 1, 0).getDate();
+            const safety = new Date();
+            safety.setDate(safety.getDate() + 5);
+
+            for (let i = 0; i < firstDay; i++) container.innerHTML += '<div></div>';
+
+            for (let day = 1; day <= lastDay; day++) {
+                const dObj = new Date(year, month, day);
+                const isOff = dObj < safety;
+                const el = document.createElement('div');
+                el.className = 'day-node' + (isOff ? ' disabled' : '');
+                el.innerText = day;
+                if (!isOff) {
+                    el.onclick = () => {
+                        document.querySelectorAll('.day-node').forEach(n => n.classList.remove('selected'));
+                        el.classList.add('selected');
+                        selectedDay = day;
+                        document.getElementById('confirmBtn').classList.remove('hidden');
+                    };
+                }
+                container.appendChild(el);
+            }
+        }
+
+        function confirmDate() {
+            if (currentCategory === 'Wedding') {
+                window.location.href = "wedding.html";
+            } else if (currentCategory === 'Engagement') {
+                window.location.href = "engagement.html";
+            }
+        }
+    </script>
+</body>
+</html>
