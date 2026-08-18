@@ -171,10 +171,9 @@
                     <input type="text" id="userName" placeholder="Your name" class="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-400">
                 </div>
 
-                <div>
-                    <!-- Updated to type="email" and removed phone placeholder -->
-                    <input type="email" id="userIdentifier" placeholder="Email address" required class="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-400">
-                </div>
+               <div>
+    <input type="text" id="userIdentifier" placeholder="Phone or email" required class="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-400">
+</div>
 
                 <div>
                     <input type="password" id="userPassword" placeholder="Password (min 6 characters)" required class="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-400">
@@ -250,16 +249,24 @@
         });
         closeModalBtn.addEventListener('click', () => authModal.style.display = 'none');
 
-        // Form Submit Handler
+       // Form Submit Handler
         authForm.addEventListener('submit', (e) => {
             e.preventDefault();
             let identifier = document.getElementById('userIdentifier').value.trim();
             const password = document.getElementById('userPassword').value;
             const name = document.getElementById('userName').value.trim();
 
+            // The Workaround: If the identifier doesn't have an '@', treat it as a phone number
+            let firebaseIdentifier = identifier;
+            if (!identifier.includes('@')) {
+                // Remove any spaces or dashes the user might have typed
+                const cleanPhone = identifier.replace(/[\s-]/g, '');
+                firebaseIdentifier = cleanPhone + "@mirzam.auth";
+            }
+
             if (isSignUpMode) {
-                // Create Email Account
-                createUserWithEmailAndPassword(auth, identifier, password)
+                // Create Email Account (Using either real email or phone@mirzam.auth)
+                createUserWithEmailAndPassword(auth, firebaseIdentifier, password)
                     .then((userCredential) => {
                         const user = userCredential.user;
                         if (name) {
@@ -275,13 +282,13 @@
                         showStatus(error.message, "text-red-500");
                     });
             } else {
-                // Sign In Email Account
-                signInWithEmailAndPassword(auth, identifier, password)
+                // Sign In (Using either real email or phone@mirzam.auth)
+                signInWithEmailAndPassword(auth, firebaseIdentifier, password)
                     .then(() => {
                         authModal.style.display = 'none';
                     })
                     .catch(() => {
-                        showStatus("Invalid email or password.", "text-red-500");
+                        showStatus("Invalid phone/email or password.", "text-red-500");
                     });
             }
         });
