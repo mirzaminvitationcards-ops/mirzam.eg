@@ -151,58 +151,48 @@
     </footer>
 
     <!-- Authentication Modal -->
-    <div id="authModal" class="fixed inset-0 bg-[#0a1128]/80 backdrop-blur-sm z-[100] hidden items-center justify-center">
-        <div class="bg-white p-10 max-w-sm w-full relative border-t-4 border-[#c5a059] shadow-2xl">
+    <div id="authModal" class="fixed inset-0 bg-[#0a1128]/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+        <div class="bg-white p-8 md:p-10 max-w-md w-full relative border-t-4 border-[#c5a059] shadow-2xl rounded-sm">
             <button id="closeModalBtn" class="absolute top-4 right-5 text-gray-400 hover:text-[#0a1128] transition-colors">
                 <i class="fa-solid fa-xmark text-2xl"></i>
             </button>
             
-            <div class="text-center mb-8">
-                <h2 class="text-3xl italic text-[#0a1128] mb-2">Welcome</h2>
-                <p class="text-[9px] tracking-[0.3em] uppercase text-gray-400">Log in or create an account</p>
+            <!-- Mode Switcher Header: Sign in | Create account -->
+            <div class="flex items-center space-x-4 mb-8 text-sm font-semibold tracking-wide">
+                <button id="switchToSignIn" class="text-gray-400 hover:text-[#0a1128] transition-colors">Sign in</button>
+                <span class="text-gray-300">|</span>
+                <button id="switchToSignUp" class="text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5">Create account</button>
             </div>
 
-            <div class="space-y-4">
-                <!-- Google Button -->
-                <button id="googleAuthBtn" class="w-full flex items-center justify-center space-x-3 border border-gray-200 py-4 hover:bg-gray-50 transition-colors">
-                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google">
-                    <span class="text-[10px] font-bold tracking-widest uppercase text-[#0a1128]">Continue with Google</span>
+            <!-- Auth Form -->
+            <form id="authForm" class="space-y-4">
+                <!-- Name Field (Only visible during Sign Up) -->
+                <div id="nameFieldContainer">
+                    <input type="text" id="userName" placeholder="Your name" class="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-400">
+                </div>
+
+                <div>
+                    <!-- Updated to type="email" and removed phone placeholder -->
+                    <input type="email" id="userIdentifier" placeholder="Email address" required class="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-400">
+                </div>
+
+                <div>
+                    <input type="password" id="userPassword" placeholder="Password (min 6 characters)" required class="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-400">
+                </div>
+
+                <button type="submit" id="authSubmitBtn" class="w-full bg-[#9b7b43] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors shadow-lg mt-2">
+                    Create account
                 </button>
+            </form>
 
-                <div class="flex items-center space-x-2 my-6 opacity-40">
-                    <div class="h-px bg-gray-400 flex-1"></div>
-                    <span class="text-[9px] uppercase tracking-widest">or</span>
-                    <div class="h-px bg-gray-400 flex-1"></div>
-                </div>
-
-                <!-- Phone Button -->
-                <button id="showPhoneAuthBtn" class="w-full flex items-center justify-center space-x-3 bg-[#0a1128] text-white py-4 hover:bg-[#c5a059] transition-colors shadow-lg">
-                    <i class="fa-solid fa-phone"></i>
-                    <span class="text-[10px] font-bold tracking-widest uppercase">Continue with Mobile</span>
-                </button>
-
-                <!-- Phone Input Section (Hidden Initially) -->
-                <div id="phoneSection" class="hidden mt-6 space-y-4">
-                    <input type="tel" id="phoneNumber" placeholder="+20 100 000 0000" class="w-full border-b border-gray-300 py-3 text-sm focus:outline-none focus:border-[#c5a059] text-center tracking-widest bg-transparent">
-                    <div id="recaptcha-container" class="flex justify-center mt-2"></div>
-                    <button id="sendCodeBtn" class="w-full border border-[#c5a059] text-[#c5a059] py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-[#c5a059] hover:text-white transition-colors">Send Code</button>
-                </div>
-
-                <!-- OTP Verification Section (Hidden Initially) -->
-                <div id="otpSection" class="hidden mt-6 space-y-4">
-                    <input type="text" id="otpCode" placeholder="Enter 6-digit code" class="w-full border-b border-gray-300 py-3 text-sm focus:outline-none focus:border-[#c5a059] text-center tracking-widest bg-transparent">
-                    <button id="verifyCodeBtn" class="w-full bg-[#c5a059] text-white py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors shadow-md">Verify Code</button>
-                </div>
-
-                <div id="statusMessage" class="text-center mt-4 text-xs font-semibold tracking-wide"></div>
-            </div>
+            <div id="statusMessage" class="text-center mt-4 text-xs font-semibold tracking-wide"></div>
         </div>
     </div>
-
-    <!-- Firebase Integration Logic -->
+   <!-- Firebase Integration Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, RecaptchaVerifier, signInWithPhoneNumber, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        // Removed GoogleAuthProvider and signInWithPopup
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
 
         const firebaseConfig = {
@@ -225,66 +215,92 @@
         const closeModalBtn = document.getElementById('closeModalBtn');
         const navAuthContainer = document.getElementById('navAuthContainer');
         const statusMessage = document.getElementById('statusMessage');
+        
+        const switchToSignIn = document.getElementById('switchToSignIn');
+        const switchToSignUp = document.getElementById('switchToSignUp');
+        const nameFieldContainer = document.getElementById('nameFieldContainer');
+        const authSubmitBtn = document.getElementById('authSubmitBtn');
+        const authForm = document.getElementById('authForm');
 
-        // Toggle Modal
+        let isSignUpMode = true;
+
+        // Toggle between Sign In and Create Account modes
+        switchToSignIn.addEventListener('click', () => {
+            isSignUpMode = false;
+            switchToSignIn.className = "text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5 font-bold";
+            switchToSignUp.className = "text-gray-400 hover:text-[#0a1128] transition-colors font-normal";
+            nameFieldContainer.style.display = 'none';
+            authSubmitBtn.innerText = 'Sign in';
+            statusMessage.innerText = '';
+        });
+
+        switchToSignUp.addEventListener('click', () => {
+            isSignUpMode = true;
+            switchToSignUp.className = "text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5 font-bold";
+            switchToSignIn.className = "text-gray-400 hover:text-[#0a1128] transition-colors font-normal";
+            nameFieldContainer.style.display = 'block';
+            authSubmitBtn.innerText = 'Create account';
+            statusMessage.innerText = '';
+        });
+
+        // Toggle Modal Open/Close
         openModalBtn?.addEventListener('click', () => {
             authModal.style.display = 'flex';
-            document.getElementById('phoneSection').classList.add('hidden');
-            document.getElementById('otpSection').classList.add('hidden');
             statusMessage.innerText = '';
         });
         closeModalBtn.addEventListener('click', () => authModal.style.display = 'none');
 
-        // 1. Google Authentication
-        document.getElementById('googleAuthBtn').addEventListener('click', () => {
-            const provider = new GoogleAuthProvider();
-            signInWithPopup(auth, provider).then(() => {
-                authModal.style.display = 'none';
-            }).catch(error => showStatus(error.message, "text-red-500"));
-        });
+        // Form Submit Handler
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let identifier = document.getElementById('userIdentifier').value.trim();
+            const password = document.getElementById('userPassword').value;
+            const name = document.getElementById('userName').value.trim();
 
-        // 2. Phone Authentication Setup
-        let confirmationResult = null;
-        document.getElementById('showPhoneAuthBtn').addEventListener('click', () => {
-            document.getElementById('phoneSection').classList.remove('hidden');
-            if (!window.recaptchaVerifier) {
-                window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { size: 'normal' });
-                window.recaptchaVerifier.render();
+            if (isSignUpMode) {
+                // Create Email Account
+                createUserWithEmailAndPassword(auth, identifier, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        if (name) {
+                            updateProfile(user, { displayName: name }).then(() => {
+                                updateNavigationBar(user, name);
+                            });
+                        } else {
+                            updateNavigationBar(user);
+                        }
+                        authModal.style.display = 'none';
+                    })
+                    .catch((error) => {
+                        showStatus(error.message, "text-red-500");
+                    });
+            } else {
+                // Sign In Email Account
+                signInWithEmailAndPassword(auth, identifier, password)
+                    .then(() => {
+                        authModal.style.display = 'none';
+                    })
+                    .catch(() => {
+                        showStatus("Invalid email or password.", "text-red-500");
+                    });
             }
         });
 
-        // 3. Send SMS Code
-        document.getElementById('sendCodeBtn').addEventListener('click', () => {
-            const number = document.getElementById('phoneNumber').value;
-            signInWithPhoneNumber(auth, number, window.recaptchaVerifier)
-                .then((result) => {
-                    confirmationResult = result;
-                    document.getElementById('phoneSection').classList.add('hidden');
-                    document.getElementById('otpSection').classList.remove('hidden');
-                    showStatus("Verification code sent!", "text-green-600");
-                }).catch(error => showStatus("Error: " + error.message, "text-red-500"));
-        });
+        // Update Navigation Bar UI
+        function updateNavigationBar(user, manualName = null) {
+            const displayName = manualName || user.displayName || user.email.split('@')[0];
+            navAuthContainer.innerHTML = `
+                <span class="text-[#c5a059] tracking-widest text-[10px]">HELLO, ${displayName.toUpperCase()}</span>
+                <button id="logoutBtn" class="ml-4 text-gray-400 hover:text-red-500 transition-colors" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i></button>
+            `;
+            document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
+        }
 
-        // 4. Verify OTP Code
-        document.getElementById('verifyCodeBtn').addEventListener('click', () => {
-            const code = document.getElementById('otpCode').value;
-            confirmationResult.confirm(code).then(() => {
-                authModal.style.display = 'none';
-            }).catch(() => showStatus("Invalid code. Please try again.", "text-red-500"));
-        });
-
-        // 5. Monitor Auth State & Update Nav Bar
+        // Monitor Auth State
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // User is signed in
-                const displayName = user.displayName || user.phoneNumber || "Member";
-                navAuthContainer.innerHTML = `
-                    <span class="text-[#c5a059] tracking-widest text-[10px]">HELLO, ${displayName.toUpperCase()}</span>
-                    <button id="logoutBtn" class="ml-4 text-gray-400 hover:text-red-500 transition-colors"><i class="fa-solid fa-right-from-bracket"></i></button>
-                `;
-                document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
+                updateNavigationBar(user);
             } else {
-                // User is signed out
                 navAuthContainer.innerHTML = `<button id="openModalBtn" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest text-[11px]">LOG IN</button>`;
                 document.getElementById('openModalBtn').addEventListener('click', () => {
                     authModal.style.display = 'flex';
