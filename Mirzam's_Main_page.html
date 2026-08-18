@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Professional SEO & Social Sharing -->
     <meta name="description" content="Mirzam.eg - Bespoke Digital Wedding and Engagement Invitations in Egypt. Premium artistry for your most beautiful days.">
     <title>Mirzam | Premium Invitation Cards</title>
     
-    <!-- Modern Frameworks -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -29,7 +27,6 @@
 
         h1, h2, h3 { font-family: 'Playfair Display', serif; }
 
-        /* Cinematic Hero Animation */
         @keyframes subtleZoom {
             0% { transform: scale(1); }
             100% { transform: scale(1.05); }
@@ -56,7 +53,6 @@
             box-shadow: 0 10px 25px rgba(10, 17, 40, 0.3);
         }
 
-        /* Fade In Animation */
         .fade-in {
             animation: fadeIn 1.5s ease-out forwards;
         }
@@ -75,15 +71,15 @@
                 MIRZAM<span class="text-[#c5a059] font-light">.EG</span>
             </div>
             
-            <div class="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-semibold">
-                <!-- Home is Active: Set to Gold -->
+            <div class="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-semibold items-center">
                 <a href="Mirzam's_Main_page.html" class="text-[#c5a059]">Home</a>
-                
-                <!-- Collections is Inactive: Set to Navy, turns Gold on hover -->
                 <a href="collection.html" class="text-[#0a1128] hover:text-[#c5a059] transition-colors">Collections</a>
-                
-                <!-- Contact Us: Navy/Black and Bold -->
                 <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
+                
+                <!-- Login Status Container -->
+                <div id="navAuthContainer" class="border-l border-gray-300 pl-10">
+                    <button id="openModalBtn" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest">LOG IN</button>
+                </div>
             </div>
         </div>
     </nav>
@@ -142,7 +138,7 @@
         </div>
     </section>
 
-    <!-- Footer - Background now Pure White -->
+    <!-- Footer -->
     <footer class="py-20 bg-white border-t border-gray-100 text-center">
         <div class="text-[10px] tracking-[0.6em] uppercase text-[#0a1128] font-bold">
             © 2026 MIRZAM EGYPT
@@ -154,5 +150,152 @@
         </div>
     </footer>
 
+    <!-- Authentication Modal -->
+    <div id="authModal" class="fixed inset-0 bg-[#0a1128]/80 backdrop-blur-sm z-[100] hidden items-center justify-center">
+        <div class="bg-white p-10 max-w-sm w-full relative border-t-4 border-[#c5a059] shadow-2xl">
+            <button id="closeModalBtn" class="absolute top-4 right-5 text-gray-400 hover:text-[#0a1128] transition-colors">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+            
+            <div class="text-center mb-8">
+                <h2 class="text-3xl italic text-[#0a1128] mb-2">Welcome</h2>
+                <p class="text-[9px] tracking-[0.3em] uppercase text-gray-400">Log in or create an account</p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Google Button -->
+                <button id="googleAuthBtn" class="w-full flex items-center justify-center space-x-3 border border-gray-200 py-4 hover:bg-gray-50 transition-colors">
+                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google">
+                    <span class="text-[10px] font-bold tracking-widest uppercase text-[#0a1128]">Continue with Google</span>
+                </button>
+
+                <div class="flex items-center space-x-2 my-6 opacity-40">
+                    <div class="h-px bg-gray-400 flex-1"></div>
+                    <span class="text-[9px] uppercase tracking-widest">or</span>
+                    <div class="h-px bg-gray-400 flex-1"></div>
+                </div>
+
+                <!-- Phone Button -->
+                <button id="showPhoneAuthBtn" class="w-full flex items-center justify-center space-x-3 bg-[#0a1128] text-white py-4 hover:bg-[#c5a059] transition-colors shadow-lg">
+                    <i class="fa-solid fa-phone"></i>
+                    <span class="text-[10px] font-bold tracking-widest uppercase">Continue with Mobile</span>
+                </button>
+
+                <!-- Phone Input Section (Hidden Initially) -->
+                <div id="phoneSection" class="hidden mt-6 space-y-4">
+                    <input type="tel" id="phoneNumber" placeholder="+20 100 000 0000" class="w-full border-b border-gray-300 py-3 text-sm focus:outline-none focus:border-[#c5a059] text-center tracking-widest bg-transparent">
+                    <div id="recaptcha-container" class="flex justify-center mt-2"></div>
+                    <button id="sendCodeBtn" class="w-full border border-[#c5a059] text-[#c5a059] py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-[#c5a059] hover:text-white transition-colors">Send Code</button>
+                </div>
+
+                <!-- OTP Verification Section (Hidden Initially) -->
+                <div id="otpSection" class="hidden mt-6 space-y-4">
+                    <input type="text" id="otpCode" placeholder="Enter 6-digit code" class="w-full border-b border-gray-300 py-3 text-sm focus:outline-none focus:border-[#c5a059] text-center tracking-widest bg-transparent">
+                    <button id="verifyCodeBtn" class="w-full bg-[#c5a059] text-white py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors shadow-md">Verify Code</button>
+                </div>
+
+                <div id="statusMessage" class="text-center mt-4 text-xs font-semibold tracking-wide"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase Integration Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, RecaptchaVerifier, signInWithPhoneNumber, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDHytukMX1bCkh-BpumQhWmZWEnmprAIno",
+            authDomain: "mirzam-login.firebaseapp.com",
+            projectId: "mirzam-login",
+            storageBucket: "mirzam-login.firebasestorage.app",
+            messagingSenderId: "264081997957",
+            appId: "1:264081997957:web:e5a006e0e4a50cf5a4a9ec",
+            measurementId: "G-8RS45VMDDQ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        
+        // UI Elements
+        const authModal = document.getElementById('authModal');
+        const openModalBtn = document.getElementById('openModalBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const navAuthContainer = document.getElementById('navAuthContainer');
+        const statusMessage = document.getElementById('statusMessage');
+
+        // Toggle Modal
+        openModalBtn?.addEventListener('click', () => {
+            authModal.style.display = 'flex';
+            document.getElementById('phoneSection').classList.add('hidden');
+            document.getElementById('otpSection').classList.add('hidden');
+            statusMessage.innerText = '';
+        });
+        closeModalBtn.addEventListener('click', () => authModal.style.display = 'none');
+
+        // 1. Google Authentication
+        document.getElementById('googleAuthBtn').addEventListener('click', () => {
+            const provider = new GoogleAuthProvider();
+            signInWithPopup(auth, provider).then(() => {
+                authModal.style.display = 'none';
+            }).catch(error => showStatus(error.message, "text-red-500"));
+        });
+
+        // 2. Phone Authentication Setup
+        let confirmationResult = null;
+        document.getElementById('showPhoneAuthBtn').addEventListener('click', () => {
+            document.getElementById('phoneSection').classList.remove('hidden');
+            if (!window.recaptchaVerifier) {
+                window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { size: 'normal' });
+                window.recaptchaVerifier.render();
+            }
+        });
+
+        // 3. Send SMS Code
+        document.getElementById('sendCodeBtn').addEventListener('click', () => {
+            const number = document.getElementById('phoneNumber').value;
+            signInWithPhoneNumber(auth, number, window.recaptchaVerifier)
+                .then((result) => {
+                    confirmationResult = result;
+                    document.getElementById('phoneSection').classList.add('hidden');
+                    document.getElementById('otpSection').classList.remove('hidden');
+                    showStatus("Verification code sent!", "text-green-600");
+                }).catch(error => showStatus("Error: " + error.message, "text-red-500"));
+        });
+
+        // 4. Verify OTP Code
+        document.getElementById('verifyCodeBtn').addEventListener('click', () => {
+            const code = document.getElementById('otpCode').value;
+            confirmationResult.confirm(code).then(() => {
+                authModal.style.display = 'none';
+            }).catch(() => showStatus("Invalid code. Please try again.", "text-red-500"));
+        });
+
+        // 5. Monitor Auth State & Update Nav Bar
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                const displayName = user.displayName || user.phoneNumber || "Member";
+                navAuthContainer.innerHTML = `
+                    <span class="text-[#c5a059] tracking-widest text-[10px]">HELLO, ${displayName.toUpperCase()}</span>
+                    <button id="logoutBtn" class="ml-4 text-gray-400 hover:text-red-500 transition-colors"><i class="fa-solid fa-right-from-bracket"></i></button>
+                `;
+                document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
+            } else {
+                // User is signed out
+                navAuthContainer.innerHTML = `<button id="openModalBtn" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest text-[11px]">LOG IN</button>`;
+                document.getElementById('openModalBtn').addEventListener('click', () => {
+                    authModal.style.display = 'flex';
+                });
+            }
+        });
+
+        function showStatus(msg, colorClass) {
+            statusMessage.innerText = msg;
+            statusMessage.className = `text-center mt-4 text-[10px] uppercase tracking-widest font-bold ${colorClass}`;
+        }
+    </script>
 </body>
 </html>
