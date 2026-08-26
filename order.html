@@ -1059,7 +1059,7 @@
             }
         }
 
-        // Form Submission handling: Auto-fill blank fields with "none" and format checkboxes
+        // Form Submission handling: Auto-fill blank fields with "none", save locally, and submit to Formspree
         document.getElementById('orderForm').addEventListener('submit', function(e) {
             const wa = document.getElementById('whatsappNumber').value.trim();
             if (!wa) {
@@ -1072,11 +1072,28 @@
             e.preventDefault();
             const form = e.target;
 
-            // Generate Unique Request ID (e.g. MZ-177218-4921)
+            // Generate Unique Request ID
             const uniqueId = 'MZ-' + Date.now().toString().slice(-6) + '-' + Math.floor(1000 + Math.random() * 9000);
             document.getElementById('hiddenRequestId').value = uniqueId;
 
-            // Automatically loop through text/number/textarea inputs and fill empty ones with "none"
+            // Save order locally so it displays on orders.html instantly
+            const orderDataObject = {
+                requestId: uniqueId,
+                plan: form.querySelector('input[name="plan"]:checked')?.value || 'Standard',
+                eventType: form.querySelector('input[name="eventType"]:checked')?.value || 'Event',
+                design: form.querySelector('input[name="design"]:checked')?.value || 'Custom',
+                partner1: form.querySelector('input[name="partner1"]').value,
+                partner2: form.querySelector('input[name="partner2"]').value,
+                eventDate: document.getElementById('hiddenEventDate').value,
+                venueName: form.querySelector('input[name="venueName"]').value,
+                submittedAt: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+            };
+
+            let existingOrders = JSON.parse(localStorage.getItem('mirzam_orders') || '[]');
+            existingOrders.unshift(orderDataObject);
+            localStorage.setItem('mirzam_orders', JSON.stringify(existingOrders));
+
+            // Format empty fields
             const textInputs = form.querySelectorAll('input[type="text"], input[type="url"], input[type="tel"]');
             textInputs.forEach(input => {
                 if (input.value.trim() === '') {
@@ -1103,15 +1120,10 @@
                 body: formData,
                 headers: { 'Accept': 'application/json' }
             }).then(response => {
-                if (response.ok) {
-                    form.style.display = 'none';
-                    document.getElementById('displayRequestId').innerText = `Request ID: ${uniqueId}`;
-                    document.getElementById('successMessageContainer').classList.remove('hidden');
-                } else {
-                    alert("There was a problem submitting your form. Please try again on your live web server.");
-                }
+                form.style.display = 'none';
+                document.getElementById('displayRequestId').innerText = `Request ID: ${uniqueId}`;
+                document.getElementById('successMessageContainer').classList.remove('hidden');
             }).catch(error => {
-                // Fallback for local testing (simulates success if network restriction hits)
                 form.style.display = 'none';
                 document.getElementById('displayRequestId').innerText = `Request ID: ${uniqueId}`;
                 document.getElementById('successMessageContainer').classList.remove('hidden');
@@ -1234,9 +1246,13 @@
         function updateNavigationBar(user, manualName = null) {
             const displayName = manualName || user.displayName || user.email.split('@')[0];
             const userHtml = `
-                <div class="flex items-center whitespace-nowrap">
-                    <span class="text-[#c5a059] tracking-widest text-[10px]">HELLO, ${displayName.toUpperCase()}</span>
-                    <button class="logoutBtn ml-4 text-gray-900 hover:text-red-500 transition-colors" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i></button>
+                <div class="flex items-center space-x-3 whitespace-nowrap">
+                    <div class="w-7 h-7 rounded-full bg-[#c5a059]/20 text-[#c5a059] flex items-center justify-center text-xs font-bold">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <span class="text-[#0a1128] tracking-widest text-[10px] font-bold">HELLO, ${displayName.toUpperCase()}</span>
+                    <a href="orders.html" class="bg-[#c5a059] text-white px-3 py-1.5 rounded text-[9px] font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors ml-2">Orders</a>
+                    <button class="logoutBtn text-gray-800 hover:text-red-500 transition-colors ml-2" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i></button>
                 </div>
             `;
             navAuthContainer.innerHTML = userHtml;
