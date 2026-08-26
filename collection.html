@@ -14,77 +14,25 @@
             --navy: #0a1128; 
             --gold: #c5a059;
             --sage: #8f9f8b;
-            --bg-soft: #fdfbf7;
+            --bg-soft: #f7f4ee; /* A deeper, warmer cream tone that eliminates screen glare */
         }
 
         body { 
             font-family: 'Montserrat', sans-serif; 
             background-color: var(--bg-soft); 
             color: var(--navy);
+            opacity: 0.95; 
             -webkit-font-smoothing: antialiased;
         }
 
         h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
 
-        /* Professional Fade-In Animation */
         .fade-in {
             animation: fadeIn 1.2s ease-out forwards;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Modal Backdrop Blur */
-        #dateModal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(10, 17, 40, 0.75);
-            backdrop-filter: blur(8px);
-            z-index: 100;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .calendar-box {
-            background-color: var(--sage);
-            width: 100%;
-            max-width: 400px;
-            padding: 45px 25px;
-            color: white;
-            text-align: center;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.4);
-        }
-
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 6px;
-            margin-top: 25px;
-        }
-
-        .day-node {
-            font-size: 13px;
-            aspect-ratio: 1 / 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .day-node:hover:not(.disabled) { background: rgba(255,255,255,0.25); }
-        .day-node.selected { background: white; color: var(--sage); font-weight: 600; }
-        .disabled { opacity: 0.2; cursor: not-allowed; }
-
-        .weekday-header {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            opacity: 0.6;
-            padding-bottom: 12px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .category-card img {
@@ -97,18 +45,46 @@
 </head>
 <body class="antialiased">
 
-    <!-- Navigation (Matching Home Page) -->
-    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-xl border-b border-gray-100 px-6 py-5">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-[#f7f4ee]/90 backdrop-blur-xl border-b border-gray-200/50 px-6 py-5">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
+            
+            <!-- Left: Logo -->
             <div class="text-2xl font-bold tracking-[0.2em] uppercase text-[#0a1128]">
                 MIRZAM<span class="text-[#c5a059] font-light">.EG</span>
             </div>
-            <div class="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-semibold">
+            
+            <!-- Right: Links & Login -->
+            <div class="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-semibold items-center">
                 <a href="Mirzam's_Main_page.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Home</a>
                 <a href="collection.html" class="text-[#c5a059]">Collections</a>
-                
-                <!-- Contact Us: Navy/Black color + Instagram DM link -->
+                <a href="pricing.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Pricing</a>
+                <a href="order.html" class="text-[#0a1128] hover:text-[#c5a059] transition-colors">Create Suite</a>
                 <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
+                
+                <!-- Desktop Login Status Container -->
+                <div id="navAuthContainer" class="border-l border-gray-300 pl-10 flex items-center">
+                    <button id="openModalBtn" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest whitespace-nowrap">LOG IN</button>
+                </div>
+            </div>
+
+            <!-- Mobile Hamburger Button -->
+            <button id="mobileMenuBtn" class="md:hidden text-[#0a1128] text-xl focus:outline-none pl-4">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobileMenu" class="hidden md:hidden pt-4 pb-6 border-t border-gray-200/50 mt-4 flex flex-col space-y-4 text-[11px] uppercase tracking-[0.2em] font-semibold">
+            <a href="Mirzam's_Main_page.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Home</a>
+            <a href="collection.html" class="text-[#c5a059]">Collections</a>
+            <a href="pricing.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Pricing</a>
+            <a href="order.html" class="text-[#0a1128] hover:text-[#c5a059] transition-colors">Create Suite</a>
+            <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
+            
+            <!-- Mobile Login Container -->
+            <div id="navAuthContainerMobile" class="pt-2 border-t border-gray-200/50">
+                <button id="openModalBtnMobile" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest whitespace-nowrap">LOG IN</button>
             </div>
         </div>
     </nav>
@@ -117,162 +93,261 @@
     <header class="pt-48 pb-16 text-center fade-in">
         <h1 class="text-5xl md:text-6xl italic text-[#0a1128] mb-4">Our Collections</h1>
         <div class="w-20 h-[1px] bg-[#c5a059] mx-auto mb-4"></div>
-        <p class="text-[10px] uppercase tracking-[0.5em] text-gray-400">Exquisite Digital Artistry</p>
+        <p class="text-[10px] uppercase tracking-[0.5em] text-gray-900">Exquisite Digital Artistry</p>
     </header>
 
     <!-- Gallery Section -->
     <main class="max-w-7xl mx-auto px-6 pb-24 fade-in" style="animation-delay: 0.2s;">
         <div class="grid md:grid-cols-2 gap-12">
             <!-- Wedding -->
-            <div class="relative group category-card cursor-pointer overflow-hidden shadow-2xl h-[600px]" onclick="openDatePicker('Wedding')">
+            <div class="relative group category-card cursor-pointer overflow-hidden shadow-2xl h-[600px]" onclick="window.location.href='wedding.html'">
                 <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&q=80" class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-black/40 flex items-center justify-center transition-all group-hover:bg-black/55">
                     <div class="text-center text-white p-4">
                         <h2 class="text-4xl md:text-5xl italic mb-3">Wedding</h2>
                         <p class="uppercase tracking-[0.4em] text-[10px] opacity-80 mb-6">Royal & Traditional</p>
-                        <button class="border border-white/50 px-10 py-3 uppercase text-[10px] tracking-widest hover:bg-white hover:text-black transition-all">Request Catalog</button>
+                        <button class="border border-white/50 px-10 py-3 uppercase text-[10px] tracking-widest hover:bg-white hover:text-black transition-all">View Designs</button>
                     </div>
                 </div>
             </div>
 
             <!-- Engagement -->
-            <div class="relative group category-card cursor-pointer overflow-hidden shadow-2xl h-[600px]" onclick="openDatePicker('Engagement')">
+            <div class="relative group category-card cursor-pointer overflow-hidden shadow-2xl h-[600px]" onclick="window.location.href='engagement.html'">
                 <img src="https://images.unsplash.com/photo-1510076857177-7470076d4098?auto=format&fit=crop&q=80" class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-black/40 flex items-center justify-center transition-all group-hover:bg-black/55">
                     <div class="text-center text-white p-4">
                         <h2 class="text-4xl md:text-5xl italic mb-3">Engagement</h2>
                         <p class="uppercase tracking-[0.4em] text-[10px] opacity-80 mb-6">Modern & Chic</p>
-                        <button class="border border-white/50 px-10 py-3 uppercase text-[10px] tracking-widest hover:bg-white hover:text-black transition-all">Request Catalog</button>
+                        <button class="border border-white/50 px-10 py-3 uppercase text-[10px] tracking-widest hover:bg-white hover:text-black transition-all">View Designs</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ENHANCED ORDER PROCESS SECTION (High Contrast) -->
-        <div class="mt-40 border-t border-gray-100 pt-24 pb-10">
+        <!-- ENHANCED ORDER PROCESS SECTION -->
+        <div class="mt-40 border-t border-gray-200/60 pt-24 pb-10">
             <div class="grid md:grid-cols-3 gap-16 text-center">
                 <div class="px-6">
                     <span class="text-[#c5a059] text-3xl italic serif block mb-2 opacity-80">01.</span>
                     <h3 class="font-bold uppercase tracking-[0.4em] text-[#0a1128] text-xs mb-6">Choose</h3>
-                    <p class="text-sm text-gray-500 font-light leading-relaxed">Browse our digital collections and select the design that resonates with your vision.</p>
+                    <p class="text-sm text-gray-900 font-light leading-relaxed">Browse our digital collections and select the design that resonates with your vision.</p>
                 </div>
-                <div class="px-6 border-x border-gray-50">
+                <div class="px-6 border-x border-gray-200/60">
                     <span class="text-[#c5a059] text-3xl italic serif block mb-2 opacity-80">02.</span>
                     <h3 class="font-bold uppercase tracking-[0.4em] text-[#0a1128] text-xs mb-6">Customize</h3>
-                    <p class="text-sm text-gray-500 font-light leading-relaxed">Connect with us on Instagram to tailor the typography and details to your story.</p>
+                    <p class="text-sm text-gray-900 font-light leading-relaxed">Connect with us on Instagram to tailor the typography and details to your story.</p>
                 </div>
                 <div class="px-6">
                     <span class="text-[#c5a059] text-3xl italic serif block mb-2 opacity-80">03.</span>
                     <h3 class="font-bold uppercase tracking-[0.4em] text-[#0a1128] text-xs mb-6">Delivery</h3>
-                    <p class="text-sm text-gray-500 font-light leading-relaxed">Receive your high-resolution digital invitation directly via instagram.</p>
+                    <p class="text-sm text-gray-900 font-light leading-relaxed">Receive your high-resolution digital invitation directly via instagram.</p>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Calendar Modal -->
-    <div id="dateModal">
-        <div class="flex flex-col items-center w-full">
-            <div class="calendar-box">
-                <div class="flex justify-between items-center mb-6 px-4">
-                    <button onclick="changeMonth(-1)" class="text-2xl hover:opacity-50 transition">←</button>
-                    <div>
-                        <h3 id="calendarMonth" class="text-3xl italic">Month</h3>
-                        <p id="calendarYear" class="text-[10px] tracking-widest opacity-80">2026</p>
-                    </div>
-                    <button onclick="changeMonth(1)" class="text-2xl hover:opacity-50 transition">→</button>
-                </div>
-                <div class="calendar-grid px-4">
-                    <div class="weekday-header">S</div><div class="weekday-header">M</div><div class="weekday-header">T</div><div class="weekday-header">W</div><div class="weekday-header">T</div><div class="weekday-header">F</div><div class="weekday-header">S</div>
-                </div>
-                <div id="daysContainer" class="calendar-grid px-4"></div>
+    <!-- Authentication Modal -->
+    <div id="authModal" class="fixed inset-0 bg-[#0a1128]/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+        <div class="bg-[#f7f4ee] p-8 md:p-10 max-w-md w-full relative border-t-4 border-[#c5a059] shadow-2xl rounded-sm">
+            <button id="closeModalBtn" class="absolute top-4 right-5 text-gray-900 hover:text-[#0a1128] transition-colors">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+            
+            <!-- Mode Switcher Header -->
+            <div class="flex items-center space-x-4 mb-8 text-sm font-semibold tracking-wide">
+                <button id="switchToSignIn" class="text-gray-900 hover:text-[#0a1128] transition-colors">Sign in</button>
+                <span class="text-gray-900">|</span>
+                <button id="switchToSignUp" class="text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5">Create account</button>
             </div>
-            <div class="mt-10 flex space-x-8">
-                <button onclick="closeDatePicker()" class="text-white opacity-50 uppercase text-[10px] tracking-widest hover:opacity-100 transition">Cancel</button>
-                <button id="confirmBtn" onclick="confirmDate()" class="hidden bg-white text-[#0a1128] px-10 py-4 uppercase text-[10px] tracking-[0.2em] font-bold shadow-2xl">See Collection</button>
-            </div>
+
+            <!-- Auth Form -->
+            <form id="authForm" class="space-y-4">
+                <div id="nameFieldContainer">
+                    <input type="text" id="userName" placeholder="Your name" class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700">
+                </div>
+                <div>
+                    <input type="text" id="userIdentifier" placeholder="Phone or email" required class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700">
+                </div>
+                <div>
+                    <input type="password" id="userPassword" placeholder="Password (min 6 characters)" required class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700">
+                </div>
+                <button type="submit" id="authSubmitBtn" class="w-full bg-[#9b7b43] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors shadow-lg mt-2">
+                    Create account
+                </button>
+            </form>
+
+            <div id="statusMessage" class="text-center mt-4 text-xs font-semibold tracking-wide"></div>
         </div>
     </div>
 
-    <!-- Footer (Matching Home Page White Background) -->
-    <footer class="py-20 bg-white border-t border-gray-100 text-center">
+    <!-- Footer -->
+    <footer class="py-16 bg-[#f7f4ee] border-t border-gray-200/60 text-center">
+        <!-- Legal Links -->
+        <div class="mb-6 flex flex-wrap justify-center items-center gap-6 text-[9px] uppercase tracking-widest text-gray-900">
+            <span class="font-bold text-[#0a1128]">Legal</span>
+            <a href="privacy.html" class="hover:text-[#c5a059] transition-colors">Privacy policy</a>
+            <a href="terms-of-use.html" class="hover:text-[#c5a059] transition-colors">Terms of use</a>
+            <a href="refund-policy.html" class="hover:text-[#c5a059] transition-colors">Refund policy</a>
+        </div>
+
         <div class="text-[10px] tracking-[0.6em] uppercase text-[#0a1128] font-bold">
             © 2026 MIRZAM EGYPT
         </div>
-        <div class="mt-6">
-            <a href="Mirzam's_Main_page.html" class="text-[9px] uppercase tracking-widest border-b border-[#0a1128]/20 pb-1 hover:text-[#c5a059] transition-colors">Back to Home</a>
-        </div>
-        <div class="mt-4 flex justify-center space-x-4 opacity-10 text-[#0a1128]">
+        <div class="mt-4 flex justify-center space-x-4 opacity-20 text-[#0a1128]">
             <i class="fa-solid fa-star text-[8px]"></i>
             <i class="fa-solid fa-star text-[8px]"></i>
             <i class="fa-solid fa-star text-[8px]"></i>
         </div>
     </footer>
 
-    <script>
-        let selectedDay = null;
-        let displayedDate = new Date();
-        let currentCategory = "";
+    <!-- Firebase Integration & UI Logic (Module) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        function openDatePicker(type) {
-            currentCategory = type;
-            displayedDate = new Date(); 
-            document.getElementById('dateModal').style.display = 'flex';
-            renderCalendar();
-        }
+        const firebaseConfig = {
+            apiKey: "AIzaSyDHytukMX1bCkh-BpumQhWmZWEnmprAIno",
+            authDomain: "mirzam-login.firebaseapp.com",
+            projectId: "mirzam-login",
+            storageBucket: "mirzam-login.firebasestorage.app",
+            messagingSenderId: "264081997957",
+            appId: "1:264081997957:web:e5a006e0e4a50cf5a4a9ec",
+            measurementId: "G-8RS45VMDDQ"
+        };
 
-        function closeDatePicker() {
-            document.getElementById('dateModal').style.display = 'none';
-            selectedDay = null;
-            document.getElementById('confirmBtn').classList.add('hidden');
-        }
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        
+        // UI Elements
+        const authModal = document.getElementById('authModal');
+        const openModalBtn = document.getElementById('openModalBtn');
+        const openModalBtnMobile = document.getElementById('openModalBtnMobile');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const navAuthContainer = document.getElementById('navAuthContainer');
+        const navAuthContainerMobile = document.getElementById('navAuthContainerMobile');
+        const statusMessage = document.getElementById('statusMessage');
+        
+        const switchToSignIn = document.getElementById('switchToSignIn');
+        const switchToSignUp = document.getElementById('switchToSignUp');
+        const nameFieldContainer = document.getElementById('nameFieldContainer');
+        const authSubmitBtn = document.getElementById('authSubmitBtn');
+        const authForm = document.getElementById('authForm');
 
-        function changeMonth(step) {
-            displayedDate.setMonth(displayedDate.getMonth() + step);
-            renderCalendar();
-        }
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
 
-        function renderCalendar() {
-            const container = document.getElementById('daysContainer');
-            container.innerHTML = '';
-            const year = displayedDate.getFullYear();
-            const month = displayedDate.getMonth();
-            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            
-            document.getElementById('calendarMonth').innerText = monthNames[month];
-            document.getElementById('calendarYear').innerText = year;
+        let isSignUpMode = true;
 
-            const firstDay = new Date(year, month, 1).getDay();
-            const lastDay = new Date(year, month + 1, 0).getDate();
-            const safety = new Date();
-            safety.setDate(safety.getDate() + 5);
+        switchToSignIn.addEventListener('click', () => {
+            isSignUpMode = false;
+            switchToSignIn.className = "text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5 font-bold";
+            switchToSignUp.className = "text-gray-900 hover:text-[#0a1128] transition-colors font-normal";
+            nameFieldContainer.style.display = 'none';
+            authSubmitBtn.innerText = 'Sign in';
+            statusMessage.innerText = '';
+        });
 
-            for (let i = 0; i < firstDay; i++) container.innerHTML += '<div></div>';
+        switchToSignUp.addEventListener('click', () => {
+            isSignUpMode = true;
+            switchToSignUp.className = "text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5 font-bold";
+            switchToSignIn.className = "text-gray-900 hover:text-[#0a1128] transition-colors font-normal";
+            nameFieldContainer.style.display = 'block';
+            authSubmitBtn.innerText = 'Create account';
+            statusMessage.innerText = '';
+        });
 
-            for (let day = 1; day <= lastDay; day++) {
-                const dObj = new Date(year, month, day);
-                const isOff = dObj < safety;
-                const el = document.createElement('div');
-                el.className = 'day-node' + (isOff ? ' disabled' : '');
-                el.innerText = day;
-                if (!isOff) {
-                    el.onclick = () => {
-                        document.querySelectorAll('.day-node').forEach(n => n.classList.remove('selected'));
-                        el.classList.add('selected');
-                        selectedDay = day;
-                        document.getElementById('confirmBtn').classList.remove('hidden');
-                    };
+        const openModal = () => {
+            authModal.style.display = 'flex';
+            statusMessage.innerText = '';
+            mobileMenu.classList.add('hidden');
+        };
+        
+        openModalBtn?.addEventListener('click', openModal);
+        openModalBtnMobile?.addEventListener('click', openModal);
+        closeModalBtn.addEventListener('click', () => authModal.style.display = 'none');
+
+        // Form Submit Handler
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let identifier = document.getElementById('userIdentifier').value.trim();
+            const password = document.getElementById('userPassword').value;
+            const name = document.getElementById('userName').value.trim();
+
+            let firebaseIdentifier = identifier;
+            if (!identifier.includes('@')) {
+                const cleanPhone = identifier.replace(/[\s-]/g, '');
+                firebaseIdentifier = cleanPhone + "@mirzam.auth";
+            }
+
+            if (isSignUpMode) {
+                if (name === "") {
+                    showStatus("Please enter your name.", "text-red-500");
+                    return; 
                 }
-                container.appendChild(el);
+                
+                createUserWithEmailAndPassword(auth, firebaseIdentifier, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        if (name) {
+                            updateProfile(user, { displayName: name }).then(() => {
+                                updateNavigationBar(user, name);
+                            });
+                        } else {
+                            updateNavigationBar(user);
+                        }
+                        authModal.style.display = 'none';
+                    })
+                    .catch((error) => {
+                        showStatus(error.message, "text-red-500");
+                    });
+            } else {
+                signInWithEmailAndPassword(auth, firebaseIdentifier, password)
+                    .then(() => {
+                        authModal.style.display = 'none';
+                    })
+                    .catch(() => {
+                        showStatus("Invalid phone/email or password.", "text-red-500");
+                    });
             }
+        });
+
+        function updateNavigationBar(user, manualName = null) {
+            const displayName = manualName || user.displayName || user.email.split('@')[0];
+            const userHtml = `
+                <div class="flex items-center whitespace-nowrap">
+                    <span class="text-[#c5a059] tracking-widest text-[10px]">HELLO, ${displayName.toUpperCase()}</span>
+                    <button class="logoutBtn ml-4 text-gray-900 hover:text-red-500 transition-colors" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i></button>
+                </div>
+            `;
+            navAuthContainer.innerHTML = userHtml;
+            navAuthContainerMobile.innerHTML = userHtml;
+
+            document.querySelectorAll('.logoutBtn').forEach(btn => {
+                btn.addEventListener('click', () => signOut(auth));
+            });
         }
 
-        function confirmDate() {
-            if (currentCategory === 'Wedding') {
-                window.location.href = "wedding.html";
-            } else if (currentCategory === 'Engagement') {
-                window.location.href = "engagement.html";
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                updateNavigationBar(user);
+            } else {
+                const loginHtml = `<button class="openModalBtnDynamic text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest text-[11px] whitespace-nowrap">LOG IN</button>`;
+                navAuthContainer.innerHTML = loginHtml;
+                navAuthContainerMobile.innerHTML = loginHtml;
+
+                document.querySelectorAll('.openModalBtnDynamic').forEach(btn => {
+                    btn.addEventListener('click', openModal);
+                });
             }
+        });
+
+        function showStatus(msg, colorClass) {
+            statusMessage.innerText = msg;
+            statusMessage.className = `text-center mt-4 text-[10px] uppercase tracking-widest font-bold ${colorClass}`;
         }
     </script>
 </body>
