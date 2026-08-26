@@ -10,45 +10,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root { 
-            --navy: #0a1128; 
-            --gold: #c5a059;
-            --sage: #8f9f8b;
-            --bg-soft: #fdfbf7;
-        }
-
-        body { 
-            font-family: 'Montserrat', sans-serif; 
-            background-color: var(--bg-soft); 
-            color: var(--navy);
-            opacity: 0.95; 
-            -webkit-font-smoothing: antialiased;
-        }
-
+        :root { --navy: #0a1128; --gold: #c5a059; --sage: #8f9f8b; --bg-soft: #fdfbf7; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-soft); color: var(--navy); opacity: 0.95; -webkit-font-smoothing: antialiased; }
         h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
-
         .fade-in { animation: fadeIn 1.2s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Status Box Styles */
-        .status-box {
-            border: 1px solid #e5e7eb;
-            background-color: #f9f6ee;
-            color: #9ca3af;
-            transition: all 0.3s ease;
-        }
-        .status-box.active-confirmed {
-            border-color: var(--gold);
-            background-color: rgba(197, 160, 89, 0.1);
-            color: var(--navy);
-            font-weight: 600;
-        }
-        .status-box.active-delivered {
-            border-color: var(--sage);
-            background-color: rgba(143, 159, 139, 0.15);
-            color: var(--navy);
-            font-weight: 600;
-        }
+        /* Order Status Highlight Styles */
+        .status-box { border: 1px solid #e5e7eb; background-color: #f9f6ee; color: #9ca3af; transition: all 0.3s ease; }
+        .status-box.active-confirmed { border-color: var(--gold); background-color: rgba(197, 160, 89, 0.1); color: var(--navy); font-weight: 600; }
+        .status-box.active-delivered { border-color: var(--sage); background-color: rgba(143, 159, 139, 0.15); color: var(--navy); font-weight: 600; }
     </style>
 </head>
 <body class="antialiased text-[#0a1128] min-h-screen flex flex-col justify-between">
@@ -56,38 +27,25 @@
     <!-- Navigation -->
     <nav class="fixed w-full z-50 bg-[#fdfbf7]/90 backdrop-blur-xl border-b border-gray-100 px-6 py-5">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="text-2xl font-bold tracking-[0.2em] uppercase text-[#0a1128]">
-                MIRZAM<span class="text-[#c5a059] font-light">.EG</span>
-            </div>
-            
-            <!-- Desktop Nav Links -->
+            <div class="text-2xl font-bold tracking-[0.2em] uppercase text-[#0a1128]">MIRZAM<span class="text-[#c5a059] font-light">.EG</span></div>
             <div class="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-semibold items-center">
                 <a href="Mirzam's_Main_page.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Home</a>
                 <a href="collection.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Collections</a>
                 <a href="pricing.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Pricing</a>
                 <a href="order.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Create Suite</a>
                 <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
-                
-                <!-- Login Status Container -->
                 <div id="navAuthContainer" class="border-l border-gray-300 pl-10 flex items-center">
                     <button id="openModalBtn" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest whitespace-nowrap">LOG IN</button>
                 </div>
             </div>
-
-            <!-- Mobile Hamburger Button -->
-            <button id="mobileMenuBtn" class="md:hidden text-[#0a1128] text-xl focus:outline-none pl-4">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+            <button id="mobileMenuBtn" class="md:hidden text-[#0a1128] text-xl focus:outline-none pl-4"><i class="fa-solid fa-bars"></i></button>
         </div>
-
-        <!-- Mobile Dropdown Menu -->
         <div id="mobileMenu" class="hidden md:hidden pt-4 pb-6 border-t border-gray-100 mt-4 flex flex-col space-y-4 text-[11px] uppercase tracking-[0.2em] font-semibold">
             <a href="Mirzam's_Main_page.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Home</a>
             <a href="collection.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Collections</a>
             <a href="pricing.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Pricing</a>
             <a href="order.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Create Suite</a>
             <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
-            
             <div id="navAuthContainerMobile" class="pt-2 border-t border-gray-100">
                 <button id="openModalBtnMobile" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest whitespace-nowrap">LOG IN</button>
             </div>
@@ -104,21 +62,13 @@
     <!-- Content Section -->
     <main class="max-w-4xl mx-auto px-6 pb-32 fade-in flex-grow" style="animation-delay: 0.2s;">
         
-        <!-- Not Logged In Message -->
         <div id="loggedOutView" class="hidden text-center py-20 bg-white border border-gray-200 shadow-sm p-8 space-y-6">
-            <div class="w-16 h-16 bg-[#0a1128]/5 text-[#0a1128] rounded-full flex items-center justify-center mx-auto text-2xl">
-                <i class="fa-solid fa-lock"></i>
-            </div>
+            <div class="w-16 h-16 bg-[#0a1128]/5 text-[#0a1128] rounded-full flex items-center justify-center mx-auto text-2xl"><i class="fa-solid fa-lock"></i></div>
             <h2 class="text-2xl italic text-[#0a1128]">Please Sign In to View Your Orders</h2>
             <p class="text-xs uppercase tracking-widest text-gray-500">Access your dashboard to check your suite status and details.</p>
-            <div>
-                <button onclick="openModal()" class="bg-[#0a1128] text-white px-10 py-3 uppercase text-[10px] tracking-[0.2em] font-bold hover:bg-[#c5a059] transition-colors shadow-lg">
-                    Log In Now
-                </button>
-            </div>
+            <button onclick="openModal()" class="bg-[#0a1128] text-white px-10 py-3 uppercase text-[10px] tracking-[0.2em] font-bold hover:bg-[#c5a059] transition-colors shadow-lg">Log In Now</button>
         </div>
 
-        <!-- Logged In Orders View -->
         <div id="loggedInView" class="hidden space-y-8">
             <div class="bg-white p-8 border border-gray-200 shadow-sm flex flex-col md:flex-row justify-between items-center">
                 <div>
@@ -127,32 +77,17 @@
                     <p id="userDisplayEmail" class="text-xs text-gray-500 mt-1 font-light"></p>
                 </div>
                 <div class="mt-6 md:mt-0">
-                    <a href="order.html" class="bg-[#c5a059] text-white px-6 py-3 uppercase text-[10px] tracking-widest font-bold hover:bg-[#0a1128] transition-colors shadow-sm inline-block">
-                        + Create New Suite
-                    </a>
+                    <a href="order.html" class="bg-[#c5a059] text-white px-6 py-3 uppercase text-[10px] tracking-widest font-bold hover:bg-[#0a1128] transition-colors shadow-sm inline-block">+ Create New Suite</a>
                 </div>
             </div>
 
-            <!-- Orders Listing Card -->
             <div class="bg-white p-8 border border-gray-200 shadow-sm space-y-6">
                 <div class="flex justify-between items-center border-b border-gray-100 pb-4">
-                    <h3 class="text-lg italic text-[#0a1128]">Recent Submissions & Requests</h3>
-                    <button onclick="toggleAdminPanel()" class="text-[9px] uppercase tracking-widest text-gray-400 hover:text-[#c5a059] transition">Team Admin Mode</button>
+                    <h3 class="text-lg italic text-[#0a1128]" id="orderListTitle">Recent Submissions & Requests</h3>
                 </div>
-                
-                <!-- Admin Control Panel (Hidden by default) -->
-                <div id="adminPanel" class="hidden p-4 bg-gray-100 border border-gray-300 rounded-sm text-xs space-y-3">
-                    <p class="font-bold uppercase tracking-wider text-[#0a1128]">Team Status Control Panel:</p>
-                    <p class="text-gray-600 font-light text-[11px]">Select an action below to update the status of your most recent order instantly:</p>
-                    <div class="flex flex-wrap gap-3">
-                        <button onclick="updateOrderStatus('Pending')" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1.5 uppercase text-[9px] font-bold tracking-widest">Set Pending</button>
-                        <button onclick="updateOrderStatus('Confirmed')" class="bg-[#c5a059] hover:bg-[#a68444] text-white px-3 py-1.5 uppercase text-[9px] font-bold tracking-widest">Set Confirmed</button>
-                        <button onclick="updateOrderStatus('Delivered')" class="bg-[#8f9f8b] hover:bg-[#778673] text-white px-3 py-1.5 uppercase text-[9px] font-bold tracking-widest">Set Delivered</button>
-                    </div>
-                </div>
-
+                <!-- Dynamic Orders Will Load Inside this Container -->
                 <div id="ordersContainer" class="space-y-6">
-                    <!-- Dynamic Orders Will Appear Here -->
+                    <div class="text-center py-10"><i class="fa-solid fa-spinner fa-spin text-2xl text-[#c5a059]"></i></div>
                 </div>
             </div>
         </div>
@@ -169,39 +104,26 @@
         <div class="text-[10px] tracking-[0.6em] uppercase text-[#0a1128] font-bold">© 2026 MIRZAM EGYPT</div>
     </footer>
 
-    <!-- Authentication Modal -->
+    <!-- Auth Modal -->
     <div id="authModal" class="fixed inset-0 bg-[#0a1128]/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
         <div class="bg-[#fdfbf7] p-8 md:p-10 max-w-md w-full relative border-t-4 border-[#c5a059] shadow-2xl rounded-sm">
-            <button id="closeModalBtn" class="absolute top-4 right-5 text-gray-900 hover:text-[#0a1128] transition-colors">
-                <i class="fa-solid fa-xmark text-2xl"></i>
-            </button>
-            <div class="flex items-center space-x-4 mb-8 text-sm font-semibold tracking-wide">
-                <button id="switchToSignIn" class="text-gray-900 hover:text-[#0a1128] transition-colors">Sign in</button>
-                <span class="text-gray-900">|</span>
-                <button id="switchToSignUp" class="text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5">Create account</button>
-            </div>
+            <button id="closeModalBtn" class="absolute top-4 right-5 text-gray-900 hover:text-[#0a1128] transition-colors"><i class="fa-solid fa-xmark text-2xl"></i></button>
+            <div class="flex items-center space-x-4 mb-8 text-sm font-semibold tracking-wide"><button id="switchToSignIn" class="text-gray-900 hover:text-[#0a1128] transition-colors">Sign in</button><span class="text-gray-900">|</span><button id="switchToSignUp" class="text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5">Create account</button></div>
             <form id="authForm" class="space-y-4">
-                <div id="nameFieldContainer">
-                    <input type="text" id="userName" placeholder="Your name" class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700">
-                </div>
-                <div>
-                    <input type="text" id="userIdentifier" placeholder="Phone or email" required class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700">
-                </div>
-                <div>
-                    <input type="password" id="userPassword" placeholder="Password (min 6 characters)" required class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700">
-                </div>
-                <button type="submit" id="authSubmitBtn" class="w-full bg-[#9b7b43] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors shadow-lg mt-2">
-                    Create account
-                </button>
+                <div id="nameFieldContainer"><input type="text" id="userName" placeholder="Your name" class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700"></div>
+                <div><input type="text" id="userIdentifier" placeholder="Phone or email" required class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700"></div>
+                <div><input type="password" id="userPassword" placeholder="Password (min 6 characters)" required class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700"></div>
+                <button type="submit" id="authSubmitBtn" class="w-full bg-[#9b7b43] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors shadow-lg mt-2">Create account</button>
             </form>
             <div id="statusMessage" class="text-center mt-4 text-xs font-semibold tracking-wide"></div>
         </div>
     </div>
 
-    <!-- Firebase & Orders Logic -->
+    <!-- Firebase Firestore logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, query, where, getDocs, doc, updateDoc, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDHytukMX1bCkh-BpumQhWmZWEnmprAIno",
@@ -215,164 +137,200 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        
-        const authModal = document.getElementById('authModal');
-        const openModalBtn = document.getElementById('openModalBtn');
-        const openModalBtnMobile = document.getElementById('openModalBtnMobile');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const navAuthContainer = document.getElementById('navAuthContainer');
-        const navAuthContainerMobile = document.getElementById('navAuthContainerMobile');
-        const statusMessage = document.getElementById('statusMessage');
-        
-        const loggedOutView = document.getElementById('loggedOutView');
-        const loggedInView = document.getElementById('loggedInView');
-        const userDisplayName = document.getElementById('userDisplayName');
-        const userDisplayEmail = document.getElementById('userDisplayEmail');
-        const ordersContainer = document.getElementById('ordersContainer');
+        const db = getFirestore(app);
 
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+        window.changeFirebaseStatus = async function(docId, newStatus) {
+            try {
+                await updateDoc(doc(db, "orders", docId), { status: newStatus });
+                fetchOrders(auth.currentUser);
+            } catch (e) {
+                console.error(e);
+                alert("Failed to update status.");
+            }
+        };
+
+        async function fetchOrders(user) {
+            const container = document.getElementById('ordersContainer');
+            container.innerHTML = '<div class="text-center py-10"><i class="fa-solid fa-spinner fa-spin text-2xl text-[#c5a059]"></i></div>';
+            
+            // ADMIN EMAIL: Change this to your team email if needed
+            const isAdmin = user.email === 'mirzaminvitationcards@gmail.com'; 
+            
+            if(isAdmin) { document.getElementById('orderListTitle').innerText = 'Admin View: All Customer Orders'; }
+
+            try {
+                let q;
+                if (isAdmin) {
+                    q = query(collection(db, "orders"), orderBy("timestamp", "desc"));
+                } else {
+                    q = query(collection(db, "orders"), where("userEmail", "==", user.email), orderBy("timestamp", "desc"));
+                }
+
+                const querySnapshot = await getDocs(q);
+                container.innerHTML = '';
+
+                if (querySnapshot.empty) {
+                    container.innerHTML = `
+                        <div class="text-center py-10 bg-[#f9f6ee] border border-gray-200/60 rounded-sm space-y-3">
+                            <p class="text-xs uppercase tracking-widest text-gray-500 font-bold">No orders found yet.</p>
+                            <p class="text-xs text-gray-600 font-light">You haven't submitted any design requests yet. Click "Create New Suite" above to start your invitation.</p>
+                        </div>`;
+                    return;
+                }
+
+                querySnapshot.forEach((docSnap) => {
+                    const order = docSnap.data();
+                    const currentStatus = order.status || 'Pending';
+                    const isConfirmed = currentStatus === 'Confirmed' || currentStatus === 'Delivered';
+                    const isDelivered = currentStatus === 'Delivered';
+
+                    let adminUI = '';
+                    if (isAdmin) {
+                        adminUI = `
+                        <div class="mt-4 p-4 border border-red-200 bg-red-50 rounded-sm">
+                            <p class="text-[10px] font-bold uppercase tracking-widest mb-2 text-red-800">Admin Control Panel</p>
+                            <div class="flex gap-2">
+                                <button onclick="changeFirebaseStatus('${docSnap.id}', 'Pending')" class="bg-gray-300 px-3 py-1 text-[9px] uppercase font-bold text-gray-800">Set Pending</button>
+                                <button onclick="changeFirebaseStatus('${docSnap.id}', 'Confirmed')" class="bg-[#c5a059] px-3 py-1 text-[9px] uppercase font-bold text-white">Set Confirmed</button>
+                                <button onclick="changeFirebaseStatus('${docSnap.id}', 'Delivered')" class="bg-[#8f9f8b] px-3 py-1 text-[9px] uppercase font-bold text-white">Set Delivered</button>
+                            </div>
+                        </div>`;
+                    }
+
+                    const card = document.createElement('div');
+                    card.className = 'p-6 bg-[#f9f6ee] border border-gray-200/60 rounded-sm space-y-6';
+                    card.innerHTML = `
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center pb-4 border-b border-gray-200/40">
+                            <div>
+                                <span class="text-[9px] uppercase tracking-widest text-[#c5a059] font-bold">Status: ${currentStatus.toUpperCase()}</span>
+                                <h4 class="text-xl italic mt-1">${order.eventType || 'Invitation'} Suite — ${order.design || 'Custom'}</h4>
+                                ${isAdmin ? `<p class="text-[10px] text-gray-400 mt-1 font-bold">Customer: ${order.userEmail}</p>` : ''}
+                            </div>
+                            <div class="mt-2 md:mt-0 text-left md:text-right">
+                                <span class="text-[10px] tracking-widest text-gray-500 uppercase block">Reference / Request ID</span>
+                                <span class="text-xs font-bold text-[#0a1128]">${order.requestId}</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-gray-700 font-light">
+                            <div><strong class="text-[#0a1128]">Plan:</strong> ${order.plan}</div>
+                            <div><strong class="text-[#0a1128]">Partners:</strong> ${order.partner1} & ${order.partner2}</div>
+                            <div><strong class="text-[#0a1128]">Event Date:</strong> ${order.eventDate || 'Not specified'}</div>
+                            <div><strong class="text-[#0a1128]">Venue:</strong> ${order.venueName || 'Not specified'}</div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 pt-2">
+                            <div class="status-box ${isConfirmed ? 'active-confirmed' : ''} p-4 rounded-sm text-center">
+                                <i class="fa-solid fa-circle-check mb-1 text-sm"></i>
+                                <p class="text-[10px] uppercase tracking-widest font-bold mt-1">Confirmed Order</p>
+                            </div>
+                            <div class="status-box ${isDelivered ? 'active-delivered' : ''} p-4 rounded-sm text-center">
+                                <i class="fa-solid fa-box-open mb-1 text-sm"></i>
+                                <p class="text-[10px] uppercase tracking-widest font-bold mt-1">Order Delivered</p>
+                            </div>
+                        </div>
+                        
+                        <div class="pt-2 text-right">
+                            <span class="text-[10px] text-gray-500 italic">Submitted on: ${order.submittedAt}</span>
+                        </div>
+
+                        ${adminUI}
+                    `;
+                    container.appendChild(card);
+                });
+
+            } catch (e) {
+                console.error("Error fetching orders:", e);
+                container.innerHTML = '<p class="text-red-500 text-sm text-center">Error fetching data. Check Firebase Security Rules.</p>';
+            }
+        }
+
+        /* ==== AUTHENTICATION LOGIC ==== */
+        let isSignUpMode = true;
+        const authModal = document.getElementById('authModal');
+        const authForm = document.getElementById('authForm');
+        const statusMessage = document.getElementById('statusMessage');
+        const nameFieldContainer = document.getElementById('nameFieldContainer');
+
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => { document.getElementById('mobileMenu').classList.toggle('hidden'); });
+        
+        document.getElementById('switchToSignIn').addEventListener('click', () => {
+            isSignUpMode = false;
+            document.getElementById('switchToSignIn').className = "text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5 font-bold";
+            document.getElementById('switchToSignUp').className = "text-gray-900 hover:text-[#0a1128] transition-colors font-normal";
+            nameFieldContainer.style.display = 'none';
+            document.getElementById('authSubmitBtn').innerText = 'Sign in';
+            statusMessage.innerText = '';
         });
 
-        let isSignUpMode = true;
-
-        window.openModal = () => {
-            authModal.style.display = 'flex';
+        document.getElementById('switchToSignUp').addEventListener('click', () => {
+            isSignUpMode = true;
+            document.getElementById('switchToSignUp').className = "text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5 font-bold";
+            document.getElementById('switchToSignIn').className = "text-gray-900 hover:text-[#0a1128] transition-colors font-normal";
+            nameFieldContainer.style.display = 'block';
+            document.getElementById('authSubmitBtn').innerText = 'Create account';
             statusMessage.innerText = '';
-            mobileMenu.classList.add('hidden');
-        };
-        
-        openModalBtn?.addEventListener('click', window.openModal);
-        openModalBtnMobile?.addEventListener('click', window.openModal);
-        closeModalBtn.addEventListener('click', () => authModal.style.display = 'none');
+        });
 
-        window.toggleAdminPanel = function() {
-            const panel = document.getElementById('adminPanel');
-            panel.classList.toggle('hidden');
-        }
+        window.openModal = () => { authModal.style.display = 'flex'; statusMessage.innerText = ''; document.getElementById('mobileMenu').classList.add('hidden'); };
+        document.getElementById('closeModalBtn').addEventListener('click', () => authModal.style.display = 'none');
 
-        window.updateOrderStatus = function(statusText) {
-            let allOrders = JSON.parse(localStorage.getItem('mirzam_orders') || '[]');
-            if (allOrders.length > 0) {
-                allOrders[0].status = statusText; // Updates the newest order status
-                localStorage.setItem('mirzam_orders', JSON.stringify(allOrders));
-                loadUserOrders();
-                alert(`Order status updated to: ${statusText}`);
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let identifier = document.getElementById('userIdentifier').value.trim();
+            const password = document.getElementById('userPassword').value;
+            const name = document.getElementById('userName').value.trim();
+            let firebaseIdentifier = identifier;
+            if (!identifier.includes('@')) {
+                const cleanPhone = identifier.replace(/[\s-]/g, '');
+                firebaseIdentifier = cleanPhone + "@mirzam.auth";
+            }
+
+            if (isSignUpMode) {
+                if (name === "") { statusMessage.innerText = "Please enter your name."; statusMessage.className = "text-center mt-4 text-[10px] uppercase tracking-widest font-bold text-red-500"; return; }
+                createUserWithEmailAndPassword(auth, firebaseIdentifier, password)
+                    .then((userCredential) => {
+                        updateProfile(userCredential.user, { displayName: name }).then(() => { authModal.style.display = 'none'; });
+                    }).catch((error) => {
+                        statusMessage.innerText = error.message; statusMessage.className = "text-center mt-4 text-[10px] uppercase tracking-widest font-bold text-red-500";
+                    });
             } else {
-                alert("No orders available to update.");
+                signInWithEmailAndPassword(auth, firebaseIdentifier, password)
+                    .then(() => { authModal.style.display = 'none'; })
+                    .catch(() => {
+                        statusMessage.innerText = "Invalid phone/email or password."; statusMessage.className = "text-center mt-4 text-[10px] uppercase tracking-widest font-bold text-red-500";
+                    });
             }
-        }
+        });
 
-        function loadUserOrders() {
-            ordersContainer.innerHTML = '';
-            const allOrders = JSON.parse(localStorage.getItem('mirzam_orders') || '[]');
-            
-            if (allOrders.length === 0) {
-                ordersContainer.innerHTML = `
-                    <div class="text-center py-10 bg-[#f9f6ee] border border-gray-200/60 rounded-sm space-y-3">
-                        <p class="text-xs uppercase tracking-widest text-gray-500 font-bold">No orders found yet.</p>
-                        <p class="text-xs text-gray-600 font-light">You haven't submitted any design requests yet. Click "Create New Suite" above to start your invitation.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            allOrders.forEach((order, index) => {
-                const currentStatus = order.status || 'Pending';
-                
-                // Determine box classes based on status
-                const isConfirmed = currentStatus === 'Confirmed' || currentStatus === 'Delivered';
-                const isDelivered = currentStatus === 'Delivered';
-
-                const confirmedClass = isConfirmed ? 'active-confirmed' : '';
-                const deliveredClass = isDelivered ? 'active-delivered' : '';
-
-                const orderCard = document.createElement('div');
-                orderCard.className = 'p-6 bg-[#f9f6ee] border border-gray-200/60 rounded-sm space-y-6';
-                orderCard.innerHTML = `
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center pb-4 border-b border-gray-200/40">
-                        <div>
-                            <span class="text-[9px] uppercase tracking-widest text-[#c5a059] font-bold">Status: ${currentStatus.toUpperCase()}</span>
-                            <h4 class="text-xl italic mt-1">${order.eventType || 'Invitation'} Suite — ${order.design || 'Custom Design'}</h4>
-                        </div>
-                        <div class="mt-2 md:mt-0 text-left md:text-right">
-                            <span class="text-[10px] tracking-widest text-gray-500 uppercase block">Reference / Request ID</span>
-                            <span class="text-xs font-bold text-[#0a1128]">${order.requestId}</span>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-gray-700 font-light">
-                        <div><strong class="text-[#0a1128]">Plan:</strong> ${order.plan}</div>
-                        <div><strong class="text-[#0a1128]">Partners:</strong> ${order.partner1} & ${order.partner2}</div>
-                        <div><strong class="text-[#0a1128]">Event Date:</strong> ${order.eventDate || 'Not specified'}</div>
-                        <div><strong class="text-[#0a1128]">Venue:</strong> ${order.venueName || 'Not specified'}</div>
-                    </div>
-
-                    <!-- Status Tracker Boxes -->
-                    <div class="grid grid-cols-2 gap-4 pt-2">
-                        <div class="status-box ${confirmedClass} p-4 rounded-sm text-center">
-                            <i class="fa-solid fa-circle-check mb-1 text-sm"></i>
-                            <p class="text-[10px] uppercase tracking-widest font-bold">Confirmed Order</p>
-                        </div>
-                        <div class="status-box ${deliveredClass} p-4 rounded-sm text-center">
-                            <i class="fa-solid fa-box-open mb-1 text-sm"></i>
-                            <p class="text-[10px] uppercase tracking-widest font-bold">Order Delivered</p>
-                        </div>
-                    </div>
-
-                    <div class="pt-2 text-right">
-                        <span class="text-[10px] text-gray-500 italic">Submitted on: ${order.submittedAt}</span>
-                    </div>
-                `;
-                ordersContainer.appendChild(orderCard);
-            });
-        }
-
-        // Auth state monitor
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                loggedOutView.classList.add('hidden');
-                loggedInView.classList.remove('hidden');
+                document.getElementById('loggedOutView').classList.add('hidden');
+                document.getElementById('loggedInView').classList.remove('hidden');
                 
                 const displayName = user.displayName || user.email.split('@')[0];
-                userDisplayName.innerText = displayName.toUpperCase();
-                userDisplayEmail.innerText = user.email.includes('@mirzam.auth') ? '' : user.email;
+                document.getElementById('userDisplayName').innerText = displayName.toUpperCase();
+                document.getElementById('userDisplayEmail').innerText = user.email.includes('@mirzam.auth') ? '' : user.email;
 
-                loadUserOrders();
+                fetchOrders(user);
 
                 const userHtml = `
                     <div class="flex items-center space-x-3 whitespace-nowrap">
-                        <div class="w-7 h-7 rounded-full bg-[#c5a059]/20 text-[#c5a059] flex items-center justify-center text-xs font-bold">
-                            <i class="fa-solid fa-user"></i>
-                        </div>
+                        <div class="w-7 h-7 rounded-full bg-[#c5a059]/20 text-[#c5a059] flex items-center justify-center text-xs font-bold"><i class="fa-solid fa-user"></i></div>
                         <span class="text-[#0a1128] tracking-widest text-[10px] font-bold">HELLO, ${displayName.toUpperCase()}</span>
                         <a href="orders.html" class="bg-[#c5a059] text-white px-3 py-1.5 rounded text-[9px] font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors ml-2">Orders</a>
                         <button class="logoutBtn text-gray-800 hover:text-red-500 transition-colors ml-2" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i></button>
-                    </div>
-                `;
-                navAuthContainer.innerHTML = userHtml;
-                navAuthContainerMobile.innerHTML = userHtml;
-
-                document.querySelectorAll('.logoutBtn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        signOut(auth).then(() => {
-                            window.location.href = "Mirzam's_Main_page.html";
-                        });
-                    });
-                });
+                    </div>`;
+                document.getElementById('navAuthContainer').innerHTML = userHtml;
+                document.getElementById('navAuthContainerMobile').innerHTML = userHtml;
+                document.querySelectorAll('.logoutBtn').forEach(b => b.addEventListener('click', () => signOut(auth)));
             } else {
-                loggedInView.classList.add('hidden');
-                loggedOutView.classList.remove('hidden');
-
+                document.getElementById('loggedInView').classList.add('hidden');
+                document.getElementById('loggedOutView').classList.remove('hidden');
                 const loginHtml = `<button class="openModalBtnDynamic text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest text-[11px] whitespace-nowrap">LOG IN</button>`;
-                navAuthContainer.innerHTML = loginHtml;
-                navAuthContainerMobile.innerHTML = loginHtml;
-
-                document.querySelectorAll('.openModalBtnDynamic').forEach(btn => {
-                    btn.addEventListener('click', window.openModal);
-                });
+                document.getElementById('navAuthContainer').innerHTML = loginHtml;
+                document.getElementById('navAuthContainerMobile').innerHTML = loginHtml;
+                document.querySelectorAll('.openModalBtnDynamic').forEach(btn => btn.addEventListener('click', window.openModal));
             }
         });
     </script>
