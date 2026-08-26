@@ -29,6 +29,26 @@
 
         .fade-in { animation: fadeIn 1.2s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Status Box Styles */
+        .status-box {
+            border: 1px solid #e5e7eb;
+            background-color: #f9f6ee;
+            color: #9ca3af;
+            transition: all 0.3s ease;
+        }
+        .status-box.active-confirmed {
+            border-color: var(--gold);
+            background-color: rgba(197, 160, 89, 0.1);
+            color: var(--navy);
+            font-weight: 600;
+        }
+        .status-box.active-delivered {
+            border-color: var(--sage);
+            background-color: rgba(143, 159, 139, 0.15);
+            color: var(--navy);
+            font-weight: 600;
+        }
     </style>
 </head>
 <body class="antialiased text-[#0a1128] min-h-screen flex flex-col justify-between">
@@ -115,8 +135,22 @@
 
             <!-- Orders Listing Card -->
             <div class="bg-white p-8 border border-gray-200 shadow-sm space-y-6">
-                <h3 class="text-lg italic text-[#0a1128] border-b border-gray-100 pb-4">Recent Submissions & Requests</h3>
+                <div class="flex justify-between items-center border-b border-gray-100 pb-4">
+                    <h3 class="text-lg italic text-[#0a1128]">Recent Submissions & Requests</h3>
+                    <button onclick="toggleAdminPanel()" class="text-[9px] uppercase tracking-widest text-gray-400 hover:text-[#c5a059] transition">Team Admin Mode</button>
+                </div>
                 
+                <!-- Admin Control Panel (Hidden by default) -->
+                <div id="adminPanel" class="hidden p-4 bg-gray-100 border border-gray-300 rounded-sm text-xs space-y-3">
+                    <p class="font-bold uppercase tracking-wider text-[#0a1128]">Team Status Control Panel:</p>
+                    <p class="text-gray-600 font-light text-[11px]">Select an action below to update the status of your most recent order instantly:</p>
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="updateOrderStatus('Pending')" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1.5 uppercase text-[9px] font-bold tracking-widest">Set Pending</button>
+                        <button onclick="updateOrderStatus('Confirmed')" class="bg-[#c5a059] hover:bg-[#a68444] text-white px-3 py-1.5 uppercase text-[9px] font-bold tracking-widest">Set Confirmed</button>
+                        <button onclick="updateOrderStatus('Delivered')" class="bg-[#8f9f8b] hover:bg-[#778673] text-white px-3 py-1.5 uppercase text-[9px] font-bold tracking-widest">Set Delivered</button>
+                    </div>
+                </div>
+
                 <div id="ordersContainer" class="space-y-6">
                     <!-- Dynamic Orders Will Appear Here -->
                 </div>
@@ -214,10 +248,25 @@
         openModalBtnMobile?.addEventListener('click', window.openModal);
         closeModalBtn.addEventListener('click', () => authModal.style.display = 'none');
 
-        // Render saved orders from localStorage
-        function loadUserOrders(userEmail) {
+        window.toggleAdminPanel = function() {
+            const panel = document.getElementById('adminPanel');
+            panel.classList.toggle('hidden');
+        }
+
+        window.updateOrderStatus = function(statusText) {
+            let allOrders = JSON.parse(localStorage.getItem('mirzam_orders') || '[]');
+            if (allOrders.length > 0) {
+                allOrders[0].status = statusText; // Updates the newest order status
+                localStorage.setItem('mirzam_orders', JSON.stringify(allOrders));
+                loadUserOrders();
+                alert(`Order status updated to: ${statusText}`);
+            } else {
+                alert("No orders available to update.");
+            }
+        }
+
+        function loadUserOrders() {
             ordersContainer.innerHTML = '';
-            // Fetch saved orders specific to this user email or fallback to general session orders
             const allOrders = JSON.parse(localStorage.getItem('mirzam_orders') || '[]');
             
             if (allOrders.length === 0) {
@@ -230,13 +279,22 @@
                 return;
             }
 
-            allOrders.forEach(order => {
+            allOrders.forEach((order, index) => {
+                const currentStatus = order.status || 'Pending';
+                
+                // Determine box classes based on status
+                const isConfirmed = currentStatus === 'Confirmed' || currentStatus === 'Delivered';
+                const isDelivered = currentStatus === 'Delivered';
+
+                const confirmedClass = isConfirmed ? 'active-confirmed' : '';
+                const deliveredClass = isDelivered ? 'active-delivered' : '';
+
                 const orderCard = document.createElement('div');
-                orderCard.className = 'p-6 bg-[#f9f6ee] border border-gray-200/60 rounded-sm space-y-4';
+                orderCard.className = 'p-6 bg-[#f9f6ee] border border-gray-200/60 rounded-sm space-y-6';
                 orderCard.innerHTML = `
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center pb-4 border-b border-gray-200/40">
                         <div>
-                            <span class="text-[9px] uppercase tracking-widest text-[#c5a059] font-bold">Status: Pending Confirmation</span>
+                            <span class="text-[9px] uppercase tracking-widest text-[#c5a059] font-bold">Status: ${currentStatus.toUpperCase()}</span>
                             <h4 class="text-xl italic mt-1">${order.eventType || 'Invitation'} Suite — ${order.design || 'Custom Design'}</h4>
                         </div>
                         <div class="mt-2 md:mt-0 text-left md:text-right">
@@ -252,11 +310,20 @@
                         <div><strong class="text-[#0a1128]">Venue:</strong> ${order.venueName || 'Not specified'}</div>
                     </div>
 
-                    <div class="pt-4 border-t border-gray-200/40 flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0">
+                    <!-- Status Tracker Boxes -->
+                    <div class="grid grid-cols-2 gap-4 pt-2">
+                        <div class="status-box ${confirmedClass} p-4 rounded-sm text-center">
+                            <i class="fa-solid fa-circle-check mb-1 text-sm"></i>
+                            <p class="text-[10px] uppercase tracking-widest font-bold">Confirmed Order</p>
+                        </div>
+                        <div class="status-box ${deliveredClass} p-4 rounded-sm text-center">
+                            <i class="fa-solid fa-box-open mb-1 text-sm"></i>
+                            <p class="text-[10px] uppercase tracking-widest font-bold">Order Delivered</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 text-right">
                         <span class="text-[10px] text-gray-500 italic">Submitted on: ${order.submittedAt}</span>
-                        <a href="https://ig.me/m/mirzam.eg" target="_blank" class="bg-[#0a1128] text-white px-6 py-2.5 uppercase text-[9px] tracking-widest font-bold hover:bg-[#c5a059] transition-colors">
-                            <i class="fa-brands fa-instagram mr-2"></i> Confirm Order via Instagram
-                        </a>
                     </div>
                 `;
                 ordersContainer.appendChild(orderCard);
@@ -273,7 +340,7 @@
                 userDisplayName.innerText = displayName.toUpperCase();
                 userDisplayEmail.innerText = user.email.includes('@mirzam.auth') ? '' : user.email;
 
-                loadUserOrders(user.email);
+                loadUserOrders();
 
                 const userHtml = `
                     <div class="flex items-center space-x-3 whitespace-nowrap">
