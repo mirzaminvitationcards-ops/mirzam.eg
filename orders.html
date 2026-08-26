@@ -82,9 +82,19 @@
             </div>
 
             <div class="bg-white p-8 border border-gray-200 shadow-sm space-y-6">
-                <div class="flex justify-between items-center border-b border-gray-100 pb-4">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-100 pb-4 gap-4">
                     <h3 class="text-lg italic text-[#0a1128]" id="orderListTitle">Recent Submissions & Requests</h3>
+                    
+                    <!-- Admin Sorting Filters (Hidden by Default) -->
+                    <div id="adminFilters" class="hidden flex flex-wrap gap-2">
+                        <button data-filter="All" onclick="setFilter('All')" class="filter-btn bg-[#c5a059] text-white px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest rounded-sm">All</button>
+                        <button data-filter="Pending" onclick="setFilter('Pending')" class="filter-btn bg-gray-200 text-gray-800 px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest rounded-sm hover:bg-gray-300">Pending</button>
+                        <button data-filter="Confirmed" onclick="setFilter('Confirmed')" class="filter-btn bg-gray-200 text-gray-800 px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest rounded-sm hover:bg-gray-300">Confirmed</button>
+                        <button data-filter="Delivered" onclick="setFilter('Delivered')" class="filter-btn bg-gray-200 text-gray-800 px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest rounded-sm hover:bg-gray-300">Delivered</button>
+                        <button data-filter="Cancelled" onclick="setFilter('Cancelled')" class="filter-btn bg-gray-200 text-gray-800 px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest rounded-sm hover:bg-gray-300">Cancelled</button>
+                    </div>
                 </div>
+
                 <!-- Dynamic Orders Will Load Inside this Container -->
                 <div id="ordersContainer" class="space-y-6">
                     <div class="text-center py-10"><i class="fa-solid fa-spinner fa-spin text-2xl text-[#c5a059]"></i></div>
@@ -123,7 +133,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, query, where, getDocs, doc, updateDoc, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, query, where, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDHytukMX1bCkh-BpumQhWmZWEnmprAIno",
@@ -139,16 +149,59 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Make update function globally available so buttons can call it
+        // Global State variables for Data & Filtering
+        let globalOrders = [];
+        let currentFilter = 'All';
+        let isAdminGlobal = false;
+
+        // Firebase Update Functions mapped to Window
         window.changeFirebaseStatus = async function(docId, newStatus) {
             try {
                 await updateDoc(doc(db, "orders", docId), { status: newStatus });
-                alert(`Successfully updated status to: ${newStatus}`);
-                fetchOrders(auth.currentUser);
+                // Update local array for fast re-render without refetching from Firebase
+                const orderIndex = globalOrders.findIndex(o => o.id === docId);
+                if(orderIndex !== -1) globalOrders[orderIndex].status = newStatus;
+                renderOrdersUI();
             } catch (e) {
                 console.error(e);
-                alert("Failed to update status. Check permissions.");
+                alert("Failed to update status.");
             }
+        };
+
+        window.saveLinks = async function(docId) {
+            const invLink = document.getElementById(`invLink_${docId}`).value.trim();
+            const admLink = document.getElementById(`admLink_${docId}`).value.trim();
+            try {
+                await updateDoc(doc(db, "orders", docId), {
+                    invitationLink: invLink,
+                    adminLink: admLink
+                });
+                // Update local array for fast re-render
+                const orderIndex = globalOrders.findIndex(o => o.id === docId);
+                if(orderIndex !== -1) {
+                    globalOrders[orderIndex].invitationLink = invLink;
+                    globalOrders[orderIndex].adminLink = admLink;
+                }
+                alert('Links successfully saved & published to customer!');
+                renderOrdersUI();
+            } catch(e) {
+                console.error(e);
+                alert("Failed to save links.");
+            }
+        };
+
+        window.setFilter = function(filterStatus) {
+            currentFilter = filterStatus;
+            
+            // Highlight active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.dataset.filter === filterStatus) {
+                    btn.className = "filter-btn bg-[#c5a059] text-white px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest rounded-sm";
+                } else {
+                    btn.className = "filter-btn bg-gray-200 text-gray-800 px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest rounded-sm hover:bg-gray-300";
+                }
+            });
+            renderOrdersUI();
         };
 
         async function fetchOrders(user) {
@@ -156,143 +209,177 @@
             container.innerHTML = '<div class="text-center py-10"><i class="fa-solid fa-spinner fa-spin text-2xl text-[#c5a059]"></i></div>';
             
             // ADMIN EMAIL: Change this to your team email if needed
-            const isAdmin = user.email === 'mirzaminvitationcards@gmail.com'; 
+            isAdminGlobal = user.email === 'mirzaminvitationcards@gmail.com'; 
             
-            if(isAdmin) { document.getElementById('orderListTitle').innerText = 'Admin View: All Customer Orders'; }
+            if(isAdminGlobal) { 
+                document.getElementById('orderListTitle').innerText = 'Admin View: All Customer Orders';
+                document.getElementById('adminFilters').classList.remove('hidden');
+            }
 
             try {
                 let q;
-                if (isAdmin) {
-                    q = query(collection(db, "orders"));
+                if (isAdminGlobal) {
+                    q = query(collection(db, "orders")); // Fetch all
                 } else {
-                    q = query(collection(db, "orders"), where("userEmail", "==", user.email));
+                    q = query(collection(db, "orders"), where("userEmail", "==", user.email)); // Fetch specific user
                 }
 
                 const querySnapshot = await getDocs(q);
-                container.innerHTML = '';
+                globalOrders = [];
 
-                if (querySnapshot.empty) {
-                    container.innerHTML = `
-                        <div class="text-center py-10 bg-[#f9f6ee] border border-gray-200/60 rounded-sm space-y-3">
-                            <p class="text-xs uppercase tracking-widest text-gray-500 font-bold">No orders found yet.</p>
-                            <p class="text-xs text-gray-600 font-light">You haven't submitted any design requests yet. Click "Create New Suite" above to start your invitation.</p>
-                        </div>`;
-                    return;
-                }
-
-                let ordersArray = [];
                 querySnapshot.forEach((docSnap) => {
-                    ordersArray.push({ id: docSnap.id, ...docSnap.data() });
+                    globalOrders.push({ id: docSnap.id, ...docSnap.data() });
                 });
 
-                ordersArray.sort((a, b) => {
+                // Sort newest to oldest
+                globalOrders.sort((a, b) => {
                     const timeA = a.timestamp ? a.timestamp.seconds : 0;
                     const timeB = b.timestamp ? b.timestamp.seconds : 0;
                     return timeB - timeA;
                 });
 
-                ordersArray.forEach((order) => {
-                    const currentStatus = order.status || 'Pending';
-                    const isCancelled = currentStatus === 'Cancelled';
-                    const isConfirmed = currentStatus === 'Confirmed' || currentStatus === 'Delivered';
-                    const isDelivered = currentStatus === 'Delivered';
-
-                    const statusColorClass = isCancelled ? 'text-red-500' : 'text-[#c5a059]';
-
-                    // Expanding the Details Grid to show all captured info securely
-                    const detailsGrid = `
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-6 text-xs text-gray-700 font-light mt-4 p-5 bg-white border border-gray-100 rounded-sm">
-                            <div><strong class="text-[#0a1128]">Plan:</strong> ${order.plan || '-'}</div>
-                            <div><strong class="text-[#0a1128]">Partners:</strong> ${order.partner1 || '-'} & ${order.partner2 || '-'}</div>
-                            <div><strong class="text-[#0a1128]">Event Time:</strong> ${order.eventDate || '-'} ${order.eventTime && order.eventTime !== 'none' ? `at ${order.eventTime}` : ''}</div>
-                            <div><strong class="text-[#0a1128]">Venue:</strong> ${order.venueName || '-'}</div>
-                            ${order.venueLocation && order.venueLocation !== 'none' ? `<div><strong class="text-[#0a1128]">Location:</strong> ${order.venueLocation}</div>` : ''}
-                            ${order.whatsappNumber && order.whatsappNumber !== 'none' ? `<div><strong class="text-[#0a1128]">WhatsApp:</strong> ${order.whatsappNumber} ${order.whatsappName && order.whatsappName !== 'none' ? `(${order.whatsappName})` : ''}</div>` : ''}
-                            ${order.musicPref && order.musicPref !== 'none' ? `<div><strong class="text-[#0a1128]">Music:</strong> ${order.musicPref} ${order.musicChoice && order.musicChoice !== 'none' ? `- ${order.musicChoice}` : ''}</div>` : ''}
-                            ${order.photoPref && order.photoPref !== 'none' ? `<div><strong class="text-[#0a1128]">Photo Included:</strong> ${order.photoPref}</div>` : ''}
-                            ${order.colorCode && order.colorCode !== 'none' ? `<div><strong class="text-[#0a1128]">Dress Code:</strong> ${order.colorCode}</div>` : ''}
-                            ${order.guestPhotoGallery === 'Yes' ? `<div><strong class="text-[#0a1128]">Guest Gallery:</strong> Yes</div>` : ''}
-                            ${order.voiceMessages === 'Yes' ? `<div><strong class="text-[#0a1128]">Voice Messages:</strong> Yes</div>` : ''}
-                            ${order.isSecretLocation === 'Yes' ? `<div><strong class="text-[#0a1128]">Secret Location:</strong> Yes</div>` : ''}
-                        </div>
-                    `;
-
-                    // Generate Admin vs Customer UI specific buttons
-                    let adminUI = '';
-                    let customerUI = '';
-
-                    if (isAdmin) {
-                        adminUI = `
-                        <div class="mt-4 p-4 border border-red-200 bg-red-50 rounded-sm">
-                            <p class="text-[10px] font-bold uppercase tracking-widest mb-2 text-red-800">Admin Control Panel</p>
-                            <div class="flex flex-wrap gap-2">
-                                <button onclick="changeFirebaseStatus('${order.id}', 'Pending')" class="bg-gray-300 px-3 py-1 text-[9px] uppercase font-bold text-gray-800 hover:bg-gray-400 transition-colors">Set Pending</button>
-                                <button onclick="changeFirebaseStatus('${order.id}', 'Confirmed')" class="bg-[#c5a059] px-3 py-1 text-[9px] uppercase font-bold text-white hover:bg-[#a68444] transition-colors">Set Confirmed</button>
-                                <button onclick="changeFirebaseStatus('${order.id}', 'Delivered')" class="bg-[#8f9f8b] px-3 py-1 text-[9px] uppercase font-bold text-white hover:bg-[#778673] transition-colors">Set Delivered</button>
-                                <button onclick="changeFirebaseStatus('${order.id}', 'Cancelled')" class="bg-red-500 px-3 py-1 text-[9px] uppercase font-bold text-white hover:bg-red-600 transition-colors ml-auto">Cancel Order</button>
-                            </div>
-                        </div>`;
-                    } else {
-                        // Customer View link handling for Cancellations
-                        if (!isCancelled && !isDelivered) {
-                            customerUI = `
-                            <div class="mt-4 pt-4 border-t border-gray-200/40 flex justify-end">
-                                <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[10px] text-gray-400 hover:text-red-500 uppercase tracking-widest font-bold transition-colors">
-                                    <i class="fa-brands fa-instagram mr-1"></i> Need to Cancel? Contact Us
-                                </a>
-                            </div>`;
-                        } else if (isCancelled) {
-                             customerUI = `
-                            <div class="mt-4 pt-4 border-t border-gray-200/40 flex justify-end">
-                                <span class="text-[10px] text-red-500 uppercase tracking-widest font-bold">
-                                    Order Cancelled
-                                </span>
-                            </div>`;
-                        }
-                    }
-
-                    const card = document.createElement('div');
-                    card.className = 'p-6 bg-[#f9f6ee] border border-gray-200/60 rounded-sm space-y-4';
-                    card.innerHTML = `
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center pb-4 border-b border-gray-200/40">
-                            <div>
-                                <span class="text-[9px] uppercase tracking-widest font-bold ${statusColorClass}">Status: ${currentStatus.toUpperCase()}</span>
-                                <h4 class="text-xl italic mt-1">${order.eventType || 'Invitation'} Suite — ${order.design || 'Custom'}</h4>
-                                ${isAdmin ? `<p class="text-[10px] text-gray-400 mt-1 font-bold">Customer: ${order.userEmail}</p>` : ''}
-                            </div>
-                            <div class="mt-2 md:mt-0 text-left md:text-right">
-                                <span class="text-[10px] tracking-widest text-gray-500 uppercase block">Reference / Request ID</span>
-                                <span class="text-xs font-bold text-[#0a1128]">${order.requestId}</span>
-                            </div>
-                        </div>
-
-                        ${detailsGrid}
-
-                        <div class="grid grid-cols-2 gap-4 pt-2">
-                            <div class="status-box ${isConfirmed && !isCancelled ? 'active-confirmed' : ''} p-4 rounded-sm text-center">
-                                <i class="fa-solid fa-circle-check mb-1 text-sm"></i>
-                                <p class="text-[10px] uppercase tracking-widest font-bold mt-1">Confirmed Order</p>
-                            </div>
-                            <div class="status-box ${isDelivered && !isCancelled ? 'active-delivered' : ''} p-4 rounded-sm text-center">
-                                <i class="fa-solid fa-box-open mb-1 text-sm"></i>
-                                <p class="text-[10px] uppercase tracking-widest font-bold mt-1">Order Delivered</p>
-                            </div>
-                        </div>
-                        
-                        <div class="pt-2 text-right">
-                            <span class="text-[10px] text-gray-500 italic">Submitted on: ${order.submittedAt}</span>
-                        </div>
-
-                        ${customerUI}
-                        ${adminUI}
-                    `;
-                    container.appendChild(card);
-                });
+                renderOrdersUI();
 
             } catch (e) {
                 console.error("Error fetching orders:", e);
                 container.innerHTML = '<p class="text-red-500 text-sm text-center">Error fetching data. Check your connection or Firebase Security Rules.</p>';
             }
+        }
+
+        // Renders the orders based on currentFilter
+        function renderOrdersUI() {
+            const container = document.getElementById('ordersContainer');
+            container.innerHTML = '';
+
+            let filteredOrders = globalOrders;
+            if (currentFilter !== 'All') {
+                filteredOrders = globalOrders.filter(o => {
+                    let status = o.status || 'Pending';
+                    return status === currentFilter;
+                });
+            }
+
+            if (filteredOrders.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-10 bg-[#f9f6ee] border border-gray-200/60 rounded-sm space-y-3">
+                        <p class="text-xs uppercase tracking-widest text-gray-500 font-bold">No ${currentFilter !== 'All' ? currentFilter.toLowerCase() : ''} orders found.</p>
+                    </div>`;
+                return;
+            }
+
+            filteredOrders.forEach((order) => {
+                const currentStatus = order.status || 'Pending';
+                const isCancelled = currentStatus === 'Cancelled';
+                const isConfirmed = currentStatus === 'Confirmed' || currentStatus === 'Delivered';
+                const isDelivered = currentStatus === 'Delivered';
+
+                const statusColorClass = isCancelled ? 'text-red-500' : 'text-[#c5a059]';
+
+                const detailsGrid = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-6 text-xs text-gray-700 font-light mt-4 p-5 bg-white border border-gray-100 rounded-sm">
+                        <div><strong class="text-[#0a1128]">Plan:</strong> ${order.plan || '-'}</div>
+                        <div><strong class="text-[#0a1128]">Partners:</strong> ${order.partner1 || '-'} & ${order.partner2 || '-'}</div>
+                        <div><strong class="text-[#0a1128]">Event Time:</strong> ${order.eventDate || '-'} ${order.eventTime && order.eventTime !== 'none' ? `at ${order.eventTime}` : ''}</div>
+                        <div><strong class="text-[#0a1128]">Venue:</strong> ${order.venueName || '-'}</div>
+                        ${order.venueLocation && order.venueLocation !== 'none' ? `<div><strong class="text-[#0a1128]">Location:</strong> ${order.venueLocation}</div>` : ''}
+                        ${order.whatsappNumber && order.whatsappNumber !== 'none' ? `<div><strong class="text-[#0a1128]">WhatsApp:</strong> ${order.whatsappNumber} ${order.whatsappName && order.whatsappName !== 'none' ? `(${order.whatsappName})` : ''}</div>` : ''}
+                        ${order.musicPref && order.musicPref !== 'none' ? `<div><strong class="text-[#0a1128]">Music:</strong> ${order.musicPref} ${order.musicChoice && order.musicChoice !== 'none' ? `- ${order.musicChoice}` : ''}</div>` : ''}
+                        ${order.photoPref && order.photoPref !== 'none' ? `<div><strong class="text-[#0a1128]">Photo Included:</strong> ${order.photoPref}</div>` : ''}
+                        ${order.colorCode && order.colorCode !== 'none' ? `<div><strong class="text-[#0a1128]">Dress Code:</strong> ${order.colorCode}</div>` : ''}
+                        ${order.guestPhotoGallery === 'Yes' ? `<div><strong class="text-[#0a1128]">Guest Gallery:</strong> Yes</div>` : ''}
+                        ${order.voiceMessages === 'Yes' ? `<div><strong class="text-[#0a1128]">Voice Messages:</strong> Yes</div>` : ''}
+                        ${order.isSecretLocation === 'Yes' ? `<div><strong class="text-[#0a1128]">Secret Location:</strong> Yes</div>` : ''}
+                    </div>
+                `;
+
+                let adminUI = '';
+                let customerUI = '';
+
+                // Customer Display Links Logic
+                if (order.invitationLink || order.adminLink) {
+                    customerUI += `
+                    <div class="mt-6 pt-4 border-t border-gray-200/40 flex flex-col sm:flex-row gap-3">
+                        ${order.invitationLink ? `<a href="${order.invitationLink}" target="_blank" class="flex-1 bg-[#0a1128] text-white text-center py-3 px-2 text-[10px] tracking-widest uppercase font-bold hover:bg-[#c5a059] transition-colors shadow-sm"><i class="fa-solid fa-link mr-2"></i> View Invitation</a>` : ''}
+                        ${order.adminLink ? `<a href="${order.adminLink}" target="_blank" class="flex-1 border border-[#0a1128] text-[#0a1128] text-center py-3 px-2 text-[10px] tracking-widest uppercase font-bold hover:bg-[#0a1128] hover:text-white transition-colors shadow-sm"><i class="fa-solid fa-key mr-2"></i> Manage Invitation</a>` : ''}
+                    </div>`;
+                }
+
+                if (isAdminGlobal) {
+                    adminUI = `
+                    <div class="mt-4 p-4 border border-red-200 bg-red-50 rounded-sm">
+                        <p class="text-[10px] font-bold uppercase tracking-widest mb-2 text-red-800">Admin Control Panel</p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <button onclick="changeFirebaseStatus('${order.id}', 'Pending')" class="bg-gray-300 px-3 py-1 text-[9px] uppercase font-bold text-gray-800 hover:bg-gray-400 transition-colors">Set Pending</button>
+                            <button onclick="changeFirebaseStatus('${order.id}', 'Confirmed')" class="bg-[#c5a059] px-3 py-1 text-[9px] uppercase font-bold text-white hover:bg-[#a68444] transition-colors">Set Confirmed</button>
+                            <button onclick="changeFirebaseStatus('${order.id}', 'Delivered')" class="bg-[#8f9f8b] px-3 py-1 text-[9px] uppercase font-bold text-white hover:bg-[#778673] transition-colors">Set Delivered</button>
+                            <button onclick="changeFirebaseStatus('${order.id}', 'Cancelled')" class="bg-red-500 px-3 py-1 text-[9px] uppercase font-bold text-white hover:bg-red-600 transition-colors ml-auto">Cancel Order</button>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-red-200/50">
+                            <p class="text-[10px] font-bold uppercase tracking-widest mb-3 text-red-800">Assign Invitation Links</p>
+                            <div class="space-y-2 mb-3">
+                                <input type="url" id="invLink_${order.id}" class="w-full border border-red-200 bg-white px-3 py-2 text-xs focus:outline-none focus:border-[#c5a059]" placeholder="Guest Invitation Link (URL)" value="${order.invitationLink || ''}">
+                                <input type="url" id="admLink_${order.id}" class="w-full border border-red-200 bg-white px-3 py-2 text-xs focus:outline-none focus:border-[#c5a059]" placeholder="Admin Powers Link (URL)" value="${order.adminLink || ''}">
+                            </div>
+                            <button onclick="saveLinks('${order.id}')" class="bg-gray-800 text-white px-4 py-2 text-[9px] uppercase font-bold hover:bg-black transition-colors w-full shadow-sm">Save Links & Publish to Customer</button>
+                        </div>
+                    </div>`;
+                } else {
+                    if (!isCancelled && !isDelivered) {
+                        customerUI += `
+                        <div class="mt-4 pt-4 border-t border-gray-200/40 flex justify-end">
+                            <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[10px] text-gray-400 hover:text-red-500 uppercase tracking-widest font-bold transition-colors">
+                                <i class="fa-brands fa-instagram mr-1"></i> Need to Cancel? Contact Us
+                            </a>
+                        </div>`;
+                    } else if (isCancelled) {
+                         customerUI += `
+                        <div class="mt-4 pt-4 border-t border-gray-200/40 flex justify-end">
+                            <span class="text-[10px] text-red-500 uppercase tracking-widest font-bold">
+                                Order Cancelled
+                            </span>
+                        </div>`;
+                    }
+                }
+
+                const card = document.createElement('div');
+                card.className = 'p-6 bg-[#f9f6ee] border border-gray-200/60 rounded-sm space-y-4';
+                card.innerHTML = `
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center pb-4 border-b border-gray-200/40">
+                        <div>
+                            <span class="text-[9px] uppercase tracking-widest font-bold ${statusColorClass}">Status: ${currentStatus.toUpperCase()}</span>
+                            <h4 class="text-xl italic mt-1">${order.eventType || 'Invitation'} Suite — ${order.design || 'Custom'}</h4>
+                            ${isAdminGlobal ? `<p class="text-[10px] text-gray-400 mt-1 font-bold">Customer: ${order.userEmail}</p>` : ''}
+                        </div>
+                        <div class="mt-2 md:mt-0 text-left md:text-right">
+                            <span class="text-[10px] tracking-widest text-gray-500 uppercase block">Reference / Request ID</span>
+                            <span class="text-xs font-bold text-[#0a1128]">${order.requestId}</span>
+                        </div>
+                    </div>
+
+                    ${detailsGrid}
+
+                    <div class="grid grid-cols-2 gap-4 pt-2">
+                        <div class="status-box ${isConfirmed && !isCancelled ? 'active-confirmed' : ''} p-4 rounded-sm text-center">
+                            <i class="fa-solid fa-circle-check mb-1 text-sm"></i>
+                            <p class="text-[10px] uppercase tracking-widest font-bold mt-1">Confirmed Order</p>
+                        </div>
+                        <div class="status-box ${isDelivered && !isCancelled ? 'active-delivered' : ''} p-4 rounded-sm text-center">
+                            <i class="fa-solid fa-box-open mb-1 text-sm"></i>
+                            <p class="text-[10px] uppercase tracking-widest font-bold mt-1">Order Delivered</p>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-2 text-right">
+                        <span class="text-[10px] text-gray-500 italic">Submitted on: ${order.submittedAt}</span>
+                    </div>
+
+                    ${customerUI}
+                    ${adminUI}
+                `;
+                container.appendChild(card);
+            });
         }
 
         /* ==== AUTHENTICATION LOGIC ==== */
