@@ -16,6 +16,7 @@
         .fade-in { animation: fadeIn 1.2s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* Order Status Highlight Styles */
         .status-box { border: 1px solid #e5e7eb; background-color: #f9f6ee; color: #9ca3af; transition: all 0.3s ease; }
         .status-box.active-confirmed { border-color: var(--gold); background-color: rgba(197, 160, 89, 0.1); color: var(--navy); font-weight: 600; }
         .status-box.active-delivered { border-color: var(--sage); background-color: rgba(143, 159, 139, 0.15); color: var(--navy); font-weight: 600; }
@@ -122,7 +123,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, query, where, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, query, where, getDocs, doc, updateDoc, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDHytukMX1bCkh-BpumQhWmZWEnmprAIno",
@@ -203,13 +204,16 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-6 text-xs text-gray-700 font-light mt-4 p-5 bg-white border border-gray-100 rounded-sm">
                             <div><strong class="text-[#0a1128]">Plan:</strong> ${order.plan || '-'}</div>
                             <div><strong class="text-[#0a1128]">Partners:</strong> ${order.partner1 || '-'} & ${order.partner2 || '-'}</div>
-                            <div><strong class="text-[#0a1128]">Event Time:</strong> ${order.eventDate || '-'} ${order.eventTime ? `at ${order.eventTime}` : ''}</div>
+                            <div><strong class="text-[#0a1128]">Event Time:</strong> ${order.eventDate || '-'} ${order.eventTime && order.eventTime !== 'none' ? `at ${order.eventTime}` : ''}</div>
                             <div><strong class="text-[#0a1128]">Venue:</strong> ${order.venueName || '-'}</div>
                             ${order.venueLocation && order.venueLocation !== 'none' ? `<div><strong class="text-[#0a1128]">Location:</strong> ${order.venueLocation}</div>` : ''}
-                            ${order.whatsappNumber ? `<div><strong class="text-[#0a1128]">WhatsApp:</strong> ${order.whatsappNumber} ${order.whatsappName && order.whatsappName !== 'none' ? `(${order.whatsappName})` : ''}</div>` : ''}
-                            ${order.musicPref ? `<div><strong class="text-[#0a1128]">Music:</strong> ${order.musicPref} ${order.musicChoice && order.musicChoice !== 'none' ? `- ${order.musicChoice}` : ''}</div>` : ''}
-                            ${order.photoPref ? `<div><strong class="text-[#0a1128]">Photo Included:</strong> ${order.photoPref}</div>` : ''}
+                            ${order.whatsappNumber && order.whatsappNumber !== 'none' ? `<div><strong class="text-[#0a1128]">WhatsApp:</strong> ${order.whatsappNumber} ${order.whatsappName && order.whatsappName !== 'none' ? `(${order.whatsappName})` : ''}</div>` : ''}
+                            ${order.musicPref && order.musicPref !== 'none' ? `<div><strong class="text-[#0a1128]">Music:</strong> ${order.musicPref} ${order.musicChoice && order.musicChoice !== 'none' ? `- ${order.musicChoice}` : ''}</div>` : ''}
+                            ${order.photoPref && order.photoPref !== 'none' ? `<div><strong class="text-[#0a1128]">Photo Included:</strong> ${order.photoPref}</div>` : ''}
                             ${order.colorCode && order.colorCode !== 'none' ? `<div><strong class="text-[#0a1128]">Dress Code:</strong> ${order.colorCode}</div>` : ''}
+                            ${order.guestPhotoGallery === 'Yes' ? `<div><strong class="text-[#0a1128]">Guest Gallery:</strong> Yes</div>` : ''}
+                            ${order.voiceMessages === 'Yes' ? `<div><strong class="text-[#0a1128]">Voice Messages:</strong> Yes</div>` : ''}
+                            ${order.isSecretLocation === 'Yes' ? `<div><strong class="text-[#0a1128]">Secret Location:</strong> Yes</div>` : ''}
                         </div>
                     `;
 
