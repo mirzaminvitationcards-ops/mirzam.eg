@@ -266,7 +266,7 @@
                 const isDelivered = currentStatus === 'Delivered';
                 const statusColorClass = isCancelled ? 'text-red-500' : 'text-[#c5a059]';
 
-                // Schedule HTML Generator
+                // Format Schedule Array cleanly
                 let scheduleHTML = '';
                 if (order.schedule && order.schedule.length > 0) {
                     scheduleHTML = `<div class="col-span-1 md:col-span-2 mt-2"><strong class="text-[#0a1128] block mb-1">Day Schedule:</strong><ul class="list-disc pl-4 space-y-1">`;
@@ -276,7 +276,7 @@
                     scheduleHTML += `</ul></div>`;
                 }
 
-                // Custom Wording HTML Generator
+                // Format Custom Wording cleanly
                 let wordingHTML = '';
                 if ((order.wordingTop && order.wordingTop !== 'none') || (order.wordingMiddle && order.wordingMiddle !== 'none') || (order.wordingBottom && order.wordingBottom !== 'none')) {
                     wordingHTML = `<div class="col-span-1 md:col-span-2 mt-2"><strong class="text-[#0a1128] block mb-1">Custom Wording:</strong>`;
@@ -286,7 +286,7 @@
                     wordingHTML += `</div>`;
                 }
 
-                // Main Details Grid
+                // Main Information Details Grid
                 const detailsGrid = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-6 text-xs text-gray-700 font-light mt-4 p-5 bg-white border border-gray-100 rounded-sm">
                         <div><strong class="text-[#0a1128]">Plan:</strong> ${order.plan || '-'}</div>
@@ -313,13 +313,15 @@
                         
                         ${scheduleHTML}
                         ${wordingHTML}
+
+                        ${order.customerComments && order.customerComments !== 'none' ? `<div class="col-span-1 md:col-span-2 mt-4 pt-2 border-t border-gray-100"><strong class="text-[#0a1128] block mb-1">Additional Customer Comments:</strong><p class="text-gray-600 bg-gray-50 p-3 border border-gray-100 rounded-sm italic">${order.customerComments}</p></div>` : ''}
                     </div>
                 `;
 
                 let adminUI = '';
                 let customerUI = '';
 
-                // Links Display UI
+                // Links Display UI for Customer
                 if (order.invitationLink || order.adminLink) {
                     customerUI += `
                     <div class="mt-6 pt-4 border-t border-gray-200/40 flex flex-col sm:flex-row gap-3">
