@@ -302,6 +302,15 @@
                         ${order.invitationLink ? `<a href="${order.invitationLink}" target="_blank" class="flex-1 bg-[#0a1128] text-white text-center py-3 px-2 text-[10px] tracking-widest uppercase font-bold hover:bg-[#c5a059] transition-colors shadow-sm"><i class="fa-solid fa-link mr-2"></i> View Invitation</a>` : ''}
                         ${order.adminLink ? `<a href="${order.adminLink}" target="_blank" class="flex-1 border border-[#0a1128] text-[#0a1128] text-center py-3 px-2 text-[10px] tracking-widest uppercase font-bold hover:bg-[#0a1128] hover:text-white transition-colors shadow-sm"><i class="fa-solid fa-key mr-2"></i> Manage Invitation</a>` : ''}
                     </div>`;
+
+                    // Add Warning Note specifically for the Manage link
+                    if (order.adminLink && !isAdminGlobal) {
+                        customerUI += `
+                        <div class="mt-2 text-center">
+                            <p class="text-[9px] text-red-500 uppercase tracking-widest font-bold"><i class="fa-solid fa-triangle-exclamation mr-1"></i> IMPORTANT: DO NOT SHARE THE MANAGE INVITATION LINK WITH GUESTS.</p>
+                        </div>
+                        `;
+                    }
                 }
 
                 if (isAdminGlobal) {
