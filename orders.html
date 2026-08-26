@@ -119,11 +119,11 @@
         </div>
     </div>
 
-    <!-- Firebase Firestore logic -->
+   <!-- Firebase Firestore logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, query, where, getDocs, doc, updateDoc, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, query, where, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDHytukMX1bCkh-BpumQhWmZWEnmprAIno",
@@ -142,6 +142,7 @@
         window.changeFirebaseStatus = async function(docId, newStatus) {
             try {
                 await updateDoc(doc(db, "orders", docId), { status: newStatus });
+                alert(`Successfully updated status to: ${newStatus}`);
                 fetchOrders(auth.currentUser);
             } catch (e) {
                 console.error(e);
@@ -161,9 +162,11 @@
             try {
                 let q;
                 if (isAdmin) {
-                    q = query(collection(db, "orders"), orderBy("timestamp", "desc"));
+                    // Admin gets all orders (removed orderBy to prevent index errors)
+                    q = query(collection(db, "orders"));
                 } else {
-                    q = query(collection(db, "orders"), where("userEmail", "==", user.email), orderBy("timestamp", "desc"));
+                    // User gets only their orders (removed orderBy to prevent index errors)
+                    q = query(collection(db, "orders"), where("userEmail", "==", user.email));
                 }
 
                 const querySnapshot = await getDocs(q);
@@ -178,8 +181,20 @@
                     return;
                 }
 
+                // Push all documents into an array so we can sort them locally in JavaScript
+                let ordersArray = [];
                 querySnapshot.forEach((docSnap) => {
-                    const order = docSnap.data();
+                    ordersArray.push({ id: docSnap.id, ...docSnap.data() });
+                });
+
+                // Sort the array from newest to oldest based on the timestamp
+                ordersArray.sort((a, b) => {
+                    const timeA = a.timestamp ? a.timestamp.seconds : 0;
+                    const timeB = b.timestamp ? b.timestamp.seconds : 0;
+                    return timeB - timeA;
+                });
+
+                ordersArray.forEach((order) => {
                     const currentStatus = order.status || 'Pending';
                     const isConfirmed = currentStatus === 'Confirmed' || currentStatus === 'Delivered';
                     const isDelivered = currentStatus === 'Delivered';
@@ -190,9 +205,9 @@
                         <div class="mt-4 p-4 border border-red-200 bg-red-50 rounded-sm">
                             <p class="text-[10px] font-bold uppercase tracking-widest mb-2 text-red-800">Admin Control Panel</p>
                             <div class="flex gap-2">
-                                <button onclick="changeFirebaseStatus('${docSnap.id}', 'Pending')" class="bg-gray-300 px-3 py-1 text-[9px] uppercase font-bold text-gray-800">Set Pending</button>
-                                <button onclick="changeFirebaseStatus('${docSnap.id}', 'Confirmed')" class="bg-[#c5a059] px-3 py-1 text-[9px] uppercase font-bold text-white">Set Confirmed</button>
-                                <button onclick="changeFirebaseStatus('${docSnap.id}', 'Delivered')" class="bg-[#8f9f8b] px-3 py-1 text-[9px] uppercase font-bold text-white">Set Delivered</button>
+                                <button onclick="changeFirebaseStatus('${order.id}', 'Pending')" class="bg-gray-300 px-3 py-1 text-[9px] uppercase font-bold text-gray-800">Set Pending</button>
+                                <button onclick="changeFirebaseStatus('${order.id}', 'Confirmed')" class="bg-[#c5a059] px-3 py-1 text-[9px] uppercase font-bold text-white">Set Confirmed</button>
+                                <button onclick="changeFirebaseStatus('${order.id}', 'Delivered')" class="bg-[#8f9f8b] px-3 py-1 text-[9px] uppercase font-bold text-white">Set Delivered</button>
                             </div>
                         </div>`;
                     }
@@ -241,7 +256,7 @@
 
             } catch (e) {
                 console.error("Error fetching orders:", e);
-                container.innerHTML = '<p class="text-red-500 text-sm text-center">Error fetching data. Check Firebase Security Rules.</p>';
+                container.innerHTML = '<p class="text-red-500 text-sm text-center">Error fetching data. Check your connection or Firebase Security Rules.</p>';
             }
         }
 
