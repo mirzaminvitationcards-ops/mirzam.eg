@@ -676,8 +676,8 @@
             <p class="text-sm uppercase tracking-widest text-gray-700 font-bold">Mirzam team will contact you to confirm the request.</p>
             
             <div class="pt-6">
-                <a href="Mirzam's_Main_page.html" class="inline-block bg-[#0a1128] text-white px-10 py-3 uppercase text-[10px] tracking-[0.2em] font-bold hover:bg-[#c5a059] transition-colors shadow-lg">
-                    <i class="fa-solid fa-chevron-left mr-2"></i> Back to Home
+                <a href="orders.html" class="inline-block bg-[#0a1128] text-white px-10 py-3 uppercase text-[10px] tracking-[0.2em] font-bold hover:bg-[#c5a059] transition-colors shadow-lg">
+                    <i class="fa-solid fa-chevron-left mr-2"></i> VIEW MY ORDERS
                 </a>
             </div>
         </div>
@@ -1130,7 +1130,23 @@
                 partner1: form.querySelector('input[name="partner1"]').value,
                 partner2: form.querySelector('input[name="partner2"]').value,
                 eventDate: document.getElementById('hiddenEventDate').value,
+                eventTime: form.querySelector('select[name="eventHour"]').value + ':' + form.querySelector('select[name="eventMinute"]').value + ' ' + form.querySelector('select[name="eventTimePeriod"]').value,
                 venueName: form.querySelector('input[name="venueName"]').value,
+                venueLocation: form.querySelector('input[name="venueLocation"]').value,
+                venueMap: form.querySelector('input[name="venueMap"]').value,
+                isSecretLocation: form.querySelector('input[name="isSecretLocation"]:checked')?.value || 'No',
+                secretLocationMap: form.querySelector('input[name="secretLocationMap"]')?.value || 'none',
+                musicPref: form.querySelector('input[name="musicPreference"]:checked')?.value || 'Yes',
+                musicChoice: form.querySelector('input[name="music"]').value || 'none',
+                wordingTop: form.querySelector('input[name="wordingTop"]').value || 'none',
+                wordingMiddle: form.querySelector('input[name="wordingMiddle"]').value || 'none',
+                wordingBottom: form.querySelector('input[name="wordingBottom"]').value || 'none',
+                photoPref: form.querySelector('input[name="addPhotoPreference"]:checked')?.value || 'No',
+                colorCode: form.querySelector('input[name="colorCode"]').value || 'none',
+                guestPhotoGallery: form.querySelector('input[name="Guest Photo Gallery"]')?.checked ? 'Yes' : 'No',
+                voiceMessages: form.querySelector('input[name="Voice Messages"]')?.checked ? 'Yes' : 'No',
+                whatsappName: form.querySelector('input[name="whatsappname"]').value || 'none',
+                whatsappNumber: wa,
                 status: "Pending", // Default Status
                 submittedAt: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
                 timestamp: serverTimestamp() // Database sorting timestamp
