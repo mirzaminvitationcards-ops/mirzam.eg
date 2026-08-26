@@ -675,6 +675,12 @@
             <div class="w-16 h-[1px] bg-[#c5a059] mx-auto"></div>
             <p class="text-sm uppercase tracking-widest text-gray-700 font-bold">Mirzam team will contact you to confirm the request.</p>
             
+            <div class="bg-red-50 border border-red-200 p-4 mt-4 max-w-md mx-auto text-center rounded-sm">
+                <p class="text-[9px] text-red-600 font-bold uppercase tracking-widest">
+                    <i class="fa-solid fa-triangle-exclamation mr-1"></i> Important: When your order is confirmed, DO NOT share the "Manage Invitation" link with your guests.
+                </p>
+            </div>
+            
             <div class="pt-6">
                 <a href="orders.html" class="inline-block bg-[#0a1128] text-white px-10 py-3 uppercase text-[10px] tracking-[0.2em] font-bold hover:bg-[#c5a059] transition-colors shadow-lg">
                     <i class="fa-solid fa-chevron-left mr-2"></i> VIEW MY ORDERS
@@ -1102,25 +1108,31 @@
         document.getElementById('orderForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Require user to be logged in to connect the order to their account!
             if (!auth.currentUser) {
                 alert("Please log in or create an account first so we can save your order to your profile!");
                 window.openModal();
                 return;
             }
 
-            const wa = document.getElementById('whatsappNumber').value.trim();
-            if (!wa) {
-                alert("Please fill out your WhatsApp number in Step 12 to submit your request.");
-                toggleStep(12);
-                return;
-            }
-
             const form = e.target;
+            const wa = form.querySelector('input[name="whatsappnumber"]').value.trim();
+            if (!wa) { alert("Please fill out your WhatsApp number in Step 12."); toggleStep(12); return; }
+
             const uniqueId = 'MZ-' + Date.now().toString().slice(-6) + '-' + Math.floor(1000 + Math.random() * 9000);
             document.getElementById('hiddenRequestId').value = uniqueId;
 
-            // Prepare Data for Firebase
+            // CAPTURE SCHEDULE ROWS
+            const scheduleEvents = Array.from(form.querySelectorAll('input[name="scheduleEvent[]"]')).map(el => el.value);
+            const scheduleHours = Array.from(form.querySelectorAll('select[name="scheduleHour[]"]')).map(el => el.value);
+            const scheduleMinutes = Array.from(form.querySelectorAll('select[name="scheduleMinute[]"]')).map(el => el.value);
+            const schedulePeriods = Array.from(form.querySelectorAll('select[name="schedulePeriod[]"]')).map(el => el.value);
+            
+            let scheduleArr = [];
+            for(let i=0; i<scheduleEvents.length; i++){
+                scheduleArr.push(`${scheduleHours[i]}:${scheduleMinutes[i]} ${schedulePeriods[i]} - ${scheduleEvents[i] || 'Event'}`);
+            }
+
+            // CAPTURE ALL DETAILS FOR FIREBASE
             const orderDataObject = {
                 requestId: uniqueId,
                 userEmail: auth.currentUser.email,
@@ -1147,41 +1159,28 @@
                 voiceMessages: form.querySelector('input[name="Voice Messages"]')?.checked ? 'Yes' : 'No',
                 whatsappName: form.querySelector('input[name="whatsappname"]').value || 'none',
                 whatsappNumber: wa,
-                status: "Pending", // Default Status
+                schedule: scheduleArr,
+                status: "Pending",
                 submittedAt: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
-                timestamp: serverTimestamp() // Database sorting timestamp
+                timestamp: serverTimestamp()
             };
 
             try {
-                // 1. Save directly to Firebase Database
                 await addDoc(collection(db, "orders"), orderDataObject);
 
-                // 2. Format Empty Fields & Checkboxes for Formspree email
-                const textInputs = form.querySelectorAll('input[type="text"], input[type="url"], input[type="tel"]');
-                textInputs.forEach(input => {
-                    if (input.value.trim() === '') {
-                        input.value = 'none';
-                    }
+                form.querySelectorAll('input[type="text"], input[type="url"], input[type="tel"]').forEach(input => {
+                    if (input.value.trim() === '') input.value = 'none';
                 });
-
-                const checkboxes = form.querySelectorAll('input[type="checkbox"]');
-                checkboxes.forEach(cb => {
+                form.querySelectorAll('input[type="checkbox"]').forEach(cb => {
                     if (!cb.checked) {
                         let hiddenFallback = document.createElement('input');
-                        hiddenFallback.type = 'hidden';
-                        hiddenFallback.name = cb.name;
-                        hiddenFallback.value = 'none';
+                        hiddenFallback.type = 'hidden'; hiddenFallback.name = cb.name; hiddenFallback.value = 'none';
                         form.appendChild(hiddenFallback);
                     }
                 });
 
-                // 3. Send email alert via Formspree
                 const formData = new FormData(form);
-                await fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: { 'Accept': 'application/json' }
-                });
+                await fetch(form.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' }});
 
                 form.style.display = 'none';
                 document.getElementById('displayRequestId').innerText = `Request ID: ${uniqueId}`;
@@ -1189,7 +1188,7 @@
 
             } catch (error) {
                 console.error("Error adding document: ", error);
-                alert("There was an error saving your request. Please check your connection and try again.");
+                alert("There was an error saving your request. Please try again.");
             }
         });
 
