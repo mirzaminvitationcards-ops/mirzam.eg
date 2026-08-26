@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Suite | Mirzam</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { 
+            --navy: #0a1128; 
+            --gold: #c5a059;
+            --sage: #8f9f8b;
+            --bg-soft: #fdfbf7;
+        }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--bg-soft); 
+            color: var(--navy);
+            opacity: 0.95; 
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
+
+        .fade-in { animation: fadeIn 1.2s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Accordion Step Styling */
+        .step-content {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+        }
+        .step-content.active {
+            max-height: 2200px;
+            opacity: 1;
+            padding-top: 1.5rem;
+            padding-bottom: 2rem;
+        }
+        .step-header { cursor: pointer; transition: color 0.3s ease; }
+        .step-header:hover h3 { color: var(--gold); }
+        .step-summary { color: var(--sage); font-style: italic; font-weight: 400; margin-left: 10px; text-transform: capitalize;}
+
+        /* Custom Radio Button Styling */
+        .custom-radio input[type="radio"], .custom-checkbox input[type="checkbox"] { display: none; }
+        .radio-card {
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: white;
+        }
+        .custom-radio input[type="radio"]:checked + .radio-card {
+            border-color: var(--gold);
+            background-color: var(--navy);
+            color: white;
+            box-shadow: 0 10px 25px rgba(10, 17, 40, 0.2);
+        }
+        .custom-radio input[type="radio"]:checked + .radio-card .sub-text { color: #d1d5db; }
+        .custom-radio input[type="radio"]:checked + .radio-card .gold-text { color: var(--gold); }
+
+        /* Input Styling */
+        .elegant-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #d1d5db;
+            padding: 12px 0;
+            font-size: 14px;
+            color: var(--navy);
+            transition: border-color 0.3s ease;
+        }
+        .elegant-input:focus { outline: none; border-bottom-color: var(--gold); }
+        
+        /* Calendar Styling */
+        .calendar-box {
+            background-color: var(--sage);
+            width: 100%;
+            max-width: 450px;
+            padding: 35px 25px;
+            color: white;
+            text-align: center;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            margin-top: 20px;
+        }
+        .day-node {
+            font-size: 13px;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 50%;
+        }
+        .day-node:hover:not(.disabled) { background: rgba(255,255,255,0.25); }
+        .day-node.selected { background: white; color: var(--sage); font-weight: 600; }
+        .disabled { opacity: 0.2; cursor: not-allowed; }
+        .weekday-header {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            opacity: 0.6;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-[#fdfbf7]/90 backdrop-blur-xl border-b border-gray-100 px-6 py-5">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            
+            <!-- Left: Logo -->
+            <div class="text-2xl font-bold tracking-[0.2em] uppercase text-[#0a1128]">
+                MIRZAM<span class="text-[#c5a059] font-light">.EG</span>
+            </div>
+            
+            <!-- Right: Links & Login -->
+            <div class="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-semibold items-center">
+                <a href="Mirzam's_Main_page.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Home</a>
+                <a href="collection.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Collections</a>
+                <a href="pricing.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Pricing</a>
+                <a href="order.html" class="text-[#c5a059]">Create Suite</a>
+                <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
+                
+                <!-- Desktop Login Status Container -->
+                <div id="navAuthContainer" class="border-l border-gray-300 pl-10 flex items-center">
+                    <button id="openModalBtn" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest whitespace-nowrap">LOG IN</button>
+                </div>
+            </div>
+
+            <!-- Mobile Hamburger Button -->
+            <button id="mobileMenuBtn" class="md:hidden text-[#0a1128] text-xl focus:outline-none pl-4">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobileMenu" class="hidden md:hidden pt-4 pb-6 border-t border-gray-100 mt-4 flex flex-col space-y-4 text-[11px] uppercase tracking-[0.2em] font-semibold">
+            <a href="Mirzam's_Main_page.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Home</a>
+            <a href="collection.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Collections</a>
+            <a href="pricing.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Pricing</a>
+            <a href="order.html" class="text-[#c5a059]">Create Suite</a>
+            <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
+            
+            <!-- Mobile Login Container -->
+            <div id="navAuthContainerMobile" class="pt-2 border-t border-gray-100">
+                <button id="openModalBtnMobile" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest whitespace-nowrap">LOG IN</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="pt-48 pb-12 text-center fade-in">
+        <h1 class="text-4xl md:text-5xl italic text-[#0a1128] mb-4">Design Your Suite</h1>
+        <div class="w-16 h-[1px] bg-[#c5a059] mx-auto mb-4"></div>
+        <p class="text-[10px] uppercase tracking-[0.5em] text-gray-900">Step-by-step Customization</p>
+    </header>
+
+    <!-- Form Container -->
+    <main class="max-w-4xl mx-auto px-6 pb-32 fade-in" style="animation-delay: 0.2s;">
+        <form id="orderForm" action="https://formspree.io/f/mqpzrgwn" method="POST" class="space-y-6">
+            
+            <!-- Hidden inputs to capture Date & Unique Request ID cleanly -->
+            <input type="hidden" id="hiddenEventDate" name="eventDate" value="">
+            <input type="hidden" id="hiddenRequestId" name="requestId" value="">
+
+            <!-- STEP 1: THE PLAN -->
+            <div class="border-b border-gray-200 pb-4">
+                <div class="step-header flex justify-between items-center" onclick="toggleStep(1)">
+                    <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
+                        01. Hosting Plan <span id="summary-1" class="step-summary"></span>
+                    </h3>
+                    <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
+                </div>
+                <div id="step-1" class="step-content active">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <label class="custom-radio">
+                            <input type="radio" name="plan" value="Aurora" onchange="handlePlanSelection(this.value)">
+                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center relative overflow-hidden">
+                                <div class="absolute top-0 right-0 bg-[#c5a059] text-white text-[7px] uppercase tracking-widest px-2 py-1 w-full text-center">Priority</div>
+                                <h4 class="text-2xl italic mb-2 mt-2">Aurora</h4>
+                                <p class="gold-text text-[#0a1128] text-lg font-bold">350 EGP</p>
+                            </div>
+                        </label>
+                        <label class="custom-radio">
+                            <input type="radio" name="plan" value="Astra" onchange="handlePlanSelection(this.value)">
+                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center">
+                                <h4 class="text-2xl italic mb-2">Astra</h4>
+                                <p class="gold-text text-[#0a1128] text-lg font-bold">100 EGP</p>
+                            </div>
+                        </label>
+                        <label class="custom-radio">
+                            <input type="radio" name="plan" value="Free Trial" onchange="handlePlanSelection(this.value)">
+                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center">
+                                <h4 class="text-2xl italic mb-2">Free Trial</h4>
+                                <p class="gold-text text-[#0a1128] text-lg font-bold">0 EGP</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2: EVENT TYPE -->
+            <div class="border-b border-gray-200 pb-4">
+                <div class="step-header flex justify-between items-center" onclick="toggleStep(2)">
+                    <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
+                        02. The Event <span id="summary-2" class="step-summary"></span>
+                    </h3>
+                    <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
+                </div>
+                <div id="step-2" class="step-content">
+                    <div class="grid grid-cols-2 gap-4 md:gap-8">
+                        <label class="custom-radio">
+                            <input type="radio" name="eventType" value="Wedding" onchange="handleEventSelection(this.value)">
+                            <div class="radio-card p-6 text-center rounded-sm">
+                                <h4 class="text-xl italic mb-1">Wedding</h4>
+                                <p class="text-[9px] uppercase tracking-widest sub-text text-gray-500">Royal & Traditional</p>
+                            </div>
+                        </label>
+                        <label class="custom-radio">
+                            <input type="radio" name="eventType" value="Engagement" onchange="handleEventSelection(this.value)">
+                            <div class="radio-card p-6 text-center rounded-sm">
+                                <h4 class="text-xl italic mb-1">Engagement</h4>
+                                <p class="text-[9px] uppercase tracking-widest sub-text text-gray-500">Modern & Chic</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3: THE DATE & TIME -->
+            <div class="border-b border-gray-200 pb-4">
+                <div class="step-header flex justify-between items-center" onclick="toggleStep(3)">
+                    <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
+                        03. Date & Start Time <span id="summary-3" class="step-summary"></span>
+                    </h3>
+                    <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
+                </div>
+                <div id="step-3" class="step-content">
+                    <p class="text-xs text-gray-500 mb-6 text-center italic">Please select a date at least 2 weeks from today and set your event start time.</p>
+                    <div class="flex flex-col items-center w-full space-y-6">
+                        <div class="calendar-box shadow-xl rounded-sm">
+                            <div class="flex justify-between items-center mb-6 px-2">
+                                <button type="button" onclick="changeMonth(-1)" class="text-xl hover:opacity-50 transition"><i class="fa-solid fa-chevron-left"></i></button>
+                                <div>
+                                    <h3 id="calendarMonth" class="text-2xl italic">Month</h3>
+                                    <p id="calendarYear" class="text-[10px] tracking-widest opacity-80">2026</p>
+                                </div>
+                                <button type="button" onclick="changeMonth(1)" class="text-xl hover:opacity-50 transition"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="calendar-grid">
+                                <div class="weekday-header">S</div><div class="weekday-header">M</div><div class="weekday-header">T</div><div class="weekday-header">W</div><div class="weekday-header">T</div><div class="weekday-header">F</div><div class="weekday-header">S</div>
+                            </div>
+                            <div id="daysContainer" class="calendar-grid"></div>
+                        </div>
+
+                        <!-- Time Picker Box -->
+                        <div class="w-full max-w-450px bg-white p-6 border border-gray-200 shadow-sm text-center">
+                            <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-3 font-bold">Event Start Time *</label>
+                            <div class="flex items-center justify-center space-x-2">
+                                <select id="eventHour" name="eventHour" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                    <option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07" selected>07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                                </select>
+                                <span class="text-gray-400 font-bold">:</span>
+                                <select id="eventMinute" name="eventMinute" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                    <option value="00" selected>00</option>
+                                    <option value="15">15</option>
+                                    <option value="30">30</option>
+                                    <option value="45">45</option>
+                                </select>
+                                <select id="eventTimePeriod" name="eventTimePeriod" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                    <option value="PM" selected>PM</option>
+                                    <option value="AM">AM</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="button" id="confirmDateBtn" onclick="confirmDate()" class="hidden mt-4 bg-[#0a1128] text-white px-10 py-3 uppercase text-[10px] tracking-[0.2em] font-bold hover:bg-[#c5a059] transition-colors shadow-lg">Confirm Date & Time</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 4: BASE DESIGN -->
+            <div class="border-b border-gray-200 pb-4">
+                <div class="step-header flex justify-between items-center" onclick="toggleStep(4)">
+                    <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
+                        04. Design Collection <span id="summary-4" class="step-summary"></span>
+                    </h3>
+                    <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
+                </div>
+                <div id="step-4" class="step-content">
+                    <p id="designPrompt" class="text-xs text-gray-500 mb-6 italic">Please select an event type first (Step 2).</p>
+                    
+                    <!-- Wedding Designs -->
+                    <div id="weddingDesigns" class="grid grid-cols-1 md:grid-cols-3 gap-4 hidden">
+                        <label class="custom-radio">
+                            <input type="radio" name="design" value="Celestial Suite" onchange="advanceStep(4, this.value)">
+                            <div class="radio-card p-6 text-center rounded-sm"><h4 class="text-lg italic">Celestial Suite</h4></div>
+                        </label>
+                        <label class="custom-radio">
+                            <input type="radio" name="design" value="Pearl Suite" onchange="advanceStep(4, this.value)">
+                            <div class="radio-card p-6 text-center rounded-sm"><h4 class="text-lg italic">Pearl Suite</h4></div>
+                        </label>
+                        <label class="custom-radio">
+                            <input type="radio" name="design" value="Botanical Garden" onchange="advanceStep(4, this.value)">
+                            <div class="radio-card p-6 text-center rounded-sm"><h4 class="text-lg italic">Botanical Garden</h4></div>
+                        </label>
+                    </div>
+
+                    <!-- Engagement Designs -->
+                    <div id="engagementDesigns" class="grid grid-cols-1 md:grid-cols-3 gap-4 hidden">
+                        <label class="custom-radio">
+                            <input type="radio" name="design" value="Modern Minimalist" onchange="advanceStep(4, this.value)">
+                            <div class="radio-card p-6 text-center rounded-sm"><h4 class="text-lg italic">Modern Minimalist</h4></div>
+                        </label>
+                        <label class="custom-radio">
+                            <input type="radio" name="design" value="Sage Suite" onchange="advanceStep(4, this.value)">
+                            <div class="radio-card p-6 text-center rounded-sm"><h4 class="text-lg italic">Sage Suite</h4></div>
+                        </label>
+                        <label class="custom-radio">
+                            <input type="radio" name="design" value="Signature Suite" onchange="advanceStep(4, this.value)">
+                            <div class="radio-card p-6 text-center rounded-sm"><h4 class="text-lg italic">Signature Suite</h4></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 5: DETAILS (NAMES & MUSIC OPTION) -->
+            <div class="border-b border-gray-200 pb-4">
+                <div class="step-header flex justify-between items-center" onclick="toggleStep(5)">
+                    <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
+                        05. Details <span id="summary-5" class="step-summary"></span>
+                    </h3>
+                    <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
+                </div>
+                <div id="step-5" class="step-content">
+                    <div class="bg-white p-8 border border-gray-200 shadow-sm space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1">Partner 1 Name *</label>
+                                <input type="text" id="p1" name="partner1" class="elegant-input" placeholder="e.g. Ismail" required>
+                            </div>
+                            <div>
+                                <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1">Partner 2 Name *</label>
+                                <input type="text" id="p2" name="partner2" class="elegant-input" placeholder="e.g. Yara" required>
+                            </div>
+                        </div>
+
+                        <!-- Music Preference Option -->
+                        <div class="pt-4 border-t border-gray-100 space-y-4">
+                            <label class="text-[10px] uppercase tracking-widest text-gray-500 block font-bold">Background Music Preference *</label>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <label class="custom-radio">
+                                    <input type="radio" name="musicPreference" value="Yes" checked onchange="handleMusicPreference('Yes')">
+                                    <div class="radio-card p-4 text-center rounded-sm">
+                                        <h4 class="text-sm italic mb-0.5">Yes</h4>
+                                        <p class="text-[8px] uppercase tracking-widest sub-text text-gray-500">With standard/custom music</p>
+                                    </div>
+                                </label>
+                                <label class="custom-radio">
+                                    <input type="radio" name="musicPreference" value="No" onchange="handleMusicPreference('No')">
+                                    <div class="radio-card p-4 text-center rounded-sm">
+                                        <h4 class="text-sm italic mb-0.5">No</h4>
+                                        <p class="text-[8px] uppercase tracking-widest sub-text text-gray-500">Without even standard music</p>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div id="musicInputContainer" class="pt-2">
+                                <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1">Custom Song Choice</label>
+                                <p class="text-xs text-gray-400 font-light mb-2 italic">Enter the Song Name & Artist (or YouTube link) you want playing. Leave blank to use Mirzam's standard music.</p>
+                                <input type="text" name="music" id="musicInput" class="elegant-input" placeholder="e.g. Perfect by Ed Sheeran">
+                            </div>
+                        </div>
+                        
+                        <button type="button" onclick="validateAndAdvanceStep5()" class="w-full mt-4 bg-gray-100 text-[#0a1128] py-3 uppercase text-[10px] tracking-widest font-bold hover:bg-[#c5a059] hover:text-white transition-colors shadow-sm">Save Details & Continue</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 6: INVITATION TEXT CUSTOMIZATION -->
+            <div class="border-b border-gray-200 pb-4">
+                <div class="step-header flex justify-between items-center" onclick="toggleStep(6)">
+                    <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
+                        06. Invitation Text Customization <span id="summary-6" class="step-summary"></span>
+                    </h3>
+                    <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
+                </div>
+                <div id="step-6" class="step-content">
+                    <div class="bg-white p-8 border border-gray-200 shadow-sm space-y-6">
+                        <p class="text-xs text-gray-400 font-light italic">Leave any box blank if you prefer to keep Mirzam's standard elegant wording for that section.</p>
+                        
+                        <div>
+                            <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1">Top Phrase (Standard: "cordially invite")</label>
+                            <input type="text" id="wordingTop" name="wordingTop" class="elegant-input" placeholder="e.g. cordially invite">
+                        </div>
+
+                        <div>
+                            <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1">Middle Phrase (Standard: "We are delighted to invite you")</label>
+                            <input type="text" id="wordingMiddle" name="wordingMiddle" class="elegant-input" placeholder="e.g. We are delighted to invite you">
+                            <p class="text-[10px] text-gray-400 mt-1 italic">↳ Followed automatically on the invitation by: <strong class="text-[#0a1128]">"Guest Name"</strong></p>
+                        </div>
+
+                        <div>
+                            <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1">Bottom Phrase (Standard: "to share in our special day…")</label>
+                            <input type="text" id="wordingBottom" name="wordingBottom" class="elegant-input" placeholder="e.g. to share in our special day…">
+                        </div>
+                        
+                        <button type="button" onclick="advanceStep(6, 'Custom Text Saved')" class="w-full mt-4 bg-gray-100 text-[#0a1128] py-3 uppercase text-[10px] tracking-widest font-bold hover:bg-[#c5a059] hover:text-white transition-colors shadow-sm">Save Text & Continue</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 7: PHOTO ADDITION PREFERENCE -->
+            <div class="border-b border-gray-200 pb-4">
+                <div class="step-header flex justify-between items-center" onclick="toggleStep(7)">
+                    <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
+                        07. Add Couple Photo <span id="summary-7" class="step-summary"></span>
+                    </h3>
+                    <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
+                </div>
+                <div id="step-7" class="step-content">
+                    <div class="bg-white p-8 border border-gray-200 shadow-sm space-y-6">
+                        <p class="text-xs text-gray-500 font-light italic">
+                            Note: If you do not add a photo, the photo gallery section will be automatically deleted/removed from your invitation.
+                        </p>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <label class="custom-radio">
+                                <input type="radio" name="addPhotoPreference" value="Yes" onchange="handlePhotoPreference(this.value)">
+                                <div class="radio-card p-6 text-center rounded-sm">
+                                    <h4 class="text-lg italic mb-1">Yes</h4>
+                                    <p class="text-[9px] uppercase tracking-widest sub-text text-gray-500">We want to add photo</p>
+                                </div>
+                            </label>
+                            <label class="custom-radio">
+                                <input type="radio" name="addPhotoPreference" value="No" onchange="handlePhotoPreference(this.value)">
+                                <div class="radio-card p-6 text-center rounded-sm">
+                                    <h4 class="text-lg italic mb-1">No</h4>
+                                    <p class="text-[9px] uppercase tracking-widest sub-text text-gray-500">We don't want to add photo</p>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div id="photoWhatsAppNote" class="hidden p-4 bg-[#8f9f8b]/10 border border-[#8f9f8b]/30 text-xs text-gray-800 font-light italic">
+                            <i class="fa-solid fa-circle-info text-[#c5a059] mr-2"></i> You will be asked to send your photo via WhatsApp when the team contacts you.
+                        </div>
+                        
+                        <button type="button" onclick="validateAndAdvanceStep7()" class="w-full mt-4 bg-gray-100 text-[#0a1128] py-3 uppercase text-[10px] tracking-widest font-bold hover:bg-[#c5a059] hover:text-white transition-colors shadow-sm">Save & Continue</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 8: THE VENUE (With Secret Location Note Option) -->
+            <div class="border-b border-gray-200 pb-4">
+                <div class="step-header flex justify-between items-center" onclick="toggleStep(8)">
+                    <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
+                        08. The Venue <span id="summary-8" class="step-summary"></span>
+                    </h3>
+                    <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
+                </div>
+                <div id="step-8" class="step-content">
+                    <div class="bg-white p-8 border border-gray-200 shadow-sm space-y-6">
+                        <div>
+                            <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1">Venue Name *</label>
+                            <input type="text" id="venueName" name="venueName" class="elegant-input" placeholder="e.g. Four Seasons Hotel Cairo" required>
+                        </div>
+                        <div>
+                            <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1">Venue Address / Location *</label>
+                            <input type="text" id="venueLocation" name="venueLocation" class="elegant-input" placeholder="e.g. 108 Corniche El Nil, Giza" required>
+                        </div>
+                        <div>
+                            <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1">Google Maps Link *</label>
+                            <p class="text-xs text-gray-400 font-light mb-2 italic">Paste the Google Maps share link so guests can easily navigate to your venue.</p>
+                            <input type="url" id="venueMap" name="venueMap" class="elegant-input" placeholder="https://maps.google.com/..." required>
+                        </div>
+
+                        <!-- Secret Location & Note Option -->
+                        <div class="pt-4 border-t border-gray-100 space-y-4">
+                            <label class="text-[10px] uppercase tracking-widest text-gray-500 block font-bold">Do you want to add secret location with password (e.g. house location)?</label>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <label class="custom-radio">
+                                    <input type="radio" name="isSecretLocation" value="Yes" onchange="handleSecretLocationToggle('Yes')">
+                                    <div class="radio-card p-4 text-center rounded-sm">
+                                        <h4 class="text-sm italic mb-0.5">Yes</h4>
+                                        <p class="text-[8px] uppercase tracking-widest sub-text text-gray-500">Yes, add secret location</p>
+                                    </div>
+                                </label>
+                                <label class="custom-radio">
+                                    <input type="radio" name="isSecretLocation" value="No" checked onchange="handleSecretLocationToggle('No')">
+                                    <div class="radio-card p-4 text-center rounded-sm">
+                                        <h4 class="text-sm italic mb-0.5">No</h4>
+                                        <p class="text-[8px] uppercase tracking-widest sub-text text-gray-500">No, standard venue</p>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div id="secretPasswordContainer" class="hidden pt-2 space-y-4">
+                                <div>
+                                    <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1">Secret Location Google Maps Link *</label>
+                                    <input type="url" name="secretLocationMap" id="secretLocationMap" class="elegant-input" placeholder="https://maps.google.com/secret...">
+                                </div>
+                                <div id="secretLocationWhatsAppNote" class="p-4 bg-[#8f9f8b]/10 border border-[#8f9f8b]/30 text-xs text-gray-800 font-light italic">
+                                    <i class="fa-solid fa-circle-info text-[#c5a059] mr-2"></i> You will be asked to send your location password / gate code via WhatsApp when the team contacts you.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="button" onclick="validateAndAdvanceStep8()" class="w-full mt-4 bg-gray-100 text-[#0a1128] py-3 uppercase text-[10px] tracking-widest font-bold hover:bg-[#c5a059] hover:text-white transition-colors shadow-sm">Save Venue & Continue</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 9: DAY SCHEDULE -->
+            <div class="border-b border-gray-200 pb-4">
+                <div class="step-header flex justify-between items-center" onclick="toggleStep(9)">
+                    <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
+                        09. Day Schedule <span id="summary-9" class="step-summary"></span>
+                    </h3>
+                    <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
+                </div>
+                <div id="step-9" class="step-content">
+                    <div class="bg-white p-8 border border-gray-200 shadow-sm space-y-6">
+                        <p class="text-xs text-gray-400 font-light italic mb-4">Define your timeline events and times. You can edit existing rows or click "+ Add Row" to add more.</p>
+                        
+                        <div id="scheduleRowsContainer" class="space-y-4">
+                            <!-- Default Row 1 -->
+                            <div class="flex items-center space-x-2 schedule-row">
+                                <select name="scheduleHour[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                    <option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07" selected>07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                                </select>
+                                <span class="text-gray-400 font-bold">:</span>
+                                <select name="scheduleMinute[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                    <option value="00" selected>00</option>
+                                    <option value="15">15</option>
+                                    <option value="30">30</option>
+                                    <option value="45">45</option>
+                                </select>
+                                <select name="schedulePeriod[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                    <option value="PM" selected>PM</option>
+                                    <option value="AM">AM</option>
+                                </select>
+                                <input type="text" name="scheduleEvent[]" class="elegant-input flex-1 ml-2" value="Welcome" placeholder="Event description">
+                                <button type="button" onclick="removeScheduleRow(this)" class="text-red-400 hover:text-red-600 px-2"><i class="fa-solid fa-trash-can text-sm"></i></button>
+                            </div>
+                            <!-- Default Row 2 -->
+                            <div class="flex items-center space-x-2 schedule-row">
+                                <select name="scheduleHour[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                    <option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08" selected>08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                                </select>
+                                <span class="text-gray-400 font-bold">:</span>
+                                <select name="scheduleMinute[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                    <option value="00" selected>00</option>
+                                    <option value="15">15</option>
+                                    <option value="30">30</option>
+                                    <option value="45">45</option>
+                                </select>
+                                <select name="schedulePeriod[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                    <option value="PM" selected>PM</option>
+                                    <option value="AM">AM</option>
+                                </select>
+                                <input type="text" name="scheduleEvent[]" class="elegant-input flex-1 ml-2" value="Katb Ketab" placeholder="Event description">
+                                <button type="button" onclick="removeScheduleRow(this)" class="text-red-400 hover:text-red-600 px-2"><i class="fa-solid fa-trash-can text-sm"></i></button>
+                            </div>
+                            <!-- Default Row 3 -->
+                            <div class="flex items-center space-x-2 schedule-row">
+                                <select name="scheduleHour[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                    <option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08" selected>08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                                </select>
+                                <span class="text-gray-400 font-bold">:</span>
+                                <select name="scheduleMinute[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                    <option value="00">00</option>
+                                    <option value="15">15</option>
+                                    <option value="30" selected>30</option>
+                                    <option value="45">45</option>
+                                </select>
+                                <select name="schedulePeriod[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                    <option value="PM" selected>PM</option>
+                                    <option value="AM">AM</option>
+                                </select>
+                                <input type="text" name="scheduleEvent[]" class="elegant-input flex-1 ml-2" value="Party" placeholder="Event description">
+                                <button type="button" onclick="removeScheduleRow(this)" class="text-red-400 hover:text-red-600 px-2"><i class="fa-solid fa-trash-can text-sm"></i></button>
+                            </div>
+                            <!-- Default Row 4 -->
+                            <div class="flex items-center space-x-2 schedule-row">
+                                <select name="scheduleHour[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                    <option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09" selected>09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                                </select>
+                                <span class="text-gray-400 font-bold">:</span>
+                                <select name="scheduleMinute[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                    <option value="00">00</option>
+                                    <option value="15">15</option>
+                                    <option value="30" selected>30</option>
+                                    <option value="45">45</option>
+                                </select>
+                                <select name="schedulePeriod[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                    <option value="PM" selected>PM</option>
+                                    <option value="AM">AM</option>
+                                </select>
+                                <input type="text" name="scheduleEvent[]" class="elegant-input flex-1 ml-2" value="Buffet" placeholder="Event description">
+                                <button type="button" onclick="removeScheduleRow(this)" class="text-red-400 hover:text-red-600 px-2"><i class="fa-solid fa-trash-can text-sm"></i></button>
+                            </div>
+                            <!-- Default Row 5 -->
+                            <div class="flex items-center space-x-2 schedule-row">
+                                <select name="scheduleHour[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                    <option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11" selected>11</option><option value="12">12</option>
+                                </select>
+                                <span class="text-gray-400 font-bold">:</span>
+                                <select name="scheduleMinute[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                    <option value="00" selected>00</option>
+                                    <option value="15">15</option>
+                                    <option value="30">30</option>
+                                    <option value="45">45</option>
+                                </select>
+                                <select name="schedulePeriod[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                    <option value="PM" selected>PM</option>
+                                    <option value="AM">AM</option>
+                                </select>
+                                <input type="text" name="scheduleEvent[]" class="elegant-input flex-1 ml-2" value="End" placeholder="Event description">
+                                <button type="button" onclick="removeScheduleRow(this)" class="text-red-400 hover:text-red-600 px-2"><i class="fa-solid fa-trash-can text-sm"></i></button>
+                            </div>
+                        </div>
+
+                        <button type="button" onclick="addScheduleRow()" class="mt-4 border border-[#c5a059] text-[#0a1128] px-6 py-2.5 text-[10px] uppercase tracking-widest font-bold hover:bg-[#c5a059] hover:text-white transition-colors block">
+                            <i class="fa-solid fa-plus mr-2"></i>Add Row
+                        </button>
+
+                        <button type="button" onclick="advanceStep(9, 'Schedule Configured')" class="w-full mt-6 bg-gray-100 text-[#0a1128] py-3 uppercase text-[10px] tracking-widest font-bold hover:bg-[#c5a059] hover:text-white transition-colors shadow-sm">Save Schedule & Continue</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 10: AESTHETICS (Color Code) -->
+            <div class="border-b border-gray-200 pb-4">
+                <div class="step-header flex justify-between items-center" onclick="toggleStep(10)">
+                    <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
+                        10. Aesthetics & Dress Code <span id="summary-10" class="step-summary"></span>
+                    </h3>
+                    <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
+                </div>
+                <div id="step-10" class="step-content">
+                    <div class="bg-white p-8 border border-gray-200 shadow-sm">
+                        <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-2">Color Palette / Dress Code</label>
+                        <p class="text-xs text-gray-400 font-light mb-4 italic">Enter your preferred color code (e.g., #C5A059) or a description of your dress code to display for your guests.</p>
+                        <input type="text" id="colorCode" name="colorCode" class="elegant-input mb-6" placeholder="e.g. Navy & Gold, or #0a1128">
+                        
+                        <button type="button" onclick="advanceStep(10, document.getElementById('colorCode').value || 'Skipped')" class="w-full bg-gray-100 text-[#0a1128] py-3 uppercase text-[10px] tracking-widest font-bold hover:bg-[#c5a059] hover:text-white transition-colors shadow-sm">Save & Continue</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 11: OPTIONAL ADD-ONS -->
+            <div class="border-b border-gray-200 pb-4">
+                <div class="step-header flex justify-between items-center" onclick="toggleStep(11)">
+                    <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
+                        11. Optional Features
+                    </h3>
+                    <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
+                </div>
+                <div id="step-11" class="step-content">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="Guest Photo Gallery" value="Yes">
+                            <div class="radio-card p-6 rounded-sm flex items-center justify-between">
+                                <div>
+                                    <h4 class="text-lg italic mb-1">Guest Photo Gallery</h4>
+                                    <p class="text-[9px] uppercase tracking-widest sub-text text-gray-500">Allow guests to upload memories</p>
+                                </div>
+                                <div class="w-6 h-6 border border-[#c5a059] rounded flex items-center justify-center check-icon">
+                                    <i class="fa-solid fa-check text-[#c5a059] opacity-0 transition-opacity"></i>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="Voice Messages" value="Yes">
+                            <div class="radio-card p-6 rounded-sm flex items-center justify-between">
+                                <div>
+                                    <h4 class="text-lg italic mb-1">Voice Messages</h4>
+                                    <p class="text-[9px] uppercase tracking-widest sub-text text-gray-500">Audio notes from you & guests</p>
+                                </div>
+                                <div class="w-6 h-6 border border-[#c5a059] rounded flex items-center justify-center check-icon">
+                                    <i class="fa-solid fa-check text-[#c5a059] opacity-0 transition-opacity"></i>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                    <style>.custom-checkbox input[type="checkbox"]:checked + .radio-card .check-icon i { opacity: 1; }</style>
+                    <button type="button" onclick="advanceStep(11, 'Optional Features Saved')" class="w-full mt-6 bg-gray-100 text-[#0a1128] py-3 uppercase text-[10px] tracking-widest font-bold hover:bg-[#c5a059] hover:text-white transition-colors shadow-sm">Save & Continue</button>
+                </div>
+            </div>
+
+            <!-- STEP 12: WHATSAPP CONFIRMATION (MANDATORY) -->
+            <div class="border-b border-gray-200 pb-4">
+                <div class="step-header flex justify-between items-center" onclick="toggleStep(12)">
+                    <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
+                        12. WhatsApp Confirmation <span id="summary-12" class="step-summary"></span>
+                    </h3>
+                    <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
+                </div>
+                <div id="step-12" class="step-content">
+                    <div class="bg-white p-8 border border-gray-200 shadow-sm space-y-6">
+                        <p class="text-xs text-gray-400 font-light italic">Required to confirm your order details and complete the purchase steps.</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1">Contact Name (Optional)</label>
+                                <input type="text" id="whatsappName" name="whatsappname" class="elegant-input" placeholder="e.g. Omar">
+                            </div>
+                            <div>
+                                <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1 font-bold">WhatsApp Number *</label>
+                                <input type="tel" id="whatsappNumber" name="whatsappnumber" class="elegant-input" placeholder="e.g. +20 100 000 0000" required>
+                            </div>
+                        </div>
+
+                        <button type="button" onclick="validateAndAdvanceStep12()" class="w-full mt-4 bg-gray-100 text-[#0a1128] py-3 uppercase text-[10px] tracking-widest font-bold hover:bg-[#c5a059] hover:text-white transition-colors shadow-sm">Save & Ready to Submit</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUBMIT BUTTON -->
+            <div id="submitContainer" class="text-center pt-8 mt-12">
+                <button type="submit" class="bg-[#0a1128] text-white px-16 py-5 uppercase text-xs tracking-[0.2em] font-bold hover:bg-[#c5a059] transition-colors shadow-xl">
+                    Review & Submit Request
+                </button>
+            </div>
+            
+        </form>
+
+        <!-- Success Confirmation Message (Hidden Initially) -->
+        <div id="successMessageContainer" class="hidden text-center py-20 bg-white border border-gray-200 shadow-xl mt-12 p-8 space-y-6">
+            <div class="w-16 h-16 bg-[#c5a059]/20 text-[#c5a059] rounded-full flex items-center justify-center mx-auto text-2xl">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h2 class="text-3xl italic text-[#0a1128]">Request Received Successfully</h2>
+            <p id="displayRequestId" class="text-xs tracking-widest font-bold text-[#c5a059] uppercase"></p>
+            <div class="w-16 h-[1px] bg-[#c5a059] mx-auto"></div>
+            <p class="text-sm uppercase tracking-widest text-gray-700 font-bold">Mirzam team will contact you to confirm the request.</p>
+            
+            <div class="pt-6">
+                <a href="Mirzam's_Main_page.html" class="inline-block bg-[#0a1128] text-white px-10 py-3 uppercase text-[10px] tracking-[0.2em] font-bold hover:bg-[#c5a059] transition-colors shadow-lg">
+                    <i class="fa-solid fa-chevron-left mr-2"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-16 bg-[#fdfbf7] border-t border-gray-100 text-center">
+        <div class="mb-6 flex flex-wrap justify-center items-center gap-6 text-[9px] uppercase tracking-widest text-gray-900">
+            <span class="font-bold text-[#0a1128]">Legal</span>
+            <a href="privacy.html" class="hover:text-[#c5a059] transition-colors">Privacy policy</a>
+            <a href="terms-of-use.html" class="hover:text-[#c5a059] transition-colors">Terms of use</a>
+            <a href="refund-policy.html" class="hover:text-[#c5a059] transition-colors">Refund policy</a>
+        </div>
+        <div class="text-[10px] tracking-[0.6em] uppercase text-[#0a1128] font-bold">© 2026 MIRZAM EGYPT</div>
+    </footer>
+
+    <!-- Authentication Modal -->
+    <div id="authModal" class="fixed inset-0 bg-[#0a1128]/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+        <div class="bg-[#fdfbf7] p-8 md:p-10 max-w-md w-full relative border-t-4 border-[#c5a059] shadow-2xl rounded-sm">
+            <button id="closeModalBtn" class="absolute top-4 right-5 text-gray-900 hover:text-[#0a1128] transition-colors">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+            <div class="flex items-center space-x-4 mb-8 text-sm font-semibold tracking-wide">
+                <button id="switchToSignIn" class="text-gray-900 hover:text-[#0a1128] transition-colors">Sign in</button>
+                <span class="text-gray-900">|</span>
+                <button id="switchToSignUp" class="text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5">Create account</button>
+            </div>
+            <form id="authForm" class="space-y-4">
+                <div id="nameFieldContainer">
+                    <input type="text" id="userName" placeholder="Your name" class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700">
+                </div>
+                <div>
+                    <input type="text" id="userIdentifier" placeholder="Phone or email" required class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700">
+                </div>
+                <div>
+                    <input type="password" id="userPassword" placeholder="Password (min 6 characters)" required class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700">
+                </div>
+                <button type="submit" id="authSubmitBtn" class="w-full bg-[#9b7b43] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors shadow-lg mt-2">
+                    Create account
+                </button>
+            </form>
+            <div id="statusMessage" class="text-center mt-4 text-xs font-semibold tracking-wide"></div>
+        </div>
+    </div>
+
+    <!-- Wizard, Pre-select Plan & Calendar Logic -->
+    <script>
+        /* === ACCORDION WIZARD LOGIC === */
+        function toggleStep(stepNum) {
+            const targetStep = document.getElementById(`step-${stepNum}`);
+            
+            if (targetStep.classList.contains('active')) {
+                targetStep.classList.remove('active');
+            } else {
+                document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+                targetStep.classList.add('active');
+            }
+        }
+
+        function advanceStep(currentStep, summaryText) {
+            const summarySpan = document.getElementById(`summary-${currentStep}`);
+            if(summarySpan) summarySpan.innerText = `- ${summaryText}`;
+            
+            setTimeout(() => {
+                const nextStep = document.getElementById(`step-${currentStep + 1}`);
+                if(nextStep && !nextStep.classList.contains('active')) {
+                    document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+                    nextStep.classList.add('active');
+                }
+            }, 300);
+        }
+
+        function handlePlanSelection(val) {
+            const summarySpan = document.getElementById(`summary-1`);
+            if(summarySpan) summarySpan.innerText = `- ${val}`;
+            
+            setTimeout(() => {
+                document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+                document.getElementById('step-2').classList.add('active');
+            }, 300);
+        }
+
+        function handleEventSelection(val) {
+            advanceStep(2, val);
+            
+            const prompt = document.getElementById('designPrompt');
+            const wed = document.getElementById('weddingDesigns');
+            const eng = document.getElementById('engagementDesigns');
+            
+            prompt.classList.add('hidden');
+            if(val === 'Wedding') {
+                wed.classList.remove('hidden');
+                eng.classList.add('hidden');
+            } else {
+                wed.classList.add('hidden');
+                eng.classList.remove('hidden');
+            }
+        }
+
+        function handleMusicPreference(val) {
+            const inputContainer = document.getElementById('musicInputContainer');
+            const musicInput = document.getElementById('musicInput');
+            if (val === 'No') {
+                inputContainer.style.display = 'none';
+                musicInput.value = 'No music selected (Without standard music)';
+            } else {
+                inputContainer.style.display = 'block';
+                musicInput.value = '';
+            }
+        }
+
+        function handleSecretLocationToggle(val) {
+            const container = document.getElementById('secretPasswordContainer');
+            const mapInput = document.getElementById('secretLocationMap');
+            if (val === 'Yes') {
+                container.classList.remove('hidden');
+                mapInput.required = true;
+            } else {
+                container.classList.add('hidden');
+                mapInput.required = false;
+                mapInput.value = '';
+            }
+        }
+
+        function validateAndAdvanceStep5() {
+            const p1 = document.getElementById('p1').value.trim();
+            const p2 = document.getElementById('p2').value.trim();
+            
+            if (!p1 || !p2) {
+                alert("Please enter both partner names to continue.");
+                return;
+            }
+            
+            advanceStep(5, `${p1} & ${p2}`);
+        }
+
+        function handlePhotoPreference(val) {
+            const noteBox = document.getElementById('photoWhatsAppNote');
+            if (val === 'Yes') {
+                noteBox.classList.remove('hidden');
+            } else {
+                noteBox.classList.add('hidden');
+            }
+        }
+
+        function validateAndAdvanceStep7() {
+            const selectedPref = document.querySelector('input[name="addPhotoPreference"]:checked');
+            if (!selectedPref) {
+                alert("Please select whether you want to add a photo or not.");
+                return;
+            }
+            advanceStep(7, selectedPref.value === 'Yes' ? 'Yes (Via WhatsApp)' : 'No Photo');
+        }
+
+        function validateAndAdvanceStep8() {
+            const vName = document.getElementById('venueName').value.trim();
+            const vLoc = document.getElementById('venueLocation').value.trim();
+            const vMap = document.getElementById('venueMap').value.trim();
+            const isSecret = document.querySelector('input[name="isSecretLocation"]:checked').value;
+            const secretMap = document.getElementById('secretLocationMap').value.trim();
+
+            if (!vName || !vLoc || !vMap) {
+                alert("Please fill out all venue details and the Google Maps link to continue.");
+                return;
+            }
+
+            if (isSecret === 'Yes' && !secretMap) {
+                alert("Please provide the secret location Google Maps link.");
+                return;
+            }
+
+            advanceStep(8, vName);
+        }
+
+        function validateAndAdvanceStep12() {
+            const wa = document.getElementById('whatsappNumber').value.trim();
+            if (!wa) {
+                alert("Please provide your WhatsApp phone number to confirm your order.");
+                return;
+            }
+            const summarySpan = document.getElementById('summary-12');
+            if(summarySpan) summarySpan.innerText = `- Provided`;
+            document.getElementById('step-12').classList.remove('active');
+        }
+
+        /* === SCHEDULE DYNAMIC ROWS LOGIC === */
+        function addScheduleRow() {
+            const container = document.getElementById('scheduleRowsContainer');
+            const row = document.createElement('div');
+            row.className = 'flex items-center space-x-2 schedule-row';
+            row.innerHTML = `
+                <select name="scheduleHour[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                    <option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07" selected>07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                </select>
+                <span class="text-gray-400 font-bold">:</span>
+                <select name="scheduleMinute[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                    <option value="00" selected>00</option>
+                    <option value="15">15</option>
+                    <option value="30">30</option>
+                    <option value="45">45</option>
+                </select>
+                <select name="schedulePeriod[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                    <option value="PM" selected>PM</option>
+                    <option value="AM">AM</option>
+                </select>
+                <input type="text" name="scheduleEvent[]" class="elegant-input flex-1 ml-2" placeholder="Event description">
+                <button type="button" onclick="removeScheduleRow(this)" class="text-red-400 hover:text-red-600 px-2"><i class="fa-solid fa-trash-can text-sm"></i></button>
+            `;
+            container.appendChild(row);
+        }
+
+        function removeScheduleRow(btn) {
+            const row = btn.closest('.schedule-row');
+            if(document.querySelectorAll('.schedule-row').length > 1) {
+                row.remove();
+            } else {
+                alert("You must keep at least one timeline entry.");
+            }
+        }
+
+        /* === CALENDAR LOGIC === */
+        let selectedDateObj = null;
+        
+        const minDate = new Date();
+        minDate.setDate(minDate.getDate() + 14); 
+        
+        let displayedDate = new Date(minDate);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCalendar();
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const planParam = urlParams.get('plan');
+            if (planParam) {
+                const planRadio = document.querySelector(`input[name="plan"][value="${planParam}"]`);
+                if (planRadio) {
+                    planRadio.checked = true;
+                    document.getElementById('summary-1').innerText = `- ${planParam}`;
+                    
+                    document.getElementById('step-1').classList.remove('active');
+                    document.getElementById('step-2').classList.add('active');
+                }
+            }
+        });
+
+        function changeMonth(step) {
+            displayedDate.setMonth(displayedDate.getMonth() + step);
+            renderCalendar();
+        }
+
+        function renderCalendar() {
+            const container = document.getElementById('daysContainer');
+            container.innerHTML = '';
+            const year = displayedDate.getFullYear();
+            const month = displayedDate.getMonth();
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            
+            document.getElementById('calendarMonth').innerText = monthNames[month];
+            document.getElementById('calendarYear').innerText = year;
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const lastDay = new Date(year, month + 1, 0).getDate();
+
+            for (let i = 0; i < firstDay; i++) {
+                container.innerHTML += '<div></div>';
+            }
+
+            for (let day = 1; day <= lastDay; day++) {
+                const dObj = new Date(year, month, day);
+                const isOff = dObj < new Date(minDate.getFullYear(), minDate.getMonth(), minDate.getDate());
+                
+                const el = document.createElement('div');
+                el.className = 'day-node' + (isOff ? ' disabled' : '');
+                el.innerText = day;
+                
+                if (selectedDateObj && dObj.getTime() === selectedDateObj.getTime()) {
+                    el.classList.add('selected');
+                }
+
+                if (!isOff) {
+                    el.onclick = () => {
+                        document.querySelectorAll('.day-node').forEach(n => n.classList.remove('selected'));
+                        el.classList.add('selected');
+                        selectedDateObj = dObj;
+                        document.getElementById('confirmDateBtn').classList.remove('hidden');
+                    };
+                }
+                container.appendChild(el);
+            }
+        }
+
+        function confirmDate() {
+            if(selectedDateObj) {
+                const formattedDate = selectedDateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                const hour = document.getElementById('eventHour').value;
+                const minute = document.getElementById('eventMinute').value;
+                const period = document.getElementById('eventTimePeriod').value;
+                
+                // Save into hidden input so Formspree catches it
+                document.getElementById('hiddenEventDate').value = formattedDate;
+
+                advanceStep(3, `${formattedDate} at ${hour}:${minute} ${period}`);
+            }
+        }
+
+        // Form Submission handling: Auto-fill blank fields with "none" and format checkboxes
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            const wa = document.getElementById('whatsappNumber').value.trim();
+            if (!wa) {
+                e.preventDefault();
+                alert("Please fill out your WhatsApp number in Step 12 to submit your request.");
+                toggleStep(12);
+                return;
+            }
+
+            e.preventDefault();
+            const form = e.target;
+
+            // Generate Unique Request ID (e.g. MZ-177218-4921)
+            const uniqueId = 'MZ-' + Date.now().toString().slice(-6) + '-' + Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('hiddenRequestId').value = uniqueId;
+
+            // Automatically loop through text/number/textarea inputs and fill empty ones with "none"
+            const textInputs = form.querySelectorAll('input[type="text"], input[type="url"], input[type="tel"]');
+            textInputs.forEach(input => {
+                if (input.value.trim() === '') {
+                    input.value = 'none';
+                }
+            });
+
+            // Handle optional checkboxes so they output "none" if unchecked
+            const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                if (!cb.checked) {
+                    let hiddenFallback = document.createElement('input');
+                    hiddenFallback.type = 'hidden';
+                    hiddenFallback.name = cb.name;
+                    hiddenFallback.value = 'none';
+                    form.appendChild(hiddenFallback);
+                }
+            });
+
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            }).then(response => {
+                if (response.ok) {
+                    form.style.display = 'none';
+                    document.getElementById('displayRequestId').innerText = `Request ID: ${uniqueId}`;
+                    document.getElementById('successMessageContainer').classList.remove('hidden');
+                } else {
+                    alert("There was a problem submitting your form. Please try again on your live web server.");
+                }
+            }).catch(error => {
+                // Fallback for local testing (simulates success if network restriction hits)
+                form.style.display = 'none';
+                document.getElementById('displayRequestId').innerText = `Request ID: ${uniqueId}`;
+                document.getElementById('successMessageContainer').classList.remove('hidden');
+            });
+        });
+    </script>
+
+    <!-- Firebase Integration & Auth UI Logic (Module) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDHytukMX1bCkh-BpumQhWmZWEnmprAIno",
+            authDomain: "mirzam-login.firebaseapp.com",
+            projectId: "mirzam-login",
+            storageBucket: "mirzam-login.firebasestorage.app",
+            messagingSenderId: "264081997957",
+            appId: "1:264081997957:web:e5a006e0e4a50cf5a4a9ec",
+            measurementId: "G-8RS45VMDDQ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        
+        const authModal = document.getElementById('authModal');
+        const openModalBtn = document.getElementById('openModalBtn');
+        const openModalBtnMobile = document.getElementById('openModalBtnMobile');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const navAuthContainer = document.getElementById('navAuthContainer');
+        const navAuthContainerMobile = document.getElementById('navAuthContainerMobile');
+        const statusMessage = document.getElementById('statusMessage');
+        
+        const switchToSignIn = document.getElementById('switchToSignIn');
+        const switchToSignUp = document.getElementById('switchToSignUp');
+        const nameFieldContainer = document.getElementById('nameFieldContainer');
+        const authSubmitBtn = document.getElementById('authSubmitBtn');
+        const authForm = document.getElementById('authForm');
+
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        let isSignUpMode = true;
+
+        switchToSignIn.addEventListener('click', () => {
+            isSignUpMode = false;
+            switchToSignIn.className = "text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5 font-bold";
+            switchToSignUp.className = "text-gray-900 hover:text-[#0a1128] transition-colors font-normal";
+            nameFieldContainer.style.display = 'none';
+            authSubmitBtn.innerText = 'Sign in';
+            statusMessage.innerText = '';
+        });
+
+        switchToSignUp.addEventListener('click', () => {
+            isSignUpMode = true;
+            switchToSignUp.className = "text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5 font-bold";
+            switchToSignIn.className = "text-gray-900 hover:text-[#0a1128] transition-colors font-normal";
+            nameFieldContainer.style.display = 'block';
+            authSubmitBtn.innerText = 'Create account';
+            statusMessage.innerText = '';
+        });
+
+        const openModal = () => {
+            authModal.style.display = 'flex';
+            statusMessage.innerText = '';
+            mobileMenu.classList.add('hidden');
+        };
+        
+        openModalBtn?.addEventListener('click', openModal);
+        openModalBtnMobile?.addEventListener('click', openModal);
+        closeModalBtn.addEventListener('click', () => authModal.style.display = 'none');
+
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let identifier = document.getElementById('userIdentifier').value.trim();
+            const password = document.getElementById('userPassword').value;
+            const name = document.getElementById('userName').value.trim();
+
+            let firebaseIdentifier = identifier;
+            if (!identifier.includes('@')) {
+                const cleanPhone = identifier.replace(/[\s-]/g, '');
+                firebaseIdentifier = cleanPhone + "@mirzam.auth";
+            }
+
+            if (isSignUpMode) {
+                if (name === "") {
+                    showStatus("Please enter your name.", "text-red-500");
+                    return; 
+                }
+                
+                createUserWithEmailAndPassword(auth, firebaseIdentifier, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        if (name) {
+                            updateProfile(user, { displayName: name }).then(() => {
+                                updateNavigationBar(user, name);
+                            });
+                        } else {
+                            updateNavigationBar(user);
+                        }
+                        authModal.style.display = 'none';
+                    })
+                    .catch((error) => {
+                        showStatus(error.message, "text-red-500");
+                    });
+            } else {
+                signInWithEmailAndPassword(auth, firebaseIdentifier, password)
+                    .then(() => {
+                        authModal.style.display = 'none';
+                    })
+                    .catch(() => {
+                        showStatus("Invalid phone/email or password.", "text-red-500");
+                    });
+            }
+        });
+
+        function updateNavigationBar(user, manualName = null) {
+            const displayName = manualName || user.displayName || user.email.split('@')[0];
+            const userHtml = `
+                <div class="flex items-center whitespace-nowrap">
+                    <span class="text-[#c5a059] tracking-widest text-[10px]">HELLO, ${displayName.toUpperCase()}</span>
+                    <button class="logoutBtn ml-4 text-gray-900 hover:text-red-500 transition-colors" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i></button>
+                </div>
+            `;
+            navAuthContainer.innerHTML = userHtml;
+            navAuthContainerMobile.innerHTML = userHtml;
+
+            document.querySelectorAll('.logoutBtn').forEach(btn => {
+                btn.addEventListener('click', () => signOut(auth));
+            });
+        }
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                updateNavigationBar(user);
+            } else {
+                const loginHtml = `<button class="openModalBtnDynamic text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest text-[11px] whitespace-nowrap">LOG IN</button>`;
+                navAuthContainer.innerHTML = loginHtml;
+                navAuthContainerMobile.innerHTML = loginHtml;
+
+                document.querySelectorAll('.openModalBtnDynamic').forEach(btn => {
+                    btn.addEventListener('click', openModal);
+                });
+            }
+        });
+
+        function showStatus(msg, colorClass) {
+            statusMessage.innerText = msg;
+            statusMessage.className = `text-center mt-4 text-[10px] uppercase tracking-widest font-bold ${colorClass}`;
+        }
+    </script>
+</body>
+</html>

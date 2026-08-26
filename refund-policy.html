@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refund Policy | Mirzam</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { 
+            --navy: #0a1128; 
+            --gold: #c5a059;
+            --sage: #8f9f8b;
+            --bg-soft: #fdfbf7;
+        }
+
+      body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--bg-soft); 
+            color: var(--navy);
+            opacity: 0.95; /* This slightly softens all text and borders globally */
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
+
+        .fade-in {
+            animation: fadeIn 1.2s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased text-[#0a1128]">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-[#fdfbf7]/90 backdrop-blur-xl border-b border-gray-100 px-6 py-5">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-[0.2em] uppercase text-[#0a1128]">
+                MIRZAM<span class="text-[#c5a059] font-light">.EG</span>
+            </div>
+            
+            <!-- Desktop Nav Links -->
+            <div class="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-semibold items-center">
+                <a href="Mirzam's_Main_page.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Home</a>
+                <a href="collection.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Collections</a>
+                <a href="pricing.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Pricing</a>
+                <a href="order.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Create Suite</a>
+                <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
+                
+                <!-- Login Status Container -->
+                <div id="navAuthContainer" class="border-l border-gray-300 pl-10">
+                    <button id="openModalBtn" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest">LOG IN</button>
+                </div>
+            </div>
+
+            <!-- Mobile Hamburger Button -->
+            <button id="mobileMenuBtn" class="md:hidden text-[#0a1128] text-xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobileMenu" class="hidden md:hidden pt-4 pb-6 border-t border-gray-100 mt-4 flex flex-col space-y-4 text-[11px] uppercase tracking-[0.2em] font-semibold">
+            <a href="Mirzam's_Main_page.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Home</a>
+            <a href="collection.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Collections</a>
+            <a href="pricing.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Pricing</a>
+            <a href="order.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Create Suite</a>
+            <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
+            
+            <!-- Mobile Login Status Container -->
+            <div id="navAuthContainerMobile" class="pt-2 border-t border-gray-100">
+                <button id="openModalBtnMobile" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest">LOG IN</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="pt-40 pb-12 fade-in">
+        <div class="max-w-3xl mx-auto px-6 mb-6">
+            <!-- Dynamic Back Button -->
+            <a href="javascript:history.back()" class="inline-flex items-center text-[10px] uppercase tracking-[0.2em] font-bold text-[#0a1128] hover:text-[#c5a059] transition-colors">
+                <i class="fa-solid fa-chevron-left mr-2 text-[8px]"></i> Back
+            </a>
+        </div>
+        <div class="text-center">
+            <h1 class="text-4xl md:text-5xl italic text-[#0a1128] mb-4">Refund Policy</h1>
+            <div class="w-20 h-[1px] bg-[#c5a059] mx-auto mb-6"></div>
+            <p class="text-[10px] uppercase tracking-[0.2em] text-gray-800">Last updated: 23 August 2026</p>
+        </div>
+    </header>
+
+    <!-- Content Section -->
+    <main class="max-w-3xl mx-auto px-6 pb-32 fade-in" style="animation-delay: 0.2s;">
+        
+        <p class="text-lg text-gray-900 italic text-center mb-16 leading-relaxed">
+           Your trust means everything to us. This page outlines our binding 7-day money-back guarantee, ensuring your experience with Mirzam is completely risk-free.
+        </p>
+
+        <div class="space-y-12 text-sm md:text-base text-gray-900 leading-relaxed font-light">
+            
+           <!-- 7-day Guarantee -->
+            <section>
+                <h2 class="text-2xl italic text-[#0a1128] mb-4">7-day money-back guarantee</h2>
+                <p class="mb-4">We want you to be completely in love with your Mirzam experience. If our service doesn't perfectly suit your needs, simply message us within 7 days of your payment for a full refund.</p>
+                <p>To ensure fairness, we only require that your refund request is made <strong class="text-[#0a1128] font-semibold">at least 14 days before your scheduled event date</strong>. Other than that, there are absolutely no hidden clauses—we will not ask for a reason, and your refund is guaranteed even if you have already published your invitation.</p>
+            </section>
+
+            <!-- How to request a refund -->
+            <section>
+                <h2 class="text-2xl italic text-[#0a1128] mb-4">How to request a refund</h2>
+                <p class="mb-4">To request a refund, simply send us a direct message on <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#c5a059] hover:underline font-semibold">Instagram</a> with the link to your invitation.</p>
+                <p class="mb-4">Once approved, your refund will be transferred back to your original payment method (InstaPay or mobile wallet) within three business days.</p>
+                <p class="text-sm italic opacity-80">Kindly note: Any standard transaction fees applied by your bank or wallet provider are beyond our control.</p>
+            </section>
+
+            <!-- After the 7 days -->
+            <section>
+                <h2 class="text-2xl italic text-[#0a1128] mb-4">Beyond the Guarantee Period</h2>
+                <p class="mb-4">While we cannot offer standard refunds after the initial 7-day window, your peace of mind remains our priority.</p>
+                <p class="mb-4">If an unexpected technical issue prevents you from sharing your invitation, please reach out to us. We will dedicate ourselves to resolving the problem immediately, or issue a full refund if we cannot.</p>
+                <p class="font-semibold text-[#0a1128]">This is our genuine promise to you, crafted with the same care as your invitation.</p>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-16 bg-white border-t border-gray-100 text-center mt-auto">
+        <!-- Legal Links -->
+        <div class="mb-6 flex flex-wrap justify-center items-center gap-6 text-[9px] uppercase tracking-widest text-gray-800">
+            <span class="font-bold text-[#0a1128]">Legal</span>
+            <a href="privacy.html" class="hover:text-[#c5a059] transition-colors">Privacy policy</a>
+            <a href="terms-of-use.html" class="hover:text-[#c5a059] transition-colors">Terms of use</a>
+            <a href="refund-policy.html" class="text-[#c5a059] font-bold transition-colors">Refund policy</a>
+            
+        </div>
+
+        <div class="text-[10px] tracking-[0.6em] uppercase text-[#0a1128] font-bold">
+            © 2026 MIRZAM EGYPT
+        </div>
+       
+        <div class="mt-4 flex justify-center space-x-4 opacity-10 text-[#0a1128]">
+            <i class="fa-solid fa-star text-[8px]"></i>
+            <i class="fa-solid fa-star text-[8px]"></i>
+            <i class="fa-solid fa-star text-[8px]"></i>
+        </div>
+    </footer>
+
+    <!-- Authentication Modal -->
+    <div id="authModal" class="fixed inset-0 bg-[#0a1128]/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+        <div class="bg-[#fdfbf7] p-8 md:p-10 max-w-md w-full relative border-t-4 border-[#c5a059] shadow-2xl rounded-sm">
+            <button id="closeModalBtn" class="absolute top-4 right-5 text-gray-800 hover:text-[#0a1128] transition-colors">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+            
+            <!-- Mode Switcher Header: Sign in | Create account -->
+            <div class="flex items-center space-x-4 mb-8 text-sm font-semibold tracking-wide">
+                <button id="switchToSignIn" class="text-gray-800 hover:text-[#0a1128] transition-colors">Sign in</button>
+                <span class="text-gray-600">|</span>
+                <button id="switchToSignUp" class="text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5">Create account</button>
+            </div>
+
+            <!-- Auth Form -->
+            <form id="authForm" class="space-y-4">
+                <div id="nameFieldContainer">
+                    <input type="text" id="userName" placeholder="Your name" class="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700">
+                </div>
+
+                <div>
+                    <input type="text" id="userIdentifier" placeholder="Phone or email" required class="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700">
+                </div>
+
+                <div>
+                    <input type="password" id="userPassword" placeholder="Password (min 6 characters)" required class="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700">
+                </div>
+
+                <button type="submit" id="authSubmitBtn" class="w-full bg-[#9b7b43] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors shadow-lg mt-2">
+                    Create account
+                </button>
+            </form>
+
+            <div id="statusMessage" class="text-center mt-4 text-xs font-semibold tracking-wide"></div>
+        </div>
+    </div>
+
+    <!-- Firebase Integration Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDHytukMX1bCkh-BpumQhWmZWEnmprAIno",
+            authDomain: "mirzam-login.firebaseapp.com",
+            projectId: "mirzam-login",
+            storageBucket: "mirzam-login.firebasestorage.app",
+            messagingSenderId: "264081997957",
+            appId: "1:264081997957:web:e5a006e0e4a50cf5a4a9ec",
+            measurementId: "G-8RS45VMDDQ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        
+        // UI Elements
+        const authModal = document.getElementById('authModal');
+        const openModalBtn = document.getElementById('openModalBtn');
+        const openModalBtnMobile = document.getElementById('openModalBtnMobile');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const navAuthContainer = document.getElementById('navAuthContainer');
+        const navAuthContainerMobile = document.getElementById('navAuthContainerMobile');
+        const statusMessage = document.getElementById('statusMessage');
+        
+        const switchToSignIn = document.getElementById('switchToSignIn');
+        const switchToSignUp = document.getElementById('switchToSignUp');
+        const nameFieldContainer = document.getElementById('nameFieldContainer');
+        const authSubmitBtn = document.getElementById('authSubmitBtn');
+        const authForm = document.getElementById('authForm');
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        let isSignUpMode = true;
+
+        switchToSignIn.addEventListener('click', () => {
+            isSignUpMode = false;
+            switchToSignIn.className = "text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5 font-bold";
+            switchToSignUp.className = "text-gray-800 hover:text-[#0a1128] transition-colors font-normal";
+            nameFieldContainer.style.display = 'none';
+            authSubmitBtn.innerText = 'Sign in';
+            statusMessage.innerText = '';
+        });
+
+        switchToSignUp.addEventListener('click', () => {
+            isSignUpMode = true;
+            switchToSignUp.className = "text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5 font-bold";
+            switchToSignIn.className = "text-gray-800 hover:text-[#0a1128] transition-colors font-normal";
+            nameFieldContainer.style.display = 'block';
+            authSubmitBtn.innerText = 'Create account';
+            statusMessage.innerText = '';
+        });
+
+        const openModal = () => {
+            authModal.style.display = 'flex';
+            statusMessage.innerText = '';
+            mobileMenu.classList.add('hidden');
+        };
+        openModalBtn?.addEventListener('click', openModal);
+        openModalBtnMobile?.addEventListener('click', openModal);
+        closeModalBtn.addEventListener('click', () => authModal.style.display = 'none');
+
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let identifier = document.getElementById('userIdentifier').value.trim();
+            const password = document.getElementById('userPassword').value;
+            const name = document.getElementById('userName').value.trim();
+
+            let firebaseIdentifier = identifier;
+            if (!identifier.includes('@')) {
+                const cleanPhone = identifier.replace(/[\s-]/g, '');
+                firebaseIdentifier = cleanPhone + "@mirzam.auth";
+            }
+
+            if (isSignUpMode) {
+                createUserWithEmailAndPassword(auth, firebaseIdentifier, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        if (name) {
+                            updateProfile(user, { displayName: name }).then(() => {
+                                updateNavigationBar(user, name);
+                            });
+                        } else {
+                            updateNavigationBar(user);
+                        }
+                        authModal.style.display = 'none';
+                    })
+                    .catch((error) => {
+                        showStatus(error.message, "text-red-500");
+                    });
+            } else {
+                signInWithEmailAndPassword(auth, firebaseIdentifier, password)
+                    .then(() => {
+                        authModal.style.display = 'none';
+                    })
+                    .catch(() => {
+                        showStatus("Invalid phone/email or password.", "text-red-500");
+                    });
+            }
+        });
+
+        function updateNavigationBar(user, manualName = null) {
+            const displayName = manualName || user.displayName || user.email.split('@')[0];
+            const userHtml = `
+                <span class="text-[#c5a059] tracking-widest text-[10px]">HELLO, ${displayName.toUpperCase()}</span>
+                <button class="logoutBtn ml-4 text-gray-800 hover:text-red-500 transition-colors" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i></button>
+            `;
+            navAuthContainer.innerHTML = userHtml;
+            navAuthContainerMobile.innerHTML = userHtml;
+
+            document.querySelectorAll('.logoutBtn').forEach(btn => {
+                btn.addEventListener('click', () => signOut(auth));
+            });
+        }
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                updateNavigationBar(user);
+            } else {
+                const loginHtml = `<button class="openModalBtnDynamic text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest text-[11px]">LOG IN</button>`;
+                navAuthContainer.innerHTML = loginHtml;
+                navAuthContainerMobile.innerHTML = loginHtml;
+
+                document.querySelectorAll('.openModalBtnDynamic').forEach(btn => {
+                    btn.addEventListener('click', openModal);
+                });
+            }
+        });
+
+        function showStatus(msg, colorClass) {
+            statusMessage.innerText = msg;
+            statusMessage.className = `text-center mt-4 text-[10px] uppercase tracking-widest font-bold ${colorClass}`;
+        }
+    </script>
+</body>
+</html>
