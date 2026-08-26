@@ -12,16 +12,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root { 
+       :root { 
             --primary-color: #0a1128; 
             --accent-gold: #c5a059; 
-            --bg-soft: #fdfbf7; 
+            --bg-soft: #f9f6ee; 
         }
 
         body { 
             font-family: 'Montserrat', sans-serif; 
             background-color: var(--bg-soft); 
-            scroll-behavior: smooth; 
+            color: var(--navy);
+            opacity: 0.95; 
             -webkit-font-smoothing: antialiased;
         }
 
@@ -65,21 +66,41 @@
 <body class="antialiased text-[#0a1128]">
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-xl border-b border-gray-100 px-6 py-5">
+    <nav class="fixed w-full z-50 bg-[#fdfbf7]/90 backdrop-blur-xl border-b border-gray-100 px-6 py-5">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="text-2xl font-bold tracking-[0.2em] uppercase text-[#0a1128]">
                 MIRZAM<span class="text-[#c5a059] font-light">.EG</span>
             </div>
             
+            <!-- Desktop Nav Links -->
             <div class="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-semibold items-center">
                 <a href="Mirzam's_Main_page.html" class="text-[#c5a059]">Home</a>
                 <a href="collection.html" class="text-[#0a1128] hover:text-[#c5a059] transition-colors">Collections</a>
+                <a href="pricing.html" class="text-[#0a1128] hover:text-[#c5a059] transition-colors">Pricing</a>
+                <a href="order.html" class="text-[#0a1128] hover:text-[#c5a059] transition-colors">Create Suite</a>
                 <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
                 
                 <!-- Login Status Container -->
                 <div id="navAuthContainer" class="border-l border-gray-300 pl-10">
                     <button id="openModalBtn" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest">LOG IN</button>
                 </div>
+            </div>
+
+            <!-- Mobile Hamburger Button -->
+            <button id="mobileMenuBtn" class="md:hidden text-[#0a1128] text-xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobileMenu" class="hidden md:hidden pt-4 pb-6 border-t border-gray-100 mt-4 flex flex-col space-y-4 text-[11px] uppercase tracking-[0.2em] font-semibold">
+            <a href="Mirzam's_Main_page.html" class="text-[#c5a059]">Home</a>
+            <a href="collection.html" class="text-[#0a1128] hover:text-[#c5a059] transition-colors">Collections</a>
+            <a href="pricing.html" class="text-[#0a1128] hover:text-[#c5a059] transition-colors">Pricing</a>
+            <a href="order.html" class="text-[#0a1128] hover:text-[#c5a059] transition-colors">Create Suite</a>
+            <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
+            <div id="navAuthContainerMobile" class="pt-2 border-t border-gray-100">
+                <button id="openModalBtnMobile" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest">LOG IN</button>
             </div>
         </div>
     </nav>
@@ -103,13 +124,13 @@
     </section>
 
     <!-- Elegance Redefined Section -->
-    <section class="py-32 px-6 text-center bg-white">
+    <section class="py-32 px-6 text-center bg-[#f9f6ee]">
         <div class="max-w-3xl mx-auto fade-in">
             <h2 class="text-4xl md:text-5xl italic mb-8 text-[#0a1128]">Elegance Redefined</h2>
-            <p class="text-gray-400 italic text-lg mb-4 tracking-wide">
+            <p class="text-gray-800 italic text-lg mb-4 tracking-wide">
                 "Your wedding begins the moment they open the envelope."
             </p>
-            <p class="text-gray-500 text-sm leading-relaxed max-w-lg mx-auto font-light">
+            <p class="text-gray-800 text-sm leading-relaxed max-w-lg mx-auto font-light">
                 Based in Cairo, Mirzam crafts bespoke invitations that combine Egyptian heritage with modern luxury.
             </p>
         </div>
@@ -139,7 +160,15 @@
     </section>
 
     <!-- Footer -->
-    <footer class="py-20 bg-white border-t border-gray-100 text-center">
+    <footer class="py-20 bg-[#f9f6ee] border-t border-gray-100 text-center">
+        <!-- Legal Links -->
+        <div class="mb-6 flex flex-wrap justify-center items-center gap-6 text-[9px] uppercase tracking-widest text-gray-800">
+            <span class="font-bold text-[#0a1128]">Legal</span>
+            <a href="privacy.html" class="hover:text-[#c5a059] transition-colors">Privacy policy</a>
+            <a href="terms-of-use.html" class="hover:text-[#c5a059] transition-colors">Terms of use</a>
+            <a href="refund-policy.html" class="hover:text-[#c5a059] transition-colors">Refund policy</a>
+        </div>
+
         <div class="text-[10px] tracking-[0.6em] uppercase text-[#0a1128] font-bold">
             © 2026 MIRZAM EGYPT
         </div>
@@ -152,15 +181,15 @@
 
     <!-- Authentication Modal -->
     <div id="authModal" class="fixed inset-0 bg-[#0a1128]/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
-        <div class="bg-white p-8 md:p-10 max-w-md w-full relative border-t-4 border-[#c5a059] shadow-2xl rounded-sm">
-            <button id="closeModalBtn" class="absolute top-4 right-5 text-gray-400 hover:text-[#0a1128] transition-colors">
+        <div class="bg-[#fdfbf7] p-8 md:p-10 max-w-md w-full relative border-t-4 border-[#c5a059] shadow-2xl rounded-sm">
+            <button id="closeModalBtn" class="absolute top-4 right-5 text-gray-800 hover:text-[#0a1128] transition-colors">
                 <i class="fa-solid fa-xmark text-2xl"></i>
             </button>
             
             <!-- Mode Switcher Header: Sign in | Create account -->
             <div class="flex items-center space-x-4 mb-8 text-sm font-semibold tracking-wide">
-                <button id="switchToSignIn" class="text-gray-400 hover:text-[#0a1128] transition-colors">Sign in</button>
-                <span class="text-gray-300">|</span>
+                <button id="switchToSignIn" class="text-gray-800 hover:text-[#0a1128] transition-colors">Sign in</button>
+                <span class="text-gray-600">|</span>
                 <button id="switchToSignUp" class="text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5">Create account</button>
             </div>
 
@@ -168,15 +197,15 @@
             <form id="authForm" class="space-y-4">
                 <!-- Name Field (Only visible during Sign Up) -->
                 <div id="nameFieldContainer">
-                    <input type="text" id="userName" placeholder="Your name" class="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-400">
+                    <input type="text" id="userName" placeholder="Your name" class="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700">
                 </div>
 
-               <div>
-    <input type="text" id="userIdentifier" placeholder="Phone or email" required class="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-400">
-</div>
+                <div>
+                    <input type="text" id="userIdentifier" placeholder="Phone or email" required class="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700">
+                </div>
 
                 <div>
-                    <input type="password" id="userPassword" placeholder="Password (min 6 characters)" required class="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-400">
+                    <input type="password" id="userPassword" placeholder="Password (min 6 characters)" required class="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700">
                 </div>
 
                 <button type="submit" id="authSubmitBtn" class="w-full bg-[#9b7b43] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors shadow-lg mt-2">
@@ -187,10 +216,10 @@
             <div id="statusMessage" class="text-center mt-4 text-xs font-semibold tracking-wide"></div>
         </div>
     </div>
-   <!-- Firebase Integration Logic -->
+
+    <!-- Firebase Integration Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        // Removed GoogleAuthProvider and signInWithPopup
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
 
@@ -211,8 +240,10 @@
         // UI Elements
         const authModal = document.getElementById('authModal');
         const openModalBtn = document.getElementById('openModalBtn');
+        const openModalBtnMobile = document.getElementById('openModalBtnMobile');
         const closeModalBtn = document.getElementById('closeModalBtn');
         const navAuthContainer = document.getElementById('navAuthContainer');
+        const navAuthContainerMobile = document.getElementById('navAuthContainerMobile');
         const statusMessage = document.getElementById('statusMessage');
         
         const switchToSignIn = document.getElementById('switchToSignIn');
@@ -221,13 +252,20 @@
         const authSubmitBtn = document.getElementById('authSubmitBtn');
         const authForm = document.getElementById('authForm');
 
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
         let isSignUpMode = true;
 
         // Toggle between Sign In and Create Account modes
         switchToSignIn.addEventListener('click', () => {
             isSignUpMode = false;
             switchToSignIn.className = "text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5 font-bold";
-            switchToSignUp.className = "text-gray-400 hover:text-[#0a1128] transition-colors font-normal";
+            switchToSignUp.className = "text-gray-800 hover:text-[#0a1128] transition-colors font-normal";
             nameFieldContainer.style.display = 'none';
             authSubmitBtn.innerText = 'Sign in';
             statusMessage.innerText = '';
@@ -236,36 +274,36 @@
         switchToSignUp.addEventListener('click', () => {
             isSignUpMode = true;
             switchToSignUp.className = "text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5 font-bold";
-            switchToSignIn.className = "text-gray-400 hover:text-[#0a1128] transition-colors font-normal";
+            switchToSignIn.className = "text-gray-800 hover:text-[#0a1128] transition-colors font-normal";
             nameFieldContainer.style.display = 'block';
             authSubmitBtn.innerText = 'Create account';
             statusMessage.innerText = '';
         });
 
         // Toggle Modal Open/Close
-        openModalBtn?.addEventListener('click', () => {
+        const openModal = () => {
             authModal.style.display = 'flex';
             statusMessage.innerText = '';
-        });
+            mobileMenu.classList.add('hidden');
+        };
+        openModalBtn?.addEventListener('click', openModal);
+        openModalBtnMobile?.addEventListener('click', openModal);
         closeModalBtn.addEventListener('click', () => authModal.style.display = 'none');
 
-       // Form Submit Handler
+        // Form Submit Handler
         authForm.addEventListener('submit', (e) => {
             e.preventDefault();
             let identifier = document.getElementById('userIdentifier').value.trim();
             const password = document.getElementById('userPassword').value;
             const name = document.getElementById('userName').value.trim();
 
-            // The Workaround: If the identifier doesn't have an '@', treat it as a phone number
             let firebaseIdentifier = identifier;
             if (!identifier.includes('@')) {
-                // Remove any spaces or dashes the user might have typed
                 const cleanPhone = identifier.replace(/[\s-]/g, '');
                 firebaseIdentifier = cleanPhone + "@mirzam.auth";
             }
 
             if (isSignUpMode) {
-                // Create Email Account (Using either real email or phone@mirzam.auth)
                 createUserWithEmailAndPassword(auth, firebaseIdentifier, password)
                     .then((userCredential) => {
                         const user = userCredential.user;
@@ -282,7 +320,6 @@
                         showStatus(error.message, "text-red-500");
                     });
             } else {
-                // Sign In (Using either real email or phone@mirzam.auth)
                 signInWithEmailAndPassword(auth, firebaseIdentifier, password)
                     .then(() => {
                         authModal.style.display = 'none';
@@ -293,14 +330,25 @@
             }
         });
 
-        // Update Navigation Bar UI
+        // Update Navigation Bar UI with Profile Icon, Name, and Orders button
         function updateNavigationBar(user, manualName = null) {
             const displayName = manualName || user.displayName || user.email.split('@')[0];
-            navAuthContainer.innerHTML = `
-                <span class="text-[#c5a059] tracking-widest text-[10px]">HELLO, ${displayName.toUpperCase()}</span>
-                <button id="logoutBtn" class="ml-4 text-gray-400 hover:text-red-500 transition-colors" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i></button>
+            const userHtml = `
+                <div class="flex items-center space-x-3 whitespace-nowrap">
+                    <div class="w-7 h-7 rounded-full bg-[#c5a059]/20 text-[#c5a059] flex items-center justify-center text-xs font-bold">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <span class="text-[#0a1128] tracking-widest text-[10px] font-bold">HELLO, ${displayName.toUpperCase()}</span>
+                    <a href="orders.html" class="bg-[#c5a059] text-white px-3 py-1.5 rounded text-[9px] font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors ml-2">Orders</a>
+                    <button class="logoutBtn text-gray-800 hover:text-red-500 transition-colors ml-2" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i></button>
+                </div>
             `;
-            document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
+            navAuthContainer.innerHTML = userHtml;
+            navAuthContainerMobile.innerHTML = userHtml;
+
+            document.querySelectorAll('.logoutBtn').forEach(btn => {
+                btn.addEventListener('click', () => signOut(auth));
+            });
         }
 
         // Monitor Auth State
@@ -308,9 +356,12 @@
             if (user) {
                 updateNavigationBar(user);
             } else {
-                navAuthContainer.innerHTML = `<button id="openModalBtn" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest text-[11px]">LOG IN</button>`;
-                document.getElementById('openModalBtn').addEventListener('click', () => {
-                    authModal.style.display = 'flex';
+                const loginHtml = `<button class="openModalBtnDynamic text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest text-[11px]">LOG IN</button>`;
+                navAuthContainer.innerHTML = loginHtml;
+                navAuthContainerMobile.innerHTML = loginHtml;
+
+                document.querySelectorAll('.openModalBtnDynamic').forEach(btn => {
+                    btn.addEventListener('click', openModal);
                 });
             }
         });
