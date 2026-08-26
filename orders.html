@@ -85,7 +85,7 @@
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-100 pb-4 gap-4">
                     <h3 class="text-lg italic text-[#0a1128]" id="orderListTitle">Recent Submissions & Requests</h3>
                     
-                    <!-- Admin Sorting Filters (Hidden by Default) -->
+                    <!-- Admin Sorting Filters -->
                     <div id="adminFilters" class="hidden flex flex-wrap gap-2">
                         <button data-filter="All" onclick="setFilter('All')" class="filter-btn bg-[#c5a059] text-white px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest rounded-sm">All</button>
                         <button data-filter="Pending" onclick="setFilter('Pending')" class="filter-btn bg-gray-200 text-gray-800 px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest rounded-sm hover:bg-gray-300">Pending</button>
@@ -95,7 +95,6 @@
                     </div>
                 </div>
 
-                <!-- Dynamic Orders Will Load Inside this Container -->
                 <div id="ordersContainer" class="space-y-6">
                     <div class="text-center py-10"><i class="fa-solid fa-spinner fa-spin text-2xl text-[#c5a059]"></i></div>
                 </div>
@@ -149,16 +148,13 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Global State variables for Data & Filtering
         let globalOrders = [];
         let currentFilter = 'All';
         let isAdminGlobal = false;
 
-        // Firebase Update Functions mapped to Window
         window.changeFirebaseStatus = async function(docId, newStatus) {
             try {
                 await updateDoc(doc(db, "orders", docId), { status: newStatus });
-                // Update local array for fast re-render without refetching from Firebase
                 const orderIndex = globalOrders.findIndex(o => o.id === docId);
                 if(orderIndex !== -1) globalOrders[orderIndex].status = newStatus;
                 renderOrdersUI();
@@ -176,7 +172,6 @@
                     invitationLink: invLink,
                     adminLink: admLink
                 });
-                // Update local array for fast re-render
                 const orderIndex = globalOrders.findIndex(o => o.id === docId);
                 if(orderIndex !== -1) {
                     globalOrders[orderIndex].invitationLink = invLink;
@@ -192,8 +187,6 @@
 
         window.setFilter = function(filterStatus) {
             currentFilter = filterStatus;
-            
-            // Highlight active button
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 if (btn.dataset.filter === filterStatus) {
                     btn.className = "filter-btn bg-[#c5a059] text-white px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest rounded-sm";
@@ -208,7 +201,7 @@
             const container = document.getElementById('ordersContainer');
             container.innerHTML = '<div class="text-center py-10"><i class="fa-solid fa-spinner fa-spin text-2xl text-[#c5a059]"></i></div>';
             
-            // ADMIN EMAIL: Change this to your team email if needed
+            // ADMIN EMAIL
             isAdminGlobal = user.email === 'mirzaminvitationcards@gmail.com'; 
             
             if(isAdminGlobal) { 
@@ -219,9 +212,9 @@
             try {
                 let q;
                 if (isAdminGlobal) {
-                    q = query(collection(db, "orders")); // Fetch all
+                    q = query(collection(db, "orders")); 
                 } else {
-                    q = query(collection(db, "orders"), where("userEmail", "==", user.email)); // Fetch specific user
+                    q = query(collection(db, "orders"), where("userEmail", "==", user.email)); 
                 }
 
                 const querySnapshot = await getDocs(q);
@@ -246,7 +239,6 @@
             }
         }
 
-        // Renders the orders based on currentFilter
         function renderOrdersUI() {
             const container = document.getElementById('ordersContainer');
             container.innerHTML = '';
@@ -272,30 +264,62 @@
                 const isCancelled = currentStatus === 'Cancelled';
                 const isConfirmed = currentStatus === 'Confirmed' || currentStatus === 'Delivered';
                 const isDelivered = currentStatus === 'Delivered';
-
                 const statusColorClass = isCancelled ? 'text-red-500' : 'text-[#c5a059]';
 
+                // Schedule HTML Generator
+                let scheduleHTML = '';
+                if (order.schedule && order.schedule.length > 0) {
+                    scheduleHTML = `<div class="col-span-1 md:col-span-2 mt-2"><strong class="text-[#0a1128] block mb-1">Day Schedule:</strong><ul class="list-disc pl-4 space-y-1">`;
+                    order.schedule.forEach(item => {
+                        scheduleHTML += `<li>${item}</li>`;
+                    });
+                    scheduleHTML += `</ul></div>`;
+                }
+
+                // Custom Wording HTML Generator
+                let wordingHTML = '';
+                if ((order.wordingTop && order.wordingTop !== 'none') || (order.wordingMiddle && order.wordingMiddle !== 'none') || (order.wordingBottom && order.wordingBottom !== 'none')) {
+                    wordingHTML = `<div class="col-span-1 md:col-span-2 mt-2"><strong class="text-[#0a1128] block mb-1">Custom Wording:</strong>`;
+                    if(order.wordingTop && order.wordingTop !== 'none') wordingHTML += `<div><span class="text-gray-500">Top:</span> "${order.wordingTop}"</div>`;
+                    if(order.wordingMiddle && order.wordingMiddle !== 'none') wordingHTML += `<div><span class="text-gray-500">Middle:</span> "${order.wordingMiddle}"</div>`;
+                    if(order.wordingBottom && order.wordingBottom !== 'none') wordingHTML += `<div><span class="text-gray-500">Bottom:</span> "${order.wordingBottom}"</div>`;
+                    wordingHTML += `</div>`;
+                }
+
+                // Main Details Grid
                 const detailsGrid = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-6 text-xs text-gray-700 font-light mt-4 p-5 bg-white border border-gray-100 rounded-sm">
                         <div><strong class="text-[#0a1128]">Plan:</strong> ${order.plan || '-'}</div>
                         <div><strong class="text-[#0a1128]">Partners:</strong> ${order.partner1 || '-'} & ${order.partner2 || '-'}</div>
                         <div><strong class="text-[#0a1128]">Event Time:</strong> ${order.eventDate || '-'} ${order.eventTime && order.eventTime !== 'none' ? `at ${order.eventTime}` : ''}</div>
+                        
                         <div><strong class="text-[#0a1128]">Venue:</strong> ${order.venueName || '-'}</div>
-                        ${order.venueLocation && order.venueLocation !== 'none' ? `<div><strong class="text-[#0a1128]">Location:</strong> ${order.venueLocation}</div>` : ''}
+                        ${order.venueLocation && order.venueLocation !== 'none' ? `
+                        <div><strong class="text-[#0a1128]">Location:</strong> ${order.venueLocation} 
+                            ${order.venueMap && order.venueMap !== 'none' ? `<a href="${order.venueMap}" target="_blank" class="text-[#c5a059] underline hover:text-[#0a1128] ml-1"><i class="fa-solid fa-map-location-dot"></i> Map</a>` : ''}
+                        </div>` : ''}
+                        
+                        ${order.isSecretLocation === 'Yes' ? `
+                        <div><strong class="text-[#0a1128]">Secret Location:</strong> Yes 
+                            ${order.secretLocationMap && order.secretLocationMap !== 'none' ? `<a href="${order.secretLocationMap}" target="_blank" class="text-[#c5a059] underline hover:text-[#0a1128] ml-1"><i class="fa-solid fa-map-location-dot"></i> Map</a>` : ''}
+                        </div>` : ''}
+
                         ${order.whatsappNumber && order.whatsappNumber !== 'none' ? `<div><strong class="text-[#0a1128]">WhatsApp:</strong> ${order.whatsappNumber} ${order.whatsappName && order.whatsappName !== 'none' ? `(${order.whatsappName})` : ''}</div>` : ''}
                         ${order.musicPref && order.musicPref !== 'none' ? `<div><strong class="text-[#0a1128]">Music:</strong> ${order.musicPref} ${order.musicChoice && order.musicChoice !== 'none' ? `- ${order.musicChoice}` : ''}</div>` : ''}
                         ${order.photoPref && order.photoPref !== 'none' ? `<div><strong class="text-[#0a1128]">Photo Included:</strong> ${order.photoPref}</div>` : ''}
                         ${order.colorCode && order.colorCode !== 'none' ? `<div><strong class="text-[#0a1128]">Dress Code:</strong> ${order.colorCode}</div>` : ''}
                         ${order.guestPhotoGallery === 'Yes' ? `<div><strong class="text-[#0a1128]">Guest Gallery:</strong> Yes</div>` : ''}
                         ${order.voiceMessages === 'Yes' ? `<div><strong class="text-[#0a1128]">Voice Messages:</strong> Yes</div>` : ''}
-                        ${order.isSecretLocation === 'Yes' ? `<div><strong class="text-[#0a1128]">Secret Location:</strong> Yes</div>` : ''}
+                        
+                        ${scheduleHTML}
+                        ${wordingHTML}
                     </div>
                 `;
 
                 let adminUI = '';
                 let customerUI = '';
 
-                // Customer Display Links Logic
+                // Links Display UI
                 if (order.invitationLink || order.adminLink) {
                     customerUI += `
                     <div class="mt-6 pt-4 border-t border-gray-200/40 flex flex-col sm:flex-row gap-3">
@@ -303,13 +327,11 @@
                         ${order.adminLink ? `<a href="${order.adminLink}" target="_blank" class="flex-1 border border-[#0a1128] text-[#0a1128] text-center py-3 px-2 text-[10px] tracking-widest uppercase font-bold hover:bg-[#0a1128] hover:text-white transition-colors shadow-sm"><i class="fa-solid fa-key mr-2"></i> Manage Invitation</a>` : ''}
                     </div>`;
 
-                    // Add Warning Note specifically for the Manage link
                     if (order.adminLink && !isAdminGlobal) {
                         customerUI += `
                         <div class="mt-2 text-center">
                             <p class="text-[9px] text-red-500 uppercase tracking-widest font-bold"><i class="fa-solid fa-triangle-exclamation mr-1"></i> IMPORTANT: DO NOT SHARE THE MANAGE INVITATION LINK WITH GUESTS.</p>
-                        </div>
-                        `;
+                        </div>`;
                     }
                 }
 
