@@ -81,7 +81,7 @@
                 <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
                 
                 <!-- Login Status Container -->
-                <div id="navAuthContainer" class="border-l border-gray-300 pl-10">
+                <div id="navAuthContainer" class="border-l border-gray-300 pl-10 flex items-center">
                     <button id="openModalBtn" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest">LOG IN</button>
                 </div>
             </div>
@@ -117,9 +117,48 @@
             <p class="text-sm md:text-base font-extralight max-w-2xl mx-auto mb-12 tracking-[0.6em] uppercase opacity-80">
                 The Art of Invitation
             </p>
-            <a href="collection.html" class="btn-theme px-14 py-5 inline-block uppercase text-[11px] font-bold">
-                Explore Collections
+            <a href="order.html" class="btn-theme px-14 py-5 inline-block uppercase text-[11px] font-bold">
+                Place Order
             </a>
+        </div>
+    </section>
+
+   <!-- ENHANCED ORDER PROCESS SECTION -->
+    <section class="py-24 bg-[#fdfbf7] border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-16 text-center">
+                
+                <!-- Step 1 -->
+                <div class="px-6 flex flex-col h-full">
+                    <span class="text-[#c5a059] text-3xl italic serif block mb-2 opacity-80">01.</span>
+                    <h3 class="font-bold uppercase tracking-[0.4em] text-[#0a1128] text-xs mb-6">Choose</h3>
+                    <p class="text-sm text-gray-800 font-light leading-relaxed flex-grow">Browse our digital collections and select the design that resonates with your vision.</p>
+                    <a href="collection.html" class="mt-8 inline-block border border-[#c5a059] text-[#0a1128] px-6 py-3 uppercase text-[10px] tracking-[0.2em] font-bold hover:bg-[#c5a059] hover:text-white transition-colors">
+                        View Collections
+                    </a>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="px-6 md:border-x border-gray-200/60 flex flex-col h-full">
+                    <span class="text-[#c5a059] text-3xl italic serif block mb-2 opacity-80">02.</span>
+                    <h3 class="font-bold uppercase tracking-[0.4em] text-[#0a1128] text-xs mb-6">Place Order</h3>
+                    <p class="text-sm text-gray-800 font-light leading-relaxed flex-grow">Fill out the step-by-step order form to customize your suite details and submit your request.</p>
+                    <a href="order.html" class="mt-8 inline-block border border-[#c5a059] text-[#0a1128] px-6 py-3 uppercase text-[10px] tracking-[0.2em] font-bold hover:bg-[#c5a059] hover:text-white transition-colors">
+                        Create Suite
+                    </a>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="px-6 flex flex-col h-full">
+                    <span class="text-[#c5a059] text-3xl italic serif block mb-2 opacity-80">03.</span>
+                    <h3 class="font-bold uppercase tracking-[0.4em] text-[#0a1128] text-xs mb-6">Receive Link</h3>
+                    <p class="text-sm text-gray-800 font-light leading-relaxed flex-grow">Access your personal dashboard to track your order status and receive your final invitation links.</p>
+                    <a href="orders.html" class="mt-8 inline-block bg-[#0a1128] text-white px-6 py-3 uppercase text-[10px] tracking-[0.2em] font-bold hover:bg-[#c5a059] transition-colors shadow-md">
+                        View My Orders
+                    </a>
+                </div>
+
+            </div>
         </div>
     </section>
 
@@ -304,6 +343,11 @@
             }
 
             if (isSignUpMode) {
+                if (name === "") {
+                    showStatus("Please enter your name.", "text-red-500");
+                    return; 
+                }
+                
                 createUserWithEmailAndPassword(auth, firebaseIdentifier, password)
                     .then((userCredential) => {
                         const user = userCredential.user;
@@ -330,7 +374,6 @@
             }
         });
 
-        // Update Navigation Bar UI with Profile Icon, Name, and Orders button
         function updateNavigationBar(user, manualName = null) {
             const displayName = manualName || user.displayName || user.email.split('@')[0];
             const userHtml = `
