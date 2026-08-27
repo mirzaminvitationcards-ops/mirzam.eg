@@ -117,6 +117,14 @@
     </header>
 
     <main class="max-w-7xl mx-auto px-6 pb-24 fade-in">
+        
+        <!-- Back Button -->
+        <div class="mb-8">
+            <button onclick="window.history.back()" class="flex items-center text-[#0a1128] font-bold uppercase tracking-[0.2em] text-[11px] hover:text-[#c5a059] transition-colors">
+                <i class="fa-solid fa-chevron-left mr-2 text-[10px]"></i> BACK
+            </button>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
             
             <!-- TYPE 1: Yara & Ismail -->
@@ -375,9 +383,11 @@
         function updateNavigationBar(user, manualName = null) {
             const displayName = manualName || user.displayName || user.email.split('@')[0];
             const userHtml = `
-                <div class="flex items-center whitespace-nowrap">
-                    <span class="text-[#c5a059] tracking-widest text-[10px]">HELLO, ${displayName.toUpperCase()}</span>
-                    <button class="logoutBtn ml-4 text-gray-900 hover:text-red-500 transition-colors" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i></button>
+                <div class="flex items-center space-x-3 whitespace-nowrap">
+                    <div class="w-7 h-7 rounded-full bg-[#c5a059]/20 text-[#c5a059] flex items-center justify-center text-xs font-bold"><i class="fa-solid fa-user"></i></div>
+                    <span class="text-[#0a1128] tracking-widest text-[10px] font-bold">HELLO, ${displayName.toUpperCase()}</span>
+                    <a href="orders.html" class="bg-[#c5a059] text-white px-3 py-1.5 rounded text-[9px] font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors ml-2">Orders</a>
+                    <button class="logoutBtn text-gray-800 hover:text-red-500 transition-colors ml-2" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i></button>
                 </div>
             `;
             navAuthContainer.innerHTML = userHtml;
