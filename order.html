@@ -186,7 +186,7 @@
                 </div>
                 <div id="step-1" class="step-content active">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <label class="custom-radio">
+                        <label class="custom-radio block h-full">
                             <input type="radio" name="plan" value="Aurora" onchange="handlePlanSelection(this.value)">
                             <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center relative overflow-hidden">
                                 <div class="absolute top-0 right-0 bg-[#c5a059] text-white text-[7px] uppercase tracking-widest px-2 py-1 w-full text-center">Priority</div>
@@ -194,16 +194,16 @@
                                 <p class="gold-text text-[#0a1128] text-lg font-bold">350 EGP</p>
                             </div>
                         </label>
-                        <label class="custom-radio">
+                        <label class="custom-radio block h-full">
                             <input type="radio" name="plan" value="Astra" onchange="handlePlanSelection(this.value)">
-                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center">
+                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center">
                                 <h4 class="text-2xl italic mb-2">Astra</h4>
                                 <p class="gold-text text-[#0a1128] text-lg font-bold">100 EGP</p>
                             </div>
                         </label>
-                        <label class="custom-radio">
+                        <label class="custom-radio block h-full">
                             <input type="radio" name="plan" value="Free Trial" onchange="handlePlanSelection(this.value)">
-                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center">
+                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center">
                                 <h4 class="text-2xl italic mb-2">Free Trial</h4>
                                 <p class="gold-text text-[#0a1128] text-lg font-bold">0 EGP</p>
                             </div>
@@ -221,17 +221,17 @@
                     <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
                 </div>
                 <div id="step-2" class="step-content">
-                    <div class="grid grid-cols-2 gap-4 md:gap-8">
-                        <label class="custom-radio">
+                    <div class="grid grid-cols-1 gap-4 md:gap-8">
+                        <label class="custom-radio block h-full">
                             <input type="radio" name="eventType" value="Wedding" onchange="handleEventSelection(this.value)">
-                            <div class="radio-card p-6 text-center rounded-sm">
+                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center">
                                 <h4 class="text-xl italic mb-1">Wedding</h4>
                                 <p class="text-[9px] uppercase tracking-widest sub-text text-gray-500">Royal & Traditional</p>
                             </div>
                         </label>
-                        <label class="custom-radio">
+                        <label class="custom-radio block h-full">
                             <input type="radio" name="eventType" value="Engagement" onchange="handleEventSelection(this.value)">
-                            <div class="radio-card p-6 text-center rounded-sm">
+                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center">
                                 <h4 class="text-xl italic mb-1">Engagement</h4>
                                 <p class="text-[9px] uppercase tracking-widest sub-text text-gray-500">Modern & Chic</p>
                             </div>
@@ -305,33 +305,33 @@
                     
                     <!-- Wedding Designs -->
                     <div id="weddingDesigns" class="grid grid-cols-1 md:grid-cols-3 gap-4 hidden">
-                        <label class="custom-radio">
+                        <label class="custom-radio block h-full">
                             <input type="radio" name="design" value="Celestial Suite" onchange="advanceStep(4, this.value)">
-                            <div class="radio-card p-6 text-center rounded-sm"><h4 class="text-lg italic">Celestial Suite</h4></div>
+                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">Celestial Suite</h4></div>
                         </label>
-                        <label class="custom-radio">
+                        <label class="custom-radio block h-full">
                             <input type="radio" name="design" value="Pearl Suite" onchange="advanceStep(4, this.value)">
-                            <div class="radio-card p-6 text-center rounded-sm"><h4 class="text-lg italic">Pearl Suite</h4></div>
+                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">Pearl Suite</h4></div>
                         </label>
-                        <label class="custom-radio">
+                        <label class="custom-radio block h-full">
                             <input type="radio" name="design" value="Botanical Garden" onchange="advanceStep(4, this.value)">
-                            <div class="radio-card p-6 text-center rounded-sm"><h4 class="text-lg italic">Botanical Garden</h4></div>
+                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">Botanical Garden</h4></div>
                         </label>
                     </div>
 
                     <!-- Engagement Designs -->
                     <div id="engagementDesigns" class="grid grid-cols-1 md:grid-cols-3 gap-4 hidden">
-                        <label class="custom-radio">
+                        <label class="custom-radio block h-full">
                             <input type="radio" name="design" value="Modern Minimalist" onchange="advanceStep(4, this.value)">
-                            <div class="radio-card p-6 text-center rounded-sm"><h4 class="text-lg italic">Modern Minimalist</h4></div>
+                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">Modern Minimalist</h4></div>
                         </label>
-                        <label class="custom-radio">
+                        <label class="custom-radio block h-full">
                             <input type="radio" name="design" value="Sage Suite" onchange="advanceStep(4, this.value)">
-                            <div class="radio-card p-6 text-center rounded-sm"><h4 class="text-lg italic">Sage Suite</h4></div>
+                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">Sage Suite</h4></div>
                         </label>
-                        <label class="custom-radio">
+                        <label class="custom-radio block h-full">
                             <input type="radio" name="design" value="Signature Suite" onchange="advanceStep(4, this.value)">
-                            <div class="radio-card p-6 text-center rounded-sm"><h4 class="text-lg italic">Signature Suite</h4></div>
+                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">Signature Suite</h4></div>
                         </label>
                     </div>
                 </div>
@@ -363,16 +363,16 @@
                             <label class="text-[10px] uppercase tracking-widest text-gray-500 block font-bold">Background Music Preference *</label>
                             
                             <div class="grid grid-cols-2 gap-4">
-                                <label class="custom-radio">
+                                <label class="custom-radio block h-full">
                                     <input type="radio" name="musicPreference" value="Yes" checked onchange="handleMusicPreference('Yes')">
-                                    <div class="radio-card p-4 text-center rounded-sm">
+                                    <div class="radio-card p-4 text-center rounded-sm h-full flex flex-col justify-center items-center">
                                         <h4 class="text-sm italic mb-0.5">Yes</h4>
                                         <p class="text-[8px] uppercase tracking-widest sub-text text-gray-500">With standard/custom music</p>
                                     </div>
                                 </label>
-                                <label class="custom-radio">
+                                <label class="custom-radio block h-full">
                                     <input type="radio" name="musicPreference" value="No" onchange="handleMusicPreference('No')">
-                                    <div class="radio-card p-4 text-center rounded-sm">
+                                    <div class="radio-card p-4 text-center rounded-sm h-full flex flex-col justify-center items-center">
                                         <h4 class="text-sm italic mb-0.5">No</h4>
                                         <p class="text-[8px] uppercase tracking-widest sub-text text-gray-500">Without even standard music</p>
                                     </div>
@@ -439,18 +439,18 @@
                         </p>
                         
                         <div class="grid grid-cols-2 gap-4">
-                            <label class="custom-radio">
+                            <label class="custom-radio block h-full">
                                 <input type="radio" name="addPhotoPreference" value="Yes" onchange="handlePhotoPreference(this.value)">
-                                <div class="radio-card p-6 text-center rounded-sm">
+                                <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center">
                                     <h4 class="text-lg italic mb-1">Yes</h4>
                                     <p class="text-[9px] uppercase tracking-widest sub-text text-gray-500">We want to add photo</p>
                                 </div>
                             </label>
-                            <label class="custom-radio">
+                            <label class="custom-radio block h-full">
                                 <input type="radio" name="addPhotoPreference" value="No" onchange="handlePhotoPreference(this.value)">
-                                <div class="radio-card p-6 text-center rounded-sm">
+                                <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center">
                                     <h4 class="text-lg italic mb-1">No</h4>
-                                    <p class="text-[9px] uppercase tracking-widest sub-text text-gray-500">We don't want to add photo</p>
+                                    <p class="text-[9px] uppercase tracking-widest sub-text text-gray-500">We skip adding photo</p>
                                 </div>
                             </label>
                         </div>
@@ -493,16 +493,16 @@
                             <label class="text-[10px] uppercase tracking-widest text-gray-500 block font-bold">Do you want to add secret location with password (e.g. house location)?</label>
                             
                             <div class="grid grid-cols-2 gap-4">
-                                <label class="custom-radio">
+                                <label class="custom-radio block h-full">
                                     <input type="radio" name="isSecretLocation" value="Yes" onchange="handleSecretLocationToggle('Yes')">
-                                    <div class="radio-card p-4 text-center rounded-sm">
+                                    <div class="radio-card p-4 text-center rounded-sm h-full flex flex-col justify-center items-center">
                                         <h4 class="text-sm italic mb-0.5">Yes</h4>
                                         <p class="text-[8px] uppercase tracking-widest sub-text text-gray-500">Yes, add secret location</p>
                                     </div>
                                 </label>
-                                <label class="custom-radio">
+                                <label class="custom-radio block h-full">
                                     <input type="radio" name="isSecretLocation" value="No" checked onchange="handleSecretLocationToggle('No')">
-                                    <div class="radio-card p-4 text-center rounded-sm">
+                                    <div class="radio-card p-4 text-center rounded-sm h-full flex flex-col justify-center items-center">
                                         <h4 class="text-sm italic mb-0.5">No</h4>
                                         <p class="text-[8px] uppercase tracking-widest sub-text text-gray-500">No, standard venue</p>
                                     </div>
@@ -539,23 +539,23 @@
                         
                         <div id="scheduleRowsContainer" class="space-y-4">
                             <!-- Default Row 1 -->
-                            <div class="flex items-center space-x-2 schedule-row">
-                                <select name="scheduleHour[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                            <div class="flex items-center space-x-1 md:space-x-2 schedule-row w-full">
+                                <select name="scheduleHour[]" class="border border-gray-300 p-1 md:p-2 text-xs font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
                                     <option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07" selected>07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
                                 </select>
                                 <span class="text-gray-400 font-bold">:</span>
-                                <select name="scheduleMinute[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                <select name="scheduleMinute[]" class="border border-gray-300 p-1 md:p-2 text-xs font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
                                     <option value="00" selected>00</option>
                                     <option value="15">15</option>
                                     <option value="30">30</option>
                                     <option value="45">45</option>
                                 </select>
-                                <select name="schedulePeriod[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                                <select name="schedulePeriod[]" class="border border-gray-300 p-1 md:p-2 text-xs font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
                                     <option value="PM" selected>PM</option>
                                     <option value="AM">AM</option>
                                 </select>
-                                <input type="text" name="scheduleEvent[]" class="elegant-input flex-1 ml-2" placeholder="Event description">
-                                <button type="button" onclick="removeScheduleRow(this)" class="text-red-400 hover:text-red-600 px-2"><i class="fa-solid fa-trash-can text-sm"></i></button>
+                                <input type="text" name="scheduleEvent[]" class="elegant-input flex-1 ml-1 md:ml-2 text-xs md:text-sm min-w-[50px]" placeholder="Event description">
+                                <button type="button" onclick="removeScheduleRow(this)" class="text-red-400 hover:text-red-600 px-1 md:px-2"><i class="fa-solid fa-trash-can text-sm"></i></button>
                             </div>
                         </div>
 
@@ -597,9 +597,9 @@
                 </div>
                 <div id="step-11" class="step-content">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <label class="custom-checkbox">
+                        <label class="custom-checkbox block h-full">
                             <input type="checkbox" name="Guest Photo Gallery" value="Yes">
-                            <div class="radio-card p-6 rounded-sm flex items-center justify-between">
+                            <div class="radio-card p-6 rounded-sm h-full flex items-center justify-between">
                                 <div>
                                     <h4 class="text-lg italic mb-1">Guest Photo Gallery</h4>
                                     <p class="text-[9px] uppercase tracking-widest sub-text text-gray-500">Allow guests to upload memories</p>
@@ -610,9 +610,9 @@
                             </div>
                         </label>
                         
-                        <label class="custom-checkbox">
+                        <label class="custom-checkbox block h-full">
                             <input type="checkbox" name="Voice Messages" value="Yes">
-                            <div class="radio-card p-6 rounded-sm flex items-center justify-between">
+                            <div class="radio-card p-6 rounded-sm h-full flex items-center justify-between">
                                 <div>
                                     <h4 class="text-lg italic mb-1">Voice Messages</h4>
                                     <p class="text-[9px] uppercase tracking-widest sub-text text-gray-500">Audio notes from you & guests</p>
@@ -892,29 +892,28 @@
         function addScheduleRow() {
             const container = document.getElementById('scheduleRowsContainer');
             const row = document.createElement('div');
-            row.className = 'flex items-center space-x-2 schedule-row';
+            row.className = 'flex items-center space-x-1 md:space-x-2 schedule-row w-full';
             row.innerHTML = `
-                <select name="scheduleHour[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                <select name="scheduleHour[]" class="border border-gray-300 p-1 md:p-2 text-xs font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
                     <option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07" selected>07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
                 </select>
                 <span class="text-gray-400 font-bold">:</span>
-                <select name="scheduleMinute[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                <select name="scheduleMinute[]" class="border border-gray-300 p-1 md:p-2 text-xs font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
                     <option value="00" selected>00</option>
                     <option value="15">15</option>
                     <option value="30">30</option>
                     <option value="45">45</option>
                 </select>
-                <select name="schedulePeriod[]" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
+                <select name="schedulePeriod[]" class="border border-gray-300 p-1 md:p-2 text-xs font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
                     <option value="PM" selected>PM</option>
                     <option value="AM">AM</option>
                 </select>
-                <input type="text" name="scheduleEvent[]" class="elegant-input flex-1 ml-2" placeholder="Event description">
-                <button type="button" onclick="removeScheduleRow(this)" class="text-red-400 hover:text-red-600 px-2"><i class="fa-solid fa-trash-can text-sm"></i></button>
+                <input type="text" name="scheduleEvent[]" class="elegant-input flex-1 ml-1 md:ml-2 text-xs md:text-sm min-w-[50px]" placeholder="Event description">
+                <button type="button" onclick="removeScheduleRow(this)" class="text-red-400 hover:text-red-600 px-1 md:px-2"><i class="fa-solid fa-trash-can text-sm"></i></button>
             `;
             container.appendChild(row);
         }
 
-        // Updated function to allow deleting ALL rows
         function removeScheduleRow(btn) {
             const row = btn.closest('.schedule-row');
             row.remove();
