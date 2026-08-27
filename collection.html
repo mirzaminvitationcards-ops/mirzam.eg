@@ -41,6 +41,40 @@
         .category-card:hover img {
             transform: scale(1.08);
         }
+
+        /* نافذة اختيار اللغة */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 17, 40, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lang-box {
+            background-color: #8f9f8b; /* اللون الأخضر الهادئ ليتماشى مع التقويم */
+            width: 90%;
+            max-width: 400px;
+            padding: 50px 30px;
+            text-align: center;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+        }
+
+        .lang-btn {
+            width: 100%;
+            height: 50px; /* Fixed height guarantees both buttons are exactly the same size */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -146,6 +180,38 @@
         </div>
     </main>
 
+    <!-- Language Selection Modal -->
+    <div id="languageModal" class="modal-overlay">
+        <div class="lang-box">
+            <h3 class="text-white text-2xl italic mb-6">Select Language</h3>
+            
+            <div class="flex flex-col space-y-4">
+                <!-- ARABIC BUTTON -->
+                <button onclick="redirectTo('ar')" class="lang-btn border border-white text-white hover:bg-white hover:text-[#0a1128]" style="letter-spacing: normal; font-size: 15px;">العربية</button>
+                
+                <!-- ENGLISH BUTTON -->
+                <button onclick="redirectTo('en')" class="lang-btn border border-white text-white hover:bg-white hover:text-[#0a1128]">English</button>
+                
+                <button onclick="closeLangModal()" class="text-white/40 text-[9px] uppercase tracking-widest pt-4">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-20 bg-[#f7f4ee] border-t border-gray-200/60 text-center">
+        <!-- Legal Links -->
+        <div class="mb-6 flex flex-wrap justify-center items-center gap-6 text-[9px] uppercase tracking-widest text-gray-900">
+            <span class="font-bold text-[#0a1128]">Legal</span>
+            <a href="privacy.html" class="hover:text-[#c5a059] transition-colors">Privacy policy</a>
+            <a href="terms-of-use.html" class="hover:text-[#c5a059] transition-colors">Terms of use</a>
+            <a href="refund-policy.html" class="hover:text-[#c5a059] transition-colors">Refund policy</a>
+        </div>
+
+        <div class="text-[10px] tracking-[0.6em] uppercase text-[#0a1128] font-bold">
+            © 2026 MIRZAM EGYPT
+        </div>
+    </footer>
+
     <!-- Authentication Modal -->
     <div id="authModal" class="fixed inset-0 bg-[#0a1128]/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
         <div class="bg-[#f7f4ee] p-8 md:p-10 max-w-md w-full relative border-t-4 border-[#c5a059] shadow-2xl rounded-sm">
@@ -180,27 +246,34 @@
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="py-16 bg-[#f7f4ee] border-t border-gray-200/60 text-center">
-        <!-- Legal Links -->
-        <div class="mb-6 flex flex-wrap justify-center items-center gap-6 text-[9px] uppercase tracking-widest text-gray-900">
-            <span class="font-bold text-[#0a1128]">Legal</span>
-            <a href="privacy.html" class="hover:text-[#c5a059] transition-colors">Privacy policy</a>
-            <a href="terms-of-use.html" class="hover:text-[#c5a059] transition-colors">Terms of use</a>
-            <a href="refund-policy.html" class="hover:text-[#c5a059] transition-colors">Refund policy</a>
-        </div>
+    <!-- UI Scripts -->
+    <script>
+        function openLangModal() {
+            document.getElementById('languageModal').style.display = 'flex';
+        }
 
-        <div class="text-[10px] tracking-[0.6em] uppercase text-[#0a1128] font-bold">
-            © 2026 MIRZAM EGYPT
-        </div>
-        <div class="mt-4 flex justify-center space-x-4 opacity-20 text-[#0a1128]">
-            <i class="fa-solid fa-star text-[8px]"></i>
-            <i class="fa-solid fa-star text-[8px]"></i>
-            <i class="fa-solid fa-star text-[8px]"></i>
-        </div>
-    </footer>
+        function closeLangModal() {
+            document.getElementById('languageModal').style.display = 'none';
+        }
 
-    <!-- Firebase Integration & UI Logic (Module) -->
+        function redirectTo(lang) {
+            if (lang === 'ar') {
+                window.location.href = "https://mirzaminvitationcards-ops.github.io/Ismail-yara-wedding-invitation_ar/main_page";
+            } else {
+                window.location.href = "https://mirzaminvitationcards-ops.github.io/Ismail-yara-wedding-invitation/main_page";
+            }
+        }
+
+        // إغلاق النافذة عند الضغط خارج المربع
+        window.onclick = function(event) {
+            let modal = document.getElementById('languageModal');
+            if (event.target == modal) {
+                closeLangModal();
+            }
+        }
+    </script>
+
+    <!-- Firebase Integration & Auth UI Logic (Module) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -318,9 +391,13 @@
         function updateNavigationBar(user, manualName = null) {
             const displayName = manualName || user.displayName || user.email.split('@')[0];
             const userHtml = `
-                <div class="flex items-center whitespace-nowrap">
-                    <span class="text-[#c5a059] tracking-widest text-[10px]">HELLO, ${displayName.toUpperCase()}</span>
-                    <button class="logoutBtn ml-4 text-gray-900 hover:text-red-500 transition-colors" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i></button>
+                <div class="flex items-center space-x-3 whitespace-nowrap">
+                    <div class="w-7 h-7 rounded-full bg-[#c5a059]/20 text-[#c5a059] flex items-center justify-center text-xs font-bold">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <span class="text-[#0a1128] tracking-widest text-[10px] font-bold">HELLO, ${displayName.toUpperCase()}</span>
+                    <a href="orders.html" class="bg-[#c5a059] text-white px-3 py-1.5 rounded text-[9px] font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors ml-2">Orders</a>
+                    <button class="logoutBtn text-gray-800 hover:text-red-500 transition-colors ml-2" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i></button>
                 </div>
             `;
             navAuthContainer.innerHTML = userHtml;
