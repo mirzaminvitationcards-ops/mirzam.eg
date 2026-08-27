@@ -17,7 +17,7 @@
             --bg-soft: #fdfbf7;
         }
 
-      body { 
+       body { 
             font-family: 'Montserrat', sans-serif; 
             background-color: var(--bg-soft); 
             color: var(--navy);
@@ -168,6 +168,7 @@
 
             <!-- Auth Form -->
             <form id="authForm" class="space-y-4">
+                <!-- Name Field (Only visible during Sign Up) -->
                 <div id="nameFieldContainer">
                     <input type="text" id="userName" placeholder="Your name" class="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700">
                 </div>
@@ -233,6 +234,7 @@
 
         let isSignUpMode = true;
 
+        // Toggle between Sign In and Create Account modes
         switchToSignIn.addEventListener('click', () => {
             isSignUpMode = false;
             switchToSignIn.className = "text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5 font-bold";
@@ -251,6 +253,7 @@
             statusMessage.innerText = '';
         });
 
+        // Toggle Modal Open/Close
         const openModal = () => {
             authModal.style.display = 'flex';
             statusMessage.innerText = '';
@@ -260,6 +263,7 @@
         openModalBtnMobile?.addEventListener('click', openModal);
         closeModalBtn.addEventListener('click', () => authModal.style.display = 'none');
 
+        // Form Submit Handler
         authForm.addEventListener('submit', (e) => {
             e.preventDefault();
             let identifier = document.getElementById('userIdentifier').value.trim();
@@ -273,6 +277,11 @@
             }
 
             if (isSignUpMode) {
+                if (name === "") {
+                    showStatus("Please enter your name.", "text-red-500");
+                    return; 
+                }
+                
                 createUserWithEmailAndPassword(auth, firebaseIdentifier, password)
                     .then((userCredential) => {
                         const user = userCredential.user;
@@ -299,11 +308,18 @@
             }
         });
 
+        // Update Navigation Bar UI (Desktop & Mobile)
         function updateNavigationBar(user, manualName = null) {
             const displayName = manualName || user.displayName || user.email.split('@')[0];
             const userHtml = `
-                <span class="text-[#c5a059] tracking-widest text-[10px]">HELLO, ${displayName.toUpperCase()}</span>
-                <button class="logoutBtn ml-4 text-gray-800 hover:text-red-500 transition-colors" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i></button>
+                <div class="flex items-center space-x-3 whitespace-nowrap">
+                    <div class="w-7 h-7 rounded-full bg-[#c5a059]/20 text-[#c5a059] flex items-center justify-center text-xs font-bold">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <span class="text-[#0a1128] tracking-widest text-[10px] font-bold">HELLO, ${displayName.toUpperCase()}</span>
+                    <a href="orders.html" class="bg-[#c5a059] text-white px-3 py-1.5 rounded text-[9px] font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors ml-2">Orders</a>
+                    <button class="logoutBtn text-gray-800 hover:text-red-500 transition-colors ml-2" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i></button>
+                </div>
             `;
             navAuthContainer.innerHTML = userHtml;
             navAuthContainerMobile.innerHTML = userHtml;
@@ -313,6 +329,7 @@
             });
         }
 
+        // Monitor Auth State
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 updateNavigationBar(user);
