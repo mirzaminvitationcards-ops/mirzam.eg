@@ -121,12 +121,10 @@
     <nav class="fixed w-full z-50 bg-[#fdfbf7]/90 backdrop-blur-xl border-b border-gray-100 px-6 py-5">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             
-            <!-- Left: Logo -->
             <div class="text-2xl font-bold tracking-[0.2em] uppercase text-[#0a1128]">
                 MIRZAM<span class="text-[#c5a059] font-light">.EG</span>
             </div>
             
-            <!-- Right: Links & Login -->
             <div class="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-semibold items-center">
                 <a href="Mirzam's_Main_page.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Home</a>
                 <a href="collection.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Collections</a>
@@ -134,19 +132,16 @@
                 <a href="order.html" class="text-[#c5a059]">Create Suite</a>
                 <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
                 
-                <!-- Desktop Login Status Container -->
                 <div id="navAuthContainer" class="border-l border-gray-300 pl-10 flex items-center">
                     <button id="openModalBtn" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest whitespace-nowrap">LOG IN</button>
                 </div>
             </div>
 
-            <!-- Mobile Hamburger Button -->
             <button id="mobileMenuBtn" class="md:hidden text-[#0a1128] text-xl focus:outline-none pl-4">
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
 
-        <!-- Mobile Dropdown Menu -->
         <div id="mobileMenu" class="hidden md:hidden pt-4 pb-6 border-t border-gray-100 mt-4 flex flex-col space-y-4 text-[11px] uppercase tracking-[0.2em] font-semibold">
             <a href="Mirzam's_Main_page.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Home</a>
             <a href="collection.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Collections</a>
@@ -154,7 +149,6 @@
             <a href="order.html" class="text-[#c5a059]">Create Suite</a>
             <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
             
-            <!-- Mobile Login Container -->
             <div id="navAuthContainerMobile" class="pt-2 border-t border-gray-100">
                 <button id="openModalBtnMobile" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest whitespace-nowrap">LOG IN</button>
             </div>
@@ -172,7 +166,6 @@
     <main class="max-w-4xl mx-auto px-6 pb-32 fade-in" style="animation-delay: 0.2s;">
         <form id="orderForm" action="https://formspree.io/f/mqpzrgwn" method="POST" class="space-y-6">
             
-            <!-- Hidden inputs to capture Date & Unique Request ID cleanly -->
             <input type="hidden" id="hiddenEventDate" name="eventDate" value="">
             <input type="hidden" id="hiddenRequestId" name="requestId" value="">
 
@@ -266,7 +259,6 @@
                             <div id="daysContainer" class="calendar-grid"></div>
                         </div>
 
-                        <!-- Time Picker Box -->
                         <div class="w-full max-w-450px bg-white p-6 border border-gray-200 shadow-sm text-center">
                             <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-3 font-bold">Event Start Time *</label>
                             <div class="flex items-center justify-center space-x-2">
@@ -301,10 +293,9 @@
                     <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
                 </div>
                 <div id="step-4" class="step-content">
-                    <p id="designPrompt" class="text-xs text-gray-500 mb-6 italic">Please select an event type first (Step 2).</p>
+                    <p class="text-xs text-gray-500 mb-6 italic">Please select your preferred design.</p>
                     
-                    <!-- Wedding Designs -->
-                    <div id="weddingDesigns" class="grid grid-cols-1 md:grid-cols-3 gap-4 hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <label class="custom-radio block h-full">
                             <input type="radio" name="design" value="Celestial Suite" onchange="advanceStep(4, this.value)">
                             <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">Celestial Suite</h4></div>
@@ -317,10 +308,6 @@
                             <input type="radio" name="design" value="Botanical Garden" onchange="advanceStep(4, this.value)">
                             <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">Botanical Garden</h4></div>
                         </label>
-                    </div>
-
-                    <!-- Engagement Designs -->
-                    <div id="engagementDesigns" class="grid grid-cols-1 md:grid-cols-3 gap-4 hidden">
                         <label class="custom-radio block h-full">
                             <input type="radio" name="design" value="Modern Minimalist" onchange="advanceStep(4, this.value)">
                             <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">Modern Minimalist</h4></div>
@@ -684,7 +671,7 @@
             
         </form>
 
-        <!-- Success Confirmation Message (Hidden Initially) -->
+        <!-- Success Confirmation Message -->
         <div id="successMessageContainer" class="hidden text-center py-20 bg-white border border-gray-200 shadow-xl mt-12 p-8 space-y-6">
             <div class="w-16 h-16 bg-[#c5a059]/20 text-[#c5a059] rounded-full flex items-center justify-center mx-auto text-2xl">
                 <i class="fa-solid fa-check"></i>
@@ -750,7 +737,6 @@
 
     <!-- Wizard, Pre-select Plan & Calendar Logic -->
     <script>
-        /* === ACCORDION WIZARD LOGIC === */
         function toggleStep(stepNum) {
             const targetStep = document.getElementById(`step-${stepNum}`);
             
@@ -789,19 +775,6 @@
 
         function handleEventSelection(val) {
             advanceStep(2, val);
-            
-            const prompt = document.getElementById('designPrompt');
-            const wed = document.getElementById('weddingDesigns');
-            const eng = document.getElementById('engagementDesigns');
-            
-            prompt.classList.add('hidden');
-            if(val === 'Wedding') {
-                wed.classList.remove('hidden');
-                eng.classList.add('hidden');
-            } else {
-                wed.classList.add('hidden');
-                eng.classList.remove('hidden');
-            }
         }
 
         function handleMusicPreference(val) {
@@ -888,7 +861,6 @@
             advanceStep(12, 'Provided');
         }
 
-        /* === SCHEDULE DYNAMIC ROWS LOGIC === */
         function addScheduleRow() {
             const container = document.getElementById('scheduleRowsContainer');
             const row = document.createElement('div');
@@ -919,12 +891,9 @@
             row.remove();
         }
 
-        /* === CALENDAR LOGIC === */
         let selectedDateObj = null;
-        
         const minDate = new Date();
         minDate.setDate(minDate.getDate() + 14); 
-        
         let displayedDate = new Date(minDate);
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -997,9 +966,7 @@
                 const minute = document.getElementById('eventMinute').value;
                 const period = document.getElementById('eventTimePeriod').value;
                 
-                // Save into hidden input so Formspree catches it
                 document.getElementById('hiddenEventDate').value = formattedDate;
-
                 advanceStep(3, `${formattedDate} at ${hour}:${minute} ${period}`);
             }
         }
@@ -1123,7 +1090,6 @@
         document.getElementById('orderForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Require user to be logged in to connect the order to their account!
             if (!auth.currentUser) {
                 alert("Please log in or create an account first so we can save your order to your profile!");
                 window.openModal();
@@ -1141,7 +1107,6 @@
             const uniqueId = 'MZ-' + Date.now().toString().slice(-6) + '-' + Math.floor(1000 + Math.random() * 9000);
             document.getElementById('hiddenRequestId').value = uniqueId;
 
-            // CAPTURE SCHEDULE ROWS (Only if user actually typed a description)
             const scheduleEvents = Array.from(form.querySelectorAll('input[name="scheduleEvent[]"]')).map(el => el.value.trim());
             const scheduleHours = Array.from(form.querySelectorAll('select[name="scheduleHour[]"]')).map(el => el.value);
             const scheduleMinutes = Array.from(form.querySelectorAll('select[name="scheduleMinute[]"]')).map(el => el.value);
@@ -1154,7 +1119,6 @@
                 }
             }
 
-            // Prepare Data for Firebase
             const orderDataObject = {
                 requestId: uniqueId,
                 userEmail: auth.currentUser.email,
@@ -1183,16 +1147,14 @@
                 whatsappNumber: wa,
                 schedule: scheduleArr,
                 customerComments: form.querySelector('textarea[name="customerComments"]')?.value || 'none',
-                status: "Pending", // Default Status
+                status: "Pending", 
                 submittedAt: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
-                timestamp: serverTimestamp() // Database sorting timestamp
+                timestamp: serverTimestamp() 
             };
 
             try {
-                // 1. Save directly to Firebase Database
                 await addDoc(collection(db, "orders"), orderDataObject);
 
-                // 2. Format Empty Fields & Checkboxes for Formspree email
                 const textInputs = form.querySelectorAll('input[type="text"], input[type="url"], input[type="tel"]');
                 textInputs.forEach(input => {
                     if (input.value.trim() === '') {
@@ -1211,7 +1173,6 @@
                     }
                 });
 
-                // 3. Send email alert via Formspree
                 const formData = new FormData(form);
                 await fetch(form.action, {
                     method: 'POST',
