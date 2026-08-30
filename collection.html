@@ -6,7 +6,8 @@
     <title>Our Collections | Mirzam</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+    <!-- Added Cinzel to the Google Fonts link for the new suite card -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -123,16 +124,21 @@
     <main class="max-w-7xl mx-auto px-6 pb-24 fade-in" style="animation-delay: 0.2s;">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
             
-            <!-- The Celestial Suite -->
+            <!-- The Celestial Suite (Updated to match Ismail & Yara theme) -->
             <div onclick="openLangModal()" class="group block transition-card">
                 <div class="text-center">
-                    <div class="relative aspect-[3/4] overflow-hidden bg-[#0a1128] p-8 flex flex-col justify-center border-8 border-double border-white/20 mb-6 shadow-2xl">
-                        <div class="text-white border border-white/30 p-6 h-full flex flex-col justify-center text-center">
-                            <p class="text-[10px] tracking-[0.4em] mb-4 opacity-70">THE CELESTIAL SUITE</p>
-                            <h2 class="text-3xl italic mb-1">Yara & Ismail</h2>
-                            <div class="w-10 h-px bg-white/40 mx-auto my-6"></div>
-                            <p class="text-[10px] tracking-widest leading-loose opacity-80 uppercase">August 2026</p>
-                            <p class="mt-4 text-[#c5a059]">✦</p>
+                    <div class="relative aspect-[3/4] overflow-hidden bg-[#fdfaf3] p-6 flex flex-col justify-center shadow-2xl mb-6 bg-cover bg-center border border-[#c5a059]" style="background-image: url('background.webp');">
+                        <div class="text-[#000000] border border-[#C2B294] p-4 h-full flex flex-col justify-center text-center bg-[#fdfaf3]/95 backdrop-blur-sm rounded-2xl shadow-lg">
+                            <div class="mx-auto flex justify-center items-center w-12 h-12 rounded-full bg-[#C2B294] border-2 border-[#D8C9AC] mb-5 shadow-sm">
+                                <svg viewBox="0 0 32 32" width="20" height="20" fill="white">
+                                    <path d="M16 28.5L13.8 26.5C5.8 19.3 0.5 14.5 0.5 8.5C0.5 3.8 4.2 0.1 8.9 0.1C11.5 0.1 14.1 1.3 15.8 3.3C17.5 1.3 20.1 0.1 22.7 0.1C27.4 0.1 31.1 3.8 31.1 8.5C31.1 14.5 25.8 19.3 17.8 26.5L16 28.5Z"/>
+                                </svg>
+                            </div>
+                            <h2 class="text-3xl font-bold tracking-[0.1em] mb-0" style="font-family: 'Cinzel', serif;">ISMAIL</h2>
+                            <span class="text-4xl italic my-1" style="font-family: 'Playfair Display', serif;">&</span>
+                            <h2 class="text-3xl font-bold tracking-[0.1em] mb-5" style="font-family: 'Cinzel', serif;">YARA</h2>
+                            <div class="w-12 h-px bg-[#000000] mx-auto mb-5"></div>
+                            <p class="text-[11px] font-bold tracking-widest uppercase" style="font-family: 'Times New Roman', Times, serif;">September 04, 2026</p>
                         </div>
                     </div>
                     <h3 class="text-lg italic">The Mirzam Night</h3>
