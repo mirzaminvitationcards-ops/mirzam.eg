@@ -14,7 +14,7 @@
             --navy: #0a1128; 
             --gold: #c5a059;
             --sage: #8f9f8b;
-            --bg-soft: #f7f4ee; /* A deeper, warmer cream tone that eliminates screen glare */
+            --bg-soft: #f7f4ee;
         }
 
         body { 
@@ -35,14 +35,9 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .category-card img {
-            transition: transform 1.8s cubic-bezier(0.1, 0, 0, 1);
-        }
-        .category-card:hover img {
-            transform: scale(1.08);
-        }
+        .transition-card { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
+        .transition-card:hover { transform: translateY(-10px); }
 
-        /* نافذة اختيار اللغة */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -55,7 +50,7 @@
         }
 
         .lang-box {
-            background-color: #8f9f8b; /* اللون الأخضر الهادئ ليتماشى مع التقويم */
+            background-color: #8f9f8b; 
             width: 90%;
             max-width: 400px;
             padding: 50px 30px;
@@ -65,7 +60,7 @@
 
         .lang-btn {
             width: 100%;
-            height: 50px; /* Fixed height guarantees both buttons are exactly the same size */
+            height: 50px; 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -83,12 +78,10 @@
     <nav class="fixed w-full z-50 bg-[#f7f4ee]/90 backdrop-blur-xl border-b border-gray-200/50 px-6 py-5">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             
-            <!-- Left: Logo -->
             <div class="text-2xl font-bold tracking-[0.2em] uppercase text-[#0a1128]">
                 MIRZAM<span class="text-[#c5a059] font-light">.EG</span>
             </div>
             
-            <!-- Right: Links & Login -->
             <div class="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-semibold items-center">
                 <a href="Mirzam's_Main_page.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Home</a>
                 <a href="collection.html" class="text-[#c5a059]">Collections</a>
@@ -96,19 +89,16 @@
                 <a href="order.html" class="text-[#0a1128] hover:text-[#c5a059] transition-colors">Create Suite</a>
                 <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
                 
-                <!-- Desktop Login Status Container -->
                 <div id="navAuthContainer" class="border-l border-gray-300 pl-10 flex items-center">
                     <button id="openModalBtn" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest whitespace-nowrap">LOG IN</button>
                 </div>
             </div>
 
-            <!-- Mobile Hamburger Button -->
             <button id="mobileMenuBtn" class="md:hidden text-[#0a1128] text-xl focus:outline-none pl-4">
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
 
-        <!-- Mobile Dropdown Menu -->
         <div id="mobileMenu" class="hidden md:hidden pt-4 pb-6 border-t border-gray-200/50 mt-4 flex flex-col space-y-4 text-[11px] uppercase tracking-[0.2em] font-semibold">
             <a href="Mirzam's_Main_page.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Home</a>
             <a href="collection.html" class="text-[#c5a059]">Collections</a>
@@ -116,7 +106,6 @@
             <a href="order.html" class="text-[#0a1128] hover:text-[#c5a059] transition-colors">Create Suite</a>
             <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
             
-            <!-- Mobile Login Container -->
             <div id="navAuthContainerMobile" class="pt-2 border-t border-gray-200/50">
                 <button id="openModalBtnMobile" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest whitespace-nowrap">LOG IN</button>
             </div>
@@ -130,35 +119,99 @@
         <p class="text-[10px] uppercase tracking-[0.5em] text-gray-900">Exquisite Digital Artistry</p>
     </header>
 
-    <!-- Gallery Section -->
+    <!-- Combined Designs Section -->
     <main class="max-w-7xl mx-auto px-6 pb-24 fade-in" style="animation-delay: 0.2s;">
-        <div class="grid md:grid-cols-2 gap-12">
-            <!-- Wedding -->
-            <div class="relative group category-card cursor-pointer overflow-hidden shadow-2xl h-[600px]" onclick="window.location.href='wedding.html'">
-                <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&q=80" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-black/40 flex items-center justify-center transition-all group-hover:bg-black/55">
-                    <div class="text-center text-white p-4">
-                        <h2 class="text-4xl md:text-5xl italic mb-3">Wedding</h2>
-                        <p class="uppercase tracking-[0.4em] text-[10px] opacity-80 mb-6">Royal & Traditional</p>
-                        <button class="border border-white/50 px-10 py-3 uppercase text-[10px] tracking-widest hover:bg-white hover:text-black transition-all">View Designs</button>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+            
+            <!-- The Celestial Suite -->
+            <div onclick="openLangModal()" class="group block transition-card">
+                <div class="text-center">
+                    <div class="relative aspect-[3/4] overflow-hidden bg-[#0a1128] p-8 flex flex-col justify-center border-8 border-double border-white/20 mb-6 shadow-2xl">
+                        <div class="text-white border border-white/30 p-6 h-full flex flex-col justify-center text-center">
+                            <p class="text-[10px] tracking-[0.4em] mb-4 opacity-70">THE CELESTIAL SUITE</p>
+                            <h2 class="text-3xl italic mb-1">Yara & Ismail</h2>
+                            <div class="w-10 h-px bg-white/40 mx-auto my-6"></div>
+                            <p class="text-[10px] tracking-widest leading-loose opacity-80 uppercase">August 2026</p>
+                            <p class="mt-4 text-[#c5a059]">✦</p>
+                        </div>
                     </div>
+                    <h3 class="text-lg italic">The Mirzam Night</h3>
+                    <p class="text-[9px] text-[#c5a059] font-bold uppercase tracking-widest mt-1">View Sample</p>
                 </div>
             </div>
 
-            <!-- Engagement -->
-            <div class="relative group category-card cursor-pointer overflow-hidden shadow-2xl h-[600px]" onclick="window.location.href='engagement.html'">
-                <img src="https://images.unsplash.com/photo-1510076857177-7470076d4098?auto=format&fit=crop&q=80" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-black/40 flex items-center justify-center transition-all group-hover:bg-black/55">
-                    <div class="text-center text-white p-4">
-                        <h2 class="text-4xl md:text-5xl italic mb-3">Engagement</h2>
-                        <p class="uppercase tracking-[0.4em] text-[10px] opacity-80 mb-6">Modern & Chic</p>
-                        <button class="border border-white/50 px-10 py-3 uppercase text-[10px] tracking-widest hover:bg-white hover:text-black transition-all">View Designs</button>
+            <!-- Modern Minimalist -->
+            <div class="transition-card group cursor-default">
+                <div class="relative aspect-[3/4] bg-white border border-gray-100 p-10 flex flex-col justify-center items-center shadow-xl mb-6">
+                    <div class="border border-[#0a1128]/10 w-full h-full flex flex-col justify-center items-center">
+                        <p class="text-[9px] tracking-[0.4em] text-gray-900 mb-8 uppercase">Khetoba Celebration</p>
+                        <h3 class="text-3xl font-light tracking-tighter text-[#0a1128] mb-2">Adam & Sarah</h3>
+                        <div class="w-10 h-px bg-[#c5a059] my-6"></div>
+                        <p class="text-[10px] tracking-[0.2em] uppercase leading-loose text-[#0a1128]">We are getting engaged<br>12 . 06 . 2026</p>
                     </div>
                 </div>
+                <h4 class="text-lg italic text-[#0a1128]">The Modern Minimalist</h4>
+                <p class="text-[9px] text-gray-900 uppercase tracking-widest mt-1 italic">Pure White & Navy Typography</p>
             </div>
+
+            <!-- The Sage Suite -->
+            <div class="transition-card group cursor-default">
+                <div class="relative aspect-[3/4] bg-[#8f9f8b] rounded-t-full p-10 flex flex-col justify-center items-center shadow-2xl mb-6">
+                    <div class="border border-white/20 w-full h-full rounded-t-full flex flex-col justify-center items-center text-white px-4">
+                        <h3 class="text-3xl italic mb-4">Khaled & Mariam</h3>
+                        <div class="text-lg mb-6 italic opacity-90">Engagement</div>
+                        <p class="text-[10px] tracking-[0.3em] mb-6 uppercase">Save the Date</p>
+                        <span class="text-xs">🌿</span>
+                        <p class="text-[9px] mt-4 tracking-widest opacity-80">JULY 2026</p>
+                    </div>
+                </div>
+                <h4 class="text-lg italic text-[#0a1128]">The Sage Suite</h4>
+                <p class="text-[9px] text-gray-900 uppercase tracking-widest mt-1 italic">Organic Tones & Shapes</p>
+            </div>
+
+            <!-- The Signature Suite -->
+            <div class="transition-card group cursor-default">
+                <div class="relative aspect-[3/4] bg-[#0a1128] p-10 flex flex-col justify-center items-center shadow-2xl mb-6 border-8 border-double border-white/10">
+                    <div class="border border-white/10 w-full h-full flex flex-col justify-center items-center text-white px-4">
+                        <p class="text-[#c5a059] text-xs mb-4">✦</p>
+                        <h3 class="text-3xl font-bold italic tracking-wide mb-1">Youssef</h3>
+                        <p class="text-xs opacity-70 font-light">&</p>
+                        <h3 class="text-3xl font-bold italic tracking-wide mb-6">Zeina</h3>
+                        <div class="w-12 h-[1px] bg-[#c5a059] mb-6"></div>
+                        <p class="text-[9px] tracking-[0.4em] opacity-90 uppercase leading-relaxed font-semibold">Our Engagement Night<br>September 2026</p>
+                    </div>
+                </div>
+                <h4 class="text-lg italic text-[#0a1128]">The Signature Suite</h4>
+                <p class="text-[9px] text-gray-900 uppercase tracking-widest mt-1 italic">Navy Blue & Gold Accents</p>
+            </div>
+
+            <!-- Pearl Suite -->
+            <div class="group block opacity-40 grayscale transition-card cursor-default">
+                <div class="text-center">
+                    <div class="relative aspect-[3/4] overflow-hidden bg-[#f7f4ee] p-8 flex flex-col justify-center border border-gray-200 mb-6 shadow-xl">
+                        <div class="text-[#0a1128] p-6 h-full flex flex-col justify-center border border-[#0a1128]/5">
+                            <p class="text-[10px] tracking-[0.4em] mb-8 text-gray-900">THE PEARL SUITE</p>
+                            <h2 class="text-4xl font-light tracking-tighter mb-4 italic">Minimalist</h2>
+                        </div>
+                    </div>
+                    <h3 class="text-lg italic">Coming Soon</h3>
+                </div>
+            </div>
+
+            <!-- Botanical Suite -->
+            <div class="group block opacity-40 grayscale transition-card cursor-default">
+                <div class="text-center">
+                    <div class="relative aspect-[3/4] overflow-hidden bg-[#8f9f8b] p-8 flex flex-col justify-center mb-6 shadow-2xl rounded-t-full">
+                        <div class="text-white p-6 h-full flex flex-col justify-center border border-white/20 rounded-t-full">
+                            <p class="text-xl mb-4 italic">Botanical Garden</p>
+                            <div class="text-sm">🌿</div>
+                        </div>
+                    </div>
+                    <h3 class="text-lg italic">Coming Soon</h3>
+                </div>
+            </div>
+
         </div>
-
-       
     </main>
 
     <!-- Language Selection Modal -->
@@ -167,12 +220,8 @@
             <h3 class="text-white text-2xl italic mb-6">Select Language</h3>
             
             <div class="flex flex-col space-y-4">
-                <!-- ARABIC BUTTON -->
                 <button onclick="redirectTo('ar')" class="lang-btn border border-white text-white hover:bg-white hover:text-[#0a1128]" style="letter-spacing: normal; font-size: 15px;">العربية</button>
-                
-                <!-- ENGLISH BUTTON -->
                 <button onclick="redirectTo('en')" class="lang-btn border border-white text-white hover:bg-white hover:text-[#0a1128]">English</button>
-                
                 <button onclick="closeLangModal()" class="text-white/40 text-[9px] uppercase tracking-widest pt-4">Cancel</button>
             </div>
         </div>
@@ -180,17 +229,13 @@
 
     <!-- Footer -->
     <footer class="py-20 bg-[#f7f4ee] border-t border-gray-200/60 text-center">
-        <!-- Legal Links -->
         <div class="mb-6 flex flex-wrap justify-center items-center gap-6 text-[9px] uppercase tracking-widest text-gray-900">
             <span class="font-bold text-[#0a1128]">Legal</span>
             <a href="privacy.html" class="hover:text-[#c5a059] transition-colors">Privacy policy</a>
             <a href="terms-of-use.html" class="hover:text-[#c5a059] transition-colors">Terms of use</a>
             <a href="refund-policy.html" class="hover:text-[#c5a059] transition-colors">Refund policy</a>
         </div>
-
-        <div class="text-[10px] tracking-[0.6em] uppercase text-[#0a1128] font-bold">
-            © 2026 MIRZAM EGYPT
-        </div>
+        <div class="text-[10px] tracking-[0.6em] uppercase text-[#0a1128] font-bold">© 2026 MIRZAM EGYPT</div>
     </footer>
 
     <!-- Authentication Modal -->
@@ -199,58 +244,32 @@
             <button id="closeModalBtn" class="absolute top-4 right-5 text-gray-900 hover:text-[#0a1128] transition-colors">
                 <i class="fa-solid fa-xmark text-2xl"></i>
             </button>
-            
-            <!-- Mode Switcher Header -->
             <div class="flex items-center space-x-4 mb-8 text-sm font-semibold tracking-wide">
                 <button id="switchToSignIn" class="text-gray-900 hover:text-[#0a1128] transition-colors">Sign in</button>
                 <span class="text-gray-900">|</span>
                 <button id="switchToSignUp" class="text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5">Create account</button>
             </div>
-
-            <!-- Auth Form -->
             <form id="authForm" class="space-y-4">
-                <div id="nameFieldContainer">
-                    <input type="text" id="userName" placeholder="Your name" class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700">
-                </div>
-                <div>
-                    <input type="text" id="userIdentifier" placeholder="Phone or email" required class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700">
-                </div>
-                <div>
-                    <input type="password" id="userPassword" placeholder="Password (min 6 characters)" required class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700">
-                </div>
-                <button type="submit" id="authSubmitBtn" class="w-full bg-[#9b7b43] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors shadow-lg mt-2">
-                    Create account
-                </button>
+                <div id="nameFieldContainer"><input type="text" id="userName" placeholder="Your name" class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700"></div>
+                <div><input type="text" id="userIdentifier" placeholder="Phone or email" required class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700"></div>
+                <div><input type="password" id="userPassword" placeholder="Password (min 6 characters)" required class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700"></div>
+                <button type="submit" id="authSubmitBtn" class="w-full bg-[#9b7b43] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors shadow-lg mt-2">Create account</button>
             </form>
-
             <div id="statusMessage" class="text-center mt-4 text-xs font-semibold tracking-wide"></div>
         </div>
     </div>
 
     <!-- UI Scripts -->
     <script>
-        function openLangModal() {
-            document.getElementById('languageModal').style.display = 'flex';
-        }
-
-        function closeLangModal() {
-            document.getElementById('languageModal').style.display = 'none';
-        }
-
+        function openLangModal() { document.getElementById('languageModal').style.display = 'flex'; }
+        function closeLangModal() { document.getElementById('languageModal').style.display = 'none'; }
         function redirectTo(lang) {
-            if (lang === 'ar') {
-                window.location.href = "https://mirzaminvitationcards-ops.github.io/Ismail-yara-wedding-invitation_ar/main_page";
-            } else {
-                window.location.href = "https://mirzaminvitationcards-ops.github.io/Ismail-yara-wedding-invitation/main_page";
-            }
+            if (lang === 'ar') { window.location.href = "https://mirzaminvitationcards-ops.github.io/Ismail-yara-wedding-invitation_ar/main_page"; } 
+            else { window.location.href = "https://mirzaminvitationcards-ops.github.io/Ismail-yara-wedding-invitation/main_page"; }
         }
-
-        // إغلاق النافذة عند الضغط خارج المربع
         window.onclick = function(event) {
             let modal = document.getElementById('languageModal');
-            if (event.target == modal) {
-                closeLangModal();
-            }
+            if (event.target == modal) { closeLangModal(); }
         }
     </script>
 
@@ -272,7 +291,6 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         
-        // UI Elements
         const authModal = document.getElementById('authModal');
         const openModalBtn = document.getElementById('openModalBtn');
         const openModalBtnMobile = document.getElementById('openModalBtnMobile');
@@ -280,20 +298,15 @@
         const navAuthContainer = document.getElementById('navAuthContainer');
         const navAuthContainerMobile = document.getElementById('navAuthContainerMobile');
         const statusMessage = document.getElementById('statusMessage');
-        
         const switchToSignIn = document.getElementById('switchToSignIn');
         const switchToSignUp = document.getElementById('switchToSignUp');
         const nameFieldContainer = document.getElementById('nameFieldContainer');
         const authSubmitBtn = document.getElementById('authSubmitBtn');
         const authForm = document.getElementById('authForm');
-
-        // Mobile Menu Toggle
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
+        
+        mobileMenuBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
         let isSignUpMode = true;
 
         switchToSignIn.addEventListener('click', () => {
@@ -324,13 +337,11 @@
         openModalBtnMobile?.addEventListener('click', openModal);
         closeModalBtn.addEventListener('click', () => authModal.style.display = 'none');
 
-        // Form Submit Handler
         authForm.addEventListener('submit', (e) => {
             e.preventDefault();
             let identifier = document.getElementById('userIdentifier').value.trim();
             const password = document.getElementById('userPassword').value;
             const name = document.getElementById('userName').value.trim();
-
             let firebaseIdentifier = identifier;
             if (!identifier.includes('@')) {
                 const cleanPhone = identifier.replace(/[\s-]/g, '');
@@ -338,34 +349,18 @@
             }
 
             if (isSignUpMode) {
-                if (name === "") {
-                    showStatus("Please enter your name.", "text-red-500");
-                    return; 
-                }
-                
+                if (name === "") { showStatus("Please enter your name.", "text-red-500"); return; }
                 createUserWithEmailAndPassword(auth, firebaseIdentifier, password)
                     .then((userCredential) => {
                         const user = userCredential.user;
-                        if (name) {
-                            updateProfile(user, { displayName: name }).then(() => {
-                                updateNavigationBar(user, name);
-                            });
-                        } else {
-                            updateNavigationBar(user);
-                        }
+                        if (name) { updateProfile(user, { displayName: name }).then(() => { updateNavigationBar(user, name); }); } 
+                        else { updateNavigationBar(user); }
                         authModal.style.display = 'none';
-                    })
-                    .catch((error) => {
-                        showStatus(error.message, "text-red-500");
-                    });
+                    }).catch((error) => { showStatus(error.message, "text-red-500"); });
             } else {
                 signInWithEmailAndPassword(auth, firebaseIdentifier, password)
-                    .then(() => {
-                        authModal.style.display = 'none';
-                    })
-                    .catch(() => {
-                        showStatus("Invalid phone/email or password.", "text-red-500");
-                    });
+                    .then(() => { authModal.style.display = 'none'; })
+                    .catch(() => { showStatus("Invalid phone/email or password.", "text-red-500"); });
             }
         });
 
@@ -379,27 +374,19 @@
                     <span class="text-[#0a1128] tracking-widest text-[10px] font-bold">HELLO, ${displayName.toUpperCase()}</span>
                     <a href="orders.html" class="bg-[#c5a059] text-white px-3 py-1.5 rounded text-[9px] font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors ml-2">Orders</a>
                     <button class="logoutBtn text-gray-800 hover:text-red-500 transition-colors ml-2" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i></button>
-                </div>
-            `;
+                </div>`;
             navAuthContainer.innerHTML = userHtml;
             navAuthContainerMobile.innerHTML = userHtml;
-
-            document.querySelectorAll('.logoutBtn').forEach(btn => {
-                btn.addEventListener('click', () => signOut(auth));
-            });
+            document.querySelectorAll('.logoutBtn').forEach(btn => { btn.addEventListener('click', () => signOut(auth)); });
         }
 
         onAuthStateChanged(auth, (user) => {
-            if (user) {
-                updateNavigationBar(user);
-            } else {
+            if (user) { updateNavigationBar(user); } 
+            else {
                 const loginHtml = `<button class="openModalBtnDynamic text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest text-[11px] whitespace-nowrap">LOG IN</button>`;
                 navAuthContainer.innerHTML = loginHtml;
                 navAuthContainerMobile.innerHTML = loginHtml;
-
-                document.querySelectorAll('.openModalBtnDynamic').forEach(btn => {
-                    btn.addEventListener('click', openModal);
-                });
+                document.querySelectorAll('.openModalBtnDynamic').forEach(btn => { btn.addEventListener('click', openModal); });
             }
         });
 
