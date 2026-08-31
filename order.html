@@ -48,12 +48,24 @@
         .step-summary { color: var(--sage); font-style: italic; font-weight: 400; margin-left: 10px; text-transform: capitalize;}
 
         /* Custom Radio Button Styling */
-        .custom-radio input[type="radio"], .custom-checkbox input[type="checkbox"] { display: none; }
+        .custom-radio { position: relative; }
+        /* Visually hide the native inputs so they can still receive browser focus for tooltips! */
+        .custom-radio input[type="radio"], .custom-checkbox input[type="checkbox"] { 
+            position: absolute;
+            opacity: 0;
+            width: 1px;
+            height: 1px;
+            top: 50%;
+            left: 50%;
+            pointer-events: none;
+        }
         .radio-card {
             border: 1px solid #e5e7eb;
             transition: all 0.3s ease;
             cursor: pointer;
             background: white;
+            position: relative;
+            z-index: 1;
         }
         .custom-radio input[type="radio"]:checked + .radio-card {
             border-color: var(--gold);
@@ -161,7 +173,8 @@
     </header>
 
     <main class="max-w-4xl mx-auto px-6 pb-32 fade-in" style="animation-delay: 0.2s;">
-        <form id="orderForm" action="https://formspree.io/f/mqpzrgwn" method="POST" class="space-y-6">
+        <!-- NOTE: novalidate is added here to bypass immediate browser jump so our JS can open accordions first -->
+        <form id="orderForm" action="https://formspree.io/f/mqpzrgwn" method="POST" class="space-y-6" novalidate>
             
             <input type="hidden" id="hiddenEventDate" name="eventDate" value="">
             <input type="hidden" id="hiddenRequestId" name="requestId" value="">
@@ -176,7 +189,7 @@
                 <div id="step-1" class="step-content active">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <label class="custom-radio block h-full">
-                            <input type="radio" name="plan" value="Aurora" onchange="handlePlanSelection(this.value)">
+                            <input type="radio" name="plan" value="Aurora" onchange="handlePlanSelection(this.value)" required>
                             <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center relative overflow-hidden">
                                 <div class="absolute top-0 right-0 bg-[#c5a059] text-white text-[7px] uppercase tracking-widest px-2 py-1 w-full text-center">Priority</div>
                                 <h4 class="text-2xl italic mb-2 mt-2">Aurora</h4>
@@ -211,7 +224,7 @@
                 <div id="step-2" class="step-content">
                     <div class="grid grid-cols-1 gap-4 md:gap-8">
                         <label class="custom-radio block h-full">
-                            <input type="radio" name="eventType" value="Wedding" onchange="handleEventSelection(this.value)">
+                            <input type="radio" name="eventType" value="Wedding" onchange="handleEventSelection(this.value)" required>
                             <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center">
                                 <h4 class="text-xl italic mb-1">Wedding</h4>
                                 <p class="text-[9px] uppercase tracking-widest sub-text text-gray-500">Royal & Traditional</p>
@@ -253,9 +266,10 @@
                             <div id="daysContainer" class="calendar-grid"></div>
                         </div>
 
-                        <div class="w-full max-w-450px bg-white p-6 border border-gray-200 shadow-sm text-center">
+                        <div class="w-full max-w-450px bg-white p-6 border border-gray-200 shadow-sm text-center relative">
                             <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-3 font-bold">Event Start Time *</label>
                             <div class="flex items-center justify-center space-x-2">
+                                <!-- The eventHour dropdown is used as the anchor for the calendar validation message -->
                                 <select id="eventHour" name="eventHour" class="border border-gray-300 p-2 text-sm font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
                                     <option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07" selected>07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
                                 </select>
@@ -290,15 +304,15 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <label class="custom-radio block h-full">
-                            <input type="radio" name="design" value="The Mirzam Night" onchange="advanceStep(4, this.value)">
+                            <input type="radio" name="design" value="The Mirzam Night" onchange="handleDesignSelection(this.value)" required>
                             <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">The Mirzam Night</h4></div>
                         </label>
                         <label class="custom-radio block h-full">
-                            <input type="radio" name="design" value="The Midnight" onchange="advanceStep(4, this.value)">
+                            <input type="radio" name="design" value="The Midnight" onchange="handleDesignSelection(this.value)">
                             <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">The Midnight</h4></div>
                         </label>
                         <label class="custom-radio block h-full">
-                            <input type="radio" name="design" value="The Modern Minimalist" onchange="advanceStep(4, this.value)">
+                            <input type="radio" name="design" value="The Modern Minimalist" onchange="handleDesignSelection(this.value)">
                             <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">The Modern Minimalist</h4></div>
                         </label>
                     </div>
@@ -330,7 +344,7 @@
                             
                             <div class="grid grid-cols-2 gap-4">
                                 <label class="custom-radio block h-full">
-                                    <input type="radio" name="musicPreference" value="Yes" checked onchange="handleMusicPreference('Yes')">
+                                    <input type="radio" name="musicPreference" value="Yes" onchange="handleMusicPreference('Yes')" required>
                                     <div class="radio-card p-4 text-center rounded-sm h-full flex flex-col justify-center items-center">
                                         <h4 class="text-sm italic mb-0.5">Yes</h4>
                                         <p class="text-[8px] uppercase tracking-widest sub-text text-gray-500">With standard/custom music</p>
@@ -345,7 +359,7 @@
                                 </label>
                             </div>
 
-                            <div id="musicInputContainer" class="pt-2">
+                            <div id="musicInputContainer" class="hidden pt-2">
                                 <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1">Custom Song Choice</label>
                                 <p class="text-xs text-gray-400 font-light mb-2 italic">Enter the Song Name & Artist (or YouTube link) you want playing. Leave blank to use Mirzam's standard music.</p>
                                 <input type="text" name="music" id="musicInput" class="elegant-input" placeholder="e.g. Perfect by Ed Sheeran">
@@ -366,25 +380,62 @@
                 </div>
                 <div id="step-6" class="step-content">
                     <div class="bg-white p-8 border border-gray-200 shadow-sm space-y-6">
-                        <p class="text-xs text-gray-400 font-light italic">Leave any box blank if you prefer to keep Mirzam's standard elegant wording for that section.</p>
                         
-                        <div>
-                            <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1">Top Phrase (Standard: "cordially invite")</label>
-                            <input type="text" id="wordingTop" name="wordingTop" class="elegant-input" placeholder="e.g. cordially invite">
+                        <!-- Inline Warning Message -->
+                        <div id="step6WarningMessage" class="hidden bg-red-50 border border-red-200 p-4 text-center rounded-sm">
+                            <p class="text-[10px] text-red-600 font-bold uppercase tracking-widest">
+                                <i class="fa-solid fa-triangle-exclamation mr-1"></i> Please select your Event Type (Step 2) and Design Collection (Step 4) first.
+                            </p>
                         </div>
 
-                        <div>
-                            <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1">Middle Phrase (Standard: "We are delighted to invite you")</label>
-                            <input type="text" id="wordingMiddle" name="wordingMiddle" class="elegant-input" placeholder="e.g. We are delighted to invite you">
-                            <p class="text-[10px] text-gray-400 mt-1 italic">↳ Followed automatically on the invitation by: <strong class="text-[#0a1128]">"Guest Name"</strong></p>
-                        </div>
+                        <!-- Form Content (Hidden if prerequisites aren't met) -->
+                        <div id="step6FormContent" class="space-y-6">
+                            <p class="text-xs text-gray-400 font-light italic">Leave any box blank if you prefer to keep Mirzam's standard elegant wording for that section.</p>
+                            
+                            <!-- Wording Style Selection -->
+                            <div class="mb-6 pb-6 border-b border-gray-100 space-y-4">
+                                <label class="text-[10px] uppercase tracking-widest text-gray-500 block font-bold">Wording Style Preference *</label>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <label class="custom-radio block h-full">
+                                        <input type="radio" name="wordingStyle" value="Standard" onchange="updateStep6UI()" required>
+                                        <div class="radio-card p-4 text-center rounded-sm h-full flex flex-col justify-center items-center">
+                                            <h4 class="text-sm italic mb-0.5">Standard</h4>
+                                            <p class="text-[8px] uppercase tracking-widest sub-text text-gray-500">Without specific guest names</p>
+                                        </div>
+                                    </label>
+                                    <label class="custom-radio block h-full">
+                                        <input type="radio" name="wordingStyle" value="Personalized" onchange="updateStep6UI()">
+                                        <div class="radio-card p-4 text-center rounded-sm h-full flex flex-col justify-center items-center">
+                                            <h4 class="text-sm italic mb-0.5">Personalized</h4>
+                                            <p class="text-[8px] uppercase tracking-widest sub-text text-gray-500">Guest name in the middle</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
 
-                        <div>
-                            <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1">Bottom Phrase (Standard: "to share in our special day…")</label>
-                            <input type="text" id="wordingBottom" name="wordingBottom" class="elegant-input" placeholder="e.g. to share in our special day…">
+                            <div id="wordingInputsContainer" class="hidden space-y-6">
+                                <!-- Card Phrase (Exclusive to The Mirzam Night) -->
+                                <div id="cardPhraseContainer" class="hidden">
+                                    <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1">Card Phrase (Standard: "cordially invite")</label>
+                                    <input type="text" id="wordingCard" name="wordingCard" class="elegant-input" placeholder="e.g. cordially invite">
+                                </div>
+
+                                <!-- Top Phrase -->
+                                <div>
+                                    <label id="topPhraseLabel" class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1">Top Phrase</label>
+                                    <input type="text" id="wordingTop" name="wordingTop" class="elegant-input" placeholder="...">
+                                    <p id="guestNameNote" class="text-[10px] text-gray-400 mt-1 italic hidden">↳ Followed automatically on the invitation by: <strong class="text-[#0a1128]">"Guest Name"</strong></p>
+                                </div>
+
+                                <!-- Bottom Phrase -->
+                                <div id="bottomPhraseContainer" class="hidden">
+                                    <label class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1">Bottom Phrase (Standard: "to share in our special day…")</label>
+                                    <input type="text" id="wordingBottom" name="wordingBottom" class="elegant-input" placeholder="e.g. to share in our special day…">
+                                </div>
+                            </div>
+                            
+                            <button type="button" onclick="validateAndAdvanceStep6()" class="w-full mt-4 bg-gray-100 text-[#0a1128] py-3 uppercase text-[10px] tracking-widest font-bold hover:bg-[#c5a059] hover:text-white transition-colors shadow-sm">Save Text & Continue</button>
                         </div>
-                        
-                        <button type="button" onclick="advanceStep(6, 'Custom Text Saved')" class="w-full mt-4 bg-gray-100 text-[#0a1128] py-3 uppercase text-[10px] tracking-widest font-bold hover:bg-[#c5a059] hover:text-white transition-colors shadow-sm">Save Text & Continue</button>
                     </div>
                 </div>
             </div>
@@ -404,7 +455,7 @@
                         
                         <div class="grid grid-cols-2 gap-4">
                             <label class="custom-radio block h-full">
-                                <input type="radio" name="addPhotoPreference" value="Yes" onchange="handlePhotoPreference(this.value)">
+                                <input type="radio" name="addPhotoPreference" value="Yes" onchange="handlePhotoPreference(this.value)" required>
                                 <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center">
                                     <h4 class="text-lg italic mb-1">Yes</h4>
                                     <p class="text-[9px] uppercase tracking-widest sub-text text-gray-500">We want to add photo</p>
@@ -456,14 +507,14 @@
                             
                             <div class="grid grid-cols-2 gap-4">
                                 <label class="custom-radio block h-full">
-                                    <input type="radio" name="isSecretLocation" value="Yes" onchange="handleSecretLocationToggle('Yes')">
+                                    <input type="radio" name="isSecretLocation" value="Yes" onchange="handleSecretLocationToggle('Yes')" required>
                                     <div class="radio-card p-4 text-center rounded-sm h-full flex flex-col justify-center items-center">
                                         <h4 class="text-sm italic mb-0.5">Yes</h4>
                                         <p class="text-[8px] uppercase tracking-widest sub-text text-gray-500">Yes, add secret location</p>
                                     </div>
                                 </label>
                                 <label class="custom-radio block h-full">
-                                    <input type="radio" name="isSecretLocation" value="No" checked onchange="handleSecretLocationToggle('No')">
+                                    <input type="radio" name="isSecretLocation" value="No" onchange="handleSecretLocationToggle('No')">
                                     <div class="radio-card p-4 text-center rounded-sm h-full flex flex-col justify-center items-center">
                                         <h4 class="text-sm italic mb-0.5">No</h4>
                                         <p class="text-[8px] uppercase tracking-widest sub-text text-gray-500">No, standard venue</p>
@@ -648,11 +699,7 @@
             <div class="w-16 h-[1px] bg-[#c5a059] mx-auto"></div>
             <p class="text-sm uppercase tracking-widest text-gray-700 font-bold">Mirzam team will contact you to confirm the request.</p>
             
-            <div class="bg-red-50 border border-red-200 p-4 mt-4 max-w-md mx-auto text-center rounded-sm">
-                <p class="text-[9px] text-red-600 font-bold uppercase tracking-widest">
-                    <i class="fa-solid fa-triangle-exclamation mr-1"></i> Important: When your order is confirmed, DO NOT share the "Manage Invitation" link with your guests.
-                </p>
-            </div>
+            
             
             <div class="pt-6">
                 <a href="orders.html" class="inline-block bg-[#0a1128] text-white px-10 py-3 uppercase text-[10px] tracking-[0.2em] font-bold hover:bg-[#c5a059] transition-colors shadow-lg">
@@ -701,7 +748,16 @@
     </div>
 
     <script>
+        // --- Global tracking variables for Step 6 ---
+        let currentEventType = '';
+        let currentDesign = '';
+
         function toggleStep(stepNum) {
+            // Check UI states just before opening a step
+            if (stepNum === 6) {
+                updateStep6UI();
+            }
+
             const targetStep = document.getElementById(`step-${stepNum}`);
             
             if (targetStep.classList.contains('active')) {
@@ -716,6 +772,11 @@
             const summarySpan = document.getElementById(`summary-${currentStep}`);
             if(summarySpan) summarySpan.innerText = `- ${summaryText}`;
             
+            // Check UI states if auto-advancing to step 6
+            if (currentStep === 5) {
+                updateStep6UI();
+            }
+
             setTimeout(() => {
                 const nextStep = document.getElementById(`step-${currentStep + 1}`);
                 if(nextStep && !nextStep.classList.contains('active')) {
@@ -738,17 +799,85 @@
         }
 
         function handleEventSelection(val) {
+            currentEventType = val;
             advanceStep(2, val);
+            updateStep6UI();
+        }
+
+        function handleDesignSelection(val) {
+            currentDesign = val;
+            advanceStep(4, val);
+            updateStep6UI();
+        }
+
+        function updateStep6UI() {
+            const warningMsg = document.getElementById('step6WarningMessage');
+            const formContent = document.getElementById('step6FormContent');
+            
+            // If they haven't made the required selections, show warning and hide form
+            if (!currentEventType || !currentDesign) {
+                if(warningMsg) warningMsg.classList.remove('hidden');
+                if(formContent) formContent.classList.add('hidden');
+                return; 
+            } else {
+                if(warningMsg) warningMsg.classList.add('hidden');
+                if(formContent) formContent.classList.remove('hidden');
+            }
+
+            const stylePrefInput = document.querySelector('input[name="wordingStyle"]:checked');
+            const wordingInputsContainer = document.getElementById('wordingInputsContainer');
+
+            // Hide the text inputs if no wording style has been clicked yet
+            if (!stylePrefInput) {
+                if(wordingInputsContainer) wordingInputsContainer.classList.add('hidden');
+                return;
+            }
+            if(wordingInputsContainer) wordingInputsContainer.classList.remove('hidden');
+
+            const stylePref = stylePrefInput.value;
+            const isMirzam = (currentDesign === 'The Mirzam Night');
+
+            const cardPhraseContainer = document.getElementById('cardPhraseContainer');
+            const topPhraseLabel = document.getElementById('topPhraseLabel');
+            const wordingTop = document.getElementById('wordingTop');
+            const guestNameNote = document.getElementById('guestNameNote');
+            const bottomPhraseContainer = document.getElementById('bottomPhraseContainer');
+
+            if (!topPhraseLabel) return;
+
+            // Show Card Phrase only if 'The Mirzam Night' is selected
+            if (isMirzam) {
+                cardPhraseContainer.classList.remove('hidden');
+            } else {
+                cardPhraseContainer.classList.add('hidden');
+            }
+
+            // Dynamic UI Updates based on Standard vs. Personalized choice
+            if (stylePref === 'Personalized') {
+                topPhraseLabel.innerHTML = 'Top Phrase (Standard: "We are delighted to invite you")';
+                wordingTop.placeholder = 'e.g. We are delighted to invite you';
+                guestNameNote.classList.remove('hidden');
+                bottomPhraseContainer.classList.remove('hidden');
+            } else {
+                // Standard Formatting adapts based on Wedding/Engagement
+                const eventStr = currentEventType ? currentEventType.toLowerCase() : 'event';
+                const standardSimpleText = `You are invited to the ${eventStr} party of`;
+                
+                topPhraseLabel.innerHTML = `Top Phrase (Standard: "${standardSimpleText}")`;
+                wordingTop.placeholder = `e.g. ${standardSimpleText}`;
+                guestNameNote.classList.add('hidden');
+                bottomPhraseContainer.classList.add('hidden');
+            }
         }
 
         function handleMusicPreference(val) {
             const inputContainer = document.getElementById('musicInputContainer');
             const musicInput = document.getElementById('musicInput');
             if (val === 'No') {
-                inputContainer.style.display = 'none';
+                inputContainer.classList.add('hidden');
                 musicInput.value = 'No music selected (Without standard music)';
             } else {
-                inputContainer.style.display = 'block';
+                inputContainer.classList.remove('hidden');
                 musicInput.value = '';
             }
         }
@@ -758,24 +887,33 @@
             const mapInput = document.getElementById('secretLocationMap');
             if (val === 'Yes') {
                 container.classList.remove('hidden');
-                mapInput.required = true;
             } else {
                 container.classList.add('hidden');
-                mapInput.required = false;
                 mapInput.value = '';
             }
         }
 
         function validateAndAdvanceStep5() {
-            const p1 = document.getElementById('p1').value.trim();
-            const p2 = document.getElementById('p2').value.trim();
+            const p1 = document.getElementById('p1');
+            const p2 = document.getElementById('p2');
+            const musicPref = document.querySelector('input[name="musicPreference"]:checked');
             
-            if (!p1 || !p2) {
-                alert("Please enter both partner names to continue.");
+            if (!p1.value.trim() || !p2.value.trim() || !musicPref) {
+                if (!p1.value.trim()) p1.reportValidity();
+                else if (!p2.value.trim()) p2.reportValidity();
+                else document.querySelector('input[name="musicPreference"]').reportValidity();
                 return;
             }
-            
-            advanceStep(5, `${p1} & ${p2}`);
+            advanceStep(5, `${p1.value.trim()} & ${p2.value.trim()}`);
+        }
+
+        function validateAndAdvanceStep6() {
+            const wordingStyle = document.querySelector('input[name="wordingStyle"]:checked');
+            if (!wordingStyle) {
+                document.querySelector('input[name="wordingStyle"]').reportValidity();
+                return;
+            }
+            advanceStep(6, 'Custom Text Saved');
         }
 
         function handlePhotoPreference(val) {
@@ -790,36 +928,42 @@
         function validateAndAdvanceStep7() {
             const selectedPref = document.querySelector('input[name="addPhotoPreference"]:checked');
             if (!selectedPref) {
-                alert("Please select whether you want to add a photo or not.");
+                document.querySelector('input[name="addPhotoPreference"]').reportValidity();
                 return;
             }
             advanceStep(7, selectedPref.value === 'Yes' ? 'Yes (Via WhatsApp)' : 'No Photo');
         }
 
         function validateAndAdvanceStep8() {
-            const vName = document.getElementById('venueName').value.trim();
-            const vLoc = document.getElementById('venueLocation').value.trim();
-            const vMap = document.getElementById('venueMap').value.trim();
-            const isSecret = document.querySelector('input[name="isSecretLocation"]:checked').value;
-            const secretMap = document.getElementById('secretLocationMap').value.trim();
+            const vName = document.getElementById('venueName');
+            const vLoc = document.getElementById('venueLocation');
+            const vMap = document.getElementById('venueMap');
+            const isSecretEl = document.querySelector('input[name="isSecretLocation"]:checked');
+            const secretMap = document.getElementById('secretLocationMap');
 
-            if (!vName || !vLoc || !vMap) {
-                alert("Please fill out all venue details and the Google Maps link to continue.");
+            if (!vName.value.trim() || !vLoc.value.trim() || !vMap.value.trim() || !isSecretEl) {
+                if (!vName.value.trim()) vName.reportValidity();
+                else if (!vLoc.value.trim()) vLoc.reportValidity();
+                else if (!vMap.value.trim()) vMap.reportValidity();
+                else document.querySelector('input[name="isSecretLocation"]').reportValidity();
                 return;
             }
 
-            if (isSecret === 'Yes' && !secretMap) {
-                alert("Please provide the secret location Google Maps link.");
+            if (isSecretEl.value === 'Yes' && !secretMap.value.trim()) {
+                secretMap.setCustomValidity("Please provide the secret location Google Maps link.");
+                secretMap.reportValidity();
                 return;
+            } else {
+                secretMap.setCustomValidity("");
             }
 
-            advanceStep(8, vName);
+            advanceStep(8, vName.value.trim());
         }
 
         function validateAndAdvanceStep12() {
-            const wa = document.getElementById('whatsappNumber').value.trim();
-            if (!wa) {
-                alert("Please provide your WhatsApp phone number to confirm your order.");
+            const wa = document.getElementById('whatsappNumber');
+            if (!wa.value.trim()) {
+                wa.reportValidity();
                 return;
             }
             advanceStep(12, 'Provided');
@@ -862,6 +1006,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             renderCalendar();
+            updateStep6UI(); // Apply default UI settings on load
 
             const urlParams = new URLSearchParams(window.location.search);
             const planParam = urlParams.get('plan');
@@ -1053,20 +1198,66 @@
         document.getElementById('orderForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            // 1. Authentication Check
             if (!auth.currentUser) {
-                alert("Please log in or create an account first so we can save your order to your profile!");
                 window.openModal();
                 return;
             }
 
             const form = e.target;
-            const wa = form.querySelector('input[name="whatsappnumber"]').value.trim();
-            if (!wa) {
-                alert("Please fill out your WhatsApp number in Step 12 to submit your request.");
-                toggleStep(12);
-                return;
+
+            // Pre-validation logic to sync custom UI with Native HTML5 constraints
+            
+            // Custom check for Step 3 (Calendar Date)
+            const eventDate = document.getElementById('hiddenEventDate').value;
+            const step3Dropdown = document.getElementById('eventHour');
+            if (!eventDate) {
+                step3Dropdown.setCustomValidity("Please select a date from the calendar and click 'Confirm Date & Time'.");
+            } else {
+                step3Dropdown.setCustomValidity("");
             }
 
+            // Custom check for Step 8 (Secret Location Map if Yes is selected)
+            const isSecretLocation = form.querySelector('input[name="isSecretLocation"]:checked')?.value || 'No';
+            const secretLocationMap = document.getElementById('secretLocationMap');
+            if (isSecretLocation === 'Yes' && !secretLocationMap.value.trim()) {
+                secretLocationMap.setCustomValidity("Please provide the secret location Google Maps link.");
+            } else {
+                secretLocationMap.setCustomValidity("");
+            }
+
+            // 2. Native HTML5 Validation
+            if (!form.checkValidity()) {
+                const firstInvalid = form.querySelector(':invalid');
+                if (firstInvalid) {
+                    const stepContent = firstInvalid.closest('.step-content');
+                    if (stepContent) {
+                        // Force open the invalid step
+                        document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+                        stepContent.classList.add('active');
+                        
+                        // Wait for accordion opening animation (0.6s in CSS) to fully calculate position
+                        setTimeout(() => {
+                            const header = stepContent.previousElementSibling;
+                            if(header) {
+                                // Scroll smoothly to the step header
+                                const y = header.getBoundingClientRect().top + window.scrollY - 100;
+                                window.scrollTo({top: y, behavior: 'smooth'});
+                            }
+                            
+                            // Short delay after scrolling to show the native tooltip perfectly centered
+                            setTimeout(() => {
+                                firstInvalid.reportValidity();
+                            }, 300);
+                        }, 600);
+                    } else {
+                        firstInvalid.reportValidity();
+                    }
+                }
+                return; // Stop submission
+            }
+
+            // 3. Form is valid! Generate Request ID and Schedule
             const uniqueId = 'MZ-' + Date.now().toString().slice(-6) + '-' + Math.floor(1000 + Math.random() * 9000);
             document.getElementById('hiddenRequestId').value = uniqueId;
 
@@ -1082,32 +1273,36 @@
                 }
             }
 
+            // 4. Construct Data Object for Firestore
             const orderDataObject = {
                 requestId: uniqueId,
                 userEmail: auth.currentUser.email,
-                plan: form.querySelector('input[name="plan"]:checked')?.value || 'Standard',
-                eventType: form.querySelector('input[name="eventType"]:checked')?.value || 'Event',
-                design: form.querySelector('input[name="design"]:checked')?.value || 'Custom',
-                partner1: form.querySelector('input[name="partner1"]').value,
-                partner2: form.querySelector('input[name="partner2"]').value,
-                eventDate: document.getElementById('hiddenEventDate').value,
+                plan: form.querySelector('input[name="plan"]:checked').value,
+                eventType: form.querySelector('input[name="eventType"]:checked').value,
+                design: form.querySelector('input[name="design"]:checked').value,
+                partner1: form.querySelector('input[name="partner1"]').value.trim(),
+                partner2: form.querySelector('input[name="partner2"]').value.trim(),
+                eventDate: eventDate,
                 eventTime: form.querySelector('select[name="eventHour"]').value + ':' + form.querySelector('select[name="eventMinute"]').value + ' ' + form.querySelector('select[name="eventTimePeriod"]').value,
-                venueName: form.querySelector('input[name="venueName"]').value,
-                venueLocation: form.querySelector('input[name="venueLocation"]').value,
-                venueMap: form.querySelector('input[name="venueMap"]').value,
-                isSecretLocation: form.querySelector('input[name="isSecretLocation"]:checked')?.value || 'No',
-                secretLocationMap: form.querySelector('input[name="secretLocationMap"]')?.value || 'none',
-                musicPref: form.querySelector('input[name="musicPreference"]:checked')?.value || 'Yes',
+                venueName: form.querySelector('input[name="venueName"]').value.trim(),
+                venueLocation: form.querySelector('input[name="venueLocation"]').value.trim(),
+                venueMap: form.querySelector('input[name="venueMap"]').value.trim(),
+                isSecretLocation: isSecretLocation,
+                secretLocationMap: secretLocationMap.value.trim() || 'none',
+                musicPref: form.querySelector('input[name="musicPreference"]:checked')?.value || 'none',
                 musicChoice: form.querySelector('input[name="music"]').value || 'none',
-                wordingTop: form.querySelector('input[name="wordingTop"]').value || 'none',
-                wordingMiddle: form.querySelector('input[name="wordingMiddle"]').value || 'none',
-                wordingBottom: form.querySelector('input[name="wordingBottom"]').value || 'none',
-                photoPref: form.querySelector('input[name="addPhotoPreference"]:checked')?.value || 'No',
+                
+                wordingStyle: form.querySelector('input[name="wordingStyle"]:checked')?.value || 'none',
+                wordingCard: form.querySelector('input[name="wordingCard"]')?.value || 'none',
+                wordingTop: form.querySelector('input[name="wordingTop"]')?.value || 'none',
+                wordingBottom: form.querySelector('input[name="wordingBottom"]')?.value || 'none',
+                
+                photoPref: form.querySelector('input[name="addPhotoPreference"]:checked').value,
                 colorCode: form.querySelector('input[name="colorCode"]').value || 'none',
                 guestPhotoGallery: form.querySelector('input[name="Guest Photo Gallery"]')?.checked ? 'Yes' : 'No',
                 voiceMessages: form.querySelector('input[name="Voice Messages"]')?.checked ? 'Yes' : 'No',
                 whatsappName: form.querySelector('input[name="whatsappname"]').value || 'none',
-                whatsappNumber: wa,
+                whatsappNumber: form.querySelector('input[name="whatsappnumber"]').value.trim(),
                 schedule: scheduleArr,
                 customerComments: form.querySelector('textarea[name="customerComments"]')?.value || 'none',
                 status: "Pending", 
@@ -1115,9 +1310,11 @@
                 timestamp: serverTimestamp() 
             };
 
+            // 5. Submit to Firestore and Formspree
             try {
                 await addDoc(collection(db, "orders"), orderDataObject);
 
+                // Fallback empty inputs to 'none' for Formspree
                 const textInputs = form.querySelectorAll('input[type="text"], input[type="url"], input[type="tel"]');
                 textInputs.forEach(input => {
                     if (input.value.trim() === '') {
@@ -1143,9 +1340,13 @@
                     headers: { 'Accept': 'application/json' }
                 });
 
+                // Show Success Screen
                 form.style.display = 'none';
                 document.getElementById('displayRequestId').innerText = `Request ID: ${uniqueId}`;
                 document.getElementById('successMessageContainer').classList.remove('hidden');
+                
+                // Scroll to top to see the success message
+                window.scrollTo({ top: 0, behavior: 'smooth' });
 
             } catch (error) {
                 console.error("Error adding document: ", error);
