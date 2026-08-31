@@ -6,8 +6,7 @@
     <title>Our Collections | Mirzam</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Added Cinzel to the Google Fonts link for the new suite card -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@200;400;600&family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -124,19 +123,21 @@
     <main class="max-w-7xl mx-auto px-6 pb-24 fade-in" style="animation-delay: 0.2s;">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
             
-            <!-- The Mirzam Night Suite (Updated to match Ismail & Yara theme) -->
+            <!-- The Mirzam Night Suite -->
             <div onclick="openLangModal()" class="group block transition-card">
                 <div class="text-center">
                     <div class="relative aspect-[3/4] overflow-hidden bg-[#fdfaf3] p-6 flex flex-col justify-center shadow-2xl mb-6 bg-cover bg-center border border-[#c5a059]" style="background-image: url('background.webp');">
-                        <div class="text-[#000000] border border-[#C2B294] p-4 h-full flex flex-col justify-center text-center bg-[#fdfaf3]/95 backdrop-blur-sm rounded-2xl shadow-lg">
-                            <div class="mx-auto flex justify-center items-center w-12 h-12 rounded-full bg-[#C2B294] border-2 border-[#D8C9AC] mb-5 shadow-sm">
-                                <svg viewBox="0 0 32 32" width="20" height="20" fill="white">
-                                    <path d="M16 28.5L13.8 26.5C5.8 19.3 0.5 14.5 0.5 8.5C0.5 3.8 4.2 0.1 8.9 0.1C11.5 0.1 14.1 1.3 15.8 3.3C17.5 1.3 20.1 0.1 22.7 0.1C27.4 0.1 31.1 3.8 31.1 8.5C31.1 14.5 25.8 19.3 17.8 26.5L16 28.5Z"/>
-                                </svg>
-                            </div>
+                        
+                        <!-- Added 'relative' to this inner frame to allow absolute positioning of the icon -->
+                        <div class="text-[#000000] border border-[#C2B294] p-4 h-full flex flex-col justify-center text-center bg-[#fdfaf3]/95 backdrop-blur-sm rounded-2xl shadow-lg relative">
+                            
+                           
+                            
+                            <!-- Margins aligned with the other two cards (my-2 and mb-6) -->
                             <h2 class="text-3xl font-bold tracking-[0.1em] mb-0" style="font-family: 'Cinzel', serif;">ISMAIL</h2>
-                            <span class="text-4xl italic my-1" style="font-family: 'Playfair Display', serif;">&</span>
-                            <h2 class="text-3xl font-bold tracking-[0.1em] mb-5" style="font-family: 'Cinzel', serif;">YARA</h2>
+                            <span class="text-3xl italic my-2" style="font-family: 'Playfair Display', serif;">&</span>
+                            <h2 class="text-3xl font-bold tracking-[0.1em] mb-6" style="font-family: 'Cinzel', serif;">YARA</h2>
+                            
                             <div class="w-12 h-px bg-[#000000] mx-auto mb-5"></div>
                             <p class="text-[11px] font-bold tracking-widest uppercase" style="font-family: 'Times New Roman', Times, serif;">September 04, 2026</p>
                         </div>
@@ -149,7 +150,6 @@
             <!-- The Midnight Suite -->
             <a href="https://mirzaminvitationcards-ops.github.io/The-Midnight-Suite/The%20Midnight%20Suite" target="_blank" class="group block transition-card text-center">
                 
-                <!-- OUTER FRAME: Sharp corners and border matching the Mirzam Night structure -->
                 <div class="relative aspect-[3/4] overflow-hidden bg-[#151F38] p-6 flex flex-col justify-center shadow-2xl mb-6 border border-[#FDE29F]/50" 
                      style="background-image: 
                         radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.3) 1px, transparent 2px),
@@ -157,14 +157,8 @@
                         radial-gradient(circle at 20% 10%, rgba(253, 226, 159, 0.3) 2px, transparent 3px);
                         background-size: 150px 200px, 200px 250px, 250px 200px;">
                     
-                    <!-- INNER FRAME: Heavily rounded "semicircle" corners -->
                     <div class="text-[#ffffff] border border-[#FDE29F]/50 p-4 h-full flex flex-col justify-center text-center rounded-[2rem] relative">
                         
-
-                  
-                        
-
-                        <!-- Crescent Moon Accent -->
                         <div class="absolute top-6 right-6 w-4 h-4 rounded-full" style="box-shadow: inset 4px -3px 0 0 #EAEDF4; filter: drop-shadow(0 0 3px rgba(234, 237, 244, 0.6));"></div>
                         
                         <h2 class="text-3xl font-bold tracking-[0.15em] mb-0 text-[#FDE29F]" style="font-family: 'Cinzel', serif;">MAHEER</h2>
@@ -176,23 +170,31 @@
                     </div>
                 </div>
                 
-                <h3 class="text-lg italic text-[#0a1128]">The Midnight Suite</h3>
+                <h3 class="text-lg italic text-[#0a1128]">The Midnight</h3>
                 <p class="text-[9px] text-[#c5a059] font-bold uppercase tracking-widest mt-1 group-hover:text-[#0a1128] transition-colors">View Sample</p>
             </a>
 
             <!-- Modern Minimalist -->
-            <div class="transition-card group cursor-default">
-                <div class="relative aspect-[3/4] bg-white border border-gray-100 p-10 flex flex-col justify-center items-center shadow-xl mb-6">
-                    <div class="border border-[#0a1128]/10 w-full h-full flex flex-col justify-center items-center">
-                        <p class="text-[9px] tracking-[0.4em] text-gray-900 mb-8 uppercase">Khetoba Celebration</p>
-                        <h3 class="text-3xl font-light tracking-tighter text-[#0a1128] mb-2">Adam & Sarah</h3>
-                        <div class="w-10 h-px bg-[#c5a059] my-6"></div>
-                        <p class="text-[10px] tracking-[0.2em] uppercase leading-loose text-[#0a1128]">We are getting engaged<br>12 . 06 . 2026</p>
+            <a href="https://mirzaminvitationcards-ops.github.io/The_Modern_Minimalist/The%20Modern%20Minimalist.html" target="_blank" class="group block transition-card text-center">
+                
+                <div class="relative aspect-[3/4] overflow-hidden bg-[#F8F6F0] p-6 flex flex-col justify-center shadow-2xl mb-6 border border-[#a67b82]/30">
+                    
+                    <div class="text-[#2c2c2c] border border-[#a67b82]/30 p-4 h-full flex flex-col justify-center text-center bg-[rgba(255,255,255,0.75)] backdrop-blur-sm rounded-[2rem] shadow-lg relative">
+                        
+                        <!-- Top Engagement Info Text Removed As Requested -->
+                        
+                        <h2 class="text-3xl font-bold tracking-[0.15em] mb-0 text-[#2c2c2c]" style="font-family: 'Cinzel', serif;">KHALID</h2>
+                        <span class="text-3xl italic my-2 text-[#a67b82]" style="font-family: 'Playfair Display', serif;">&</span>
+                        <h2 class="text-3xl font-bold tracking-[0.15em] mb-6 text-[#2c2c2c]" style="font-family: 'Cinzel', serif;">HABIBA</h2>
+                        
+                        <div class="w-10 h-[1px] bg-[#a67b82] mx-auto mb-5"></div>
+                        <p class="text-[9px] font-bold tracking-[0.2em] uppercase text-[#666666]" style="font-family: 'Inter', sans-serif;">December 04, 2026</p>
                     </div>
                 </div>
-                <h4 class="text-lg italic text-[#0a1128]">The Modern Minimalist</h4>
-                <p class="text-[9px] text-gray-900 uppercase tracking-widest mt-1 italic">Pure White & Navy Typography</p>
-            </div>
+
+                <h3 class="text-lg italic text-[#0a1128]">The Modern Minimalist</h3>
+                <p class="text-[9px] text-[#c5a059] font-bold uppercase tracking-widest mt-1 group-hover:text-[#0a1128] transition-colors">View Sample</p>
+            </a>
 
             <!-- The Sage Suite -->
             <div class="transition-card group cursor-default">
