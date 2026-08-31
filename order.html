@@ -117,7 +117,6 @@
 </head>
 <body class="antialiased">
 
-    <!-- Navigation -->
     <nav class="fixed w-full z-50 bg-[#fdfbf7]/90 backdrop-blur-xl border-b border-gray-100 px-6 py-5">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             
@@ -155,21 +154,18 @@
         </div>
     </nav>
 
-    <!-- Header -->
     <header class="pt-48 pb-12 text-center fade-in">
         <h1 class="text-4xl md:text-5xl italic text-[#0a1128] mb-4">Design Your Suite</h1>
         <div class="w-16 h-[1px] bg-[#c5a059] mx-auto mb-4"></div>
         <p class="text-[10px] uppercase tracking-[0.5em] text-gray-900">Step-by-step Customization</p>
     </header>
 
-    <!-- Form Container -->
     <main class="max-w-4xl mx-auto px-6 pb-32 fade-in" style="animation-delay: 0.2s;">
         <form id="orderForm" action="https://formspree.io/f/mqpzrgwn" method="POST" class="space-y-6">
             
             <input type="hidden" id="hiddenEventDate" name="eventDate" value="">
             <input type="hidden" id="hiddenRequestId" name="requestId" value="">
 
-            <!-- STEP 1: THE PLAN -->
             <div class="border-b border-gray-200 pb-4">
                 <div class="step-header flex justify-between items-center" onclick="toggleStep(1)">
                     <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
@@ -205,7 +201,6 @@
                 </div>
             </div>
 
-            <!-- STEP 2: EVENT TYPE -->
             <div class="border-b border-gray-200 pb-4">
                 <div class="step-header flex justify-between items-center" onclick="toggleStep(2)">
                     <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
@@ -233,7 +228,6 @@
                 </div>
             </div>
 
-            <!-- STEP 3: THE DATE & TIME -->
             <div class="border-b border-gray-200 pb-4">
                 <div class="step-header flex justify-between items-center" onclick="toggleStep(3)">
                     <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
@@ -284,7 +278,6 @@
                 </div>
             </div>
 
-            <!-- STEP 4: BASE DESIGN -->
             <div class="border-b border-gray-200 pb-4">
                 <div class="step-header flex justify-between items-center" onclick="toggleStep(4)">
                     <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
@@ -297,34 +290,21 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <label class="custom-radio block h-full">
-                            <input type="radio" name="design" value="Celestial Suite" onchange="advanceStep(4, this.value)">
-                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">Celestial Suite</h4></div>
+                            <input type="radio" name="design" value="The Mirzam Night" onchange="advanceStep(4, this.value)">
+                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">The Mirzam Night</h4></div>
                         </label>
                         <label class="custom-radio block h-full">
-                            <input type="radio" name="design" value="Pearl Suite" onchange="advanceStep(4, this.value)">
-                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">Pearl Suite</h4></div>
+                            <input type="radio" name="design" value="The Midnight" onchange="advanceStep(4, this.value)">
+                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">The Midnight</h4></div>
                         </label>
                         <label class="custom-radio block h-full">
-                            <input type="radio" name="design" value="Botanical Garden" onchange="advanceStep(4, this.value)">
-                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">Botanical Garden</h4></div>
-                        </label>
-                        <label class="custom-radio block h-full">
-                            <input type="radio" name="design" value="Modern Minimalist" onchange="advanceStep(4, this.value)">
-                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">Modern Minimalist</h4></div>
-                        </label>
-                        <label class="custom-radio block h-full">
-                            <input type="radio" name="design" value="Sage Suite" onchange="advanceStep(4, this.value)">
-                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">Sage Suite</h4></div>
-                        </label>
-                        <label class="custom-radio block h-full">
-                            <input type="radio" name="design" value="Signature Suite" onchange="advanceStep(4, this.value)">
-                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">Signature Suite</h4></div>
+                            <input type="radio" name="design" value="The Modern Minimalist" onchange="advanceStep(4, this.value)">
+                            <div class="radio-card p-6 text-center rounded-sm h-full flex flex-col justify-center items-center"><h4 class="text-lg italic">The Modern Minimalist</h4></div>
                         </label>
                     </div>
                 </div>
             </div>
 
-            <!-- STEP 5: DETAILS (NAMES & MUSIC OPTION) -->
             <div class="border-b border-gray-200 pb-4">
                 <div class="step-header flex justify-between items-center" onclick="toggleStep(5)">
                     <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
@@ -345,7 +325,6 @@
                             </div>
                         </div>
 
-                        <!-- Music Preference Option -->
                         <div class="pt-4 border-t border-gray-100 space-y-4">
                             <label class="text-[10px] uppercase tracking-widest text-gray-500 block font-bold">Background Music Preference *</label>
                             
@@ -378,7 +357,6 @@
                 </div>
             </div>
 
-            <!-- STEP 6: INVITATION TEXT CUSTOMIZATION -->
             <div class="border-b border-gray-200 pb-4">
                 <div class="step-header flex justify-between items-center" onclick="toggleStep(6)">
                     <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
@@ -411,7 +389,6 @@
                 </div>
             </div>
 
-            <!-- STEP 7: PHOTO ADDITION PREFERENCE -->
             <div class="border-b border-gray-200 pb-4">
                 <div class="step-header flex justify-between items-center" onclick="toggleStep(7)">
                     <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
@@ -451,7 +428,6 @@
                 </div>
             </div>
 
-            <!-- STEP 8: THE VENUE (With Secret Location Note Option) -->
             <div class="border-b border-gray-200 pb-4">
                 <div class="step-header flex justify-between items-center" onclick="toggleStep(8)">
                     <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
@@ -475,7 +451,6 @@
                             <input type="url" id="venueMap" name="venueMap" class="elegant-input" placeholder="https://maps.google.com/..." required>
                         </div>
 
-                        <!-- Secret Location & Note Option -->
                         <div class="pt-4 border-t border-gray-100 space-y-4">
                             <label class="text-[10px] uppercase tracking-widest text-gray-500 block font-bold">Do you want to add secret location with password (e.g. house location)?</label>
                             
@@ -512,7 +487,6 @@
                 </div>
             </div>
 
-            <!-- STEP 9: DAY SCHEDULE -->
             <div class="border-b border-gray-200 pb-4">
                 <div class="step-header flex justify-between items-center" onclick="toggleStep(9)">
                     <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
@@ -525,7 +499,6 @@
                         <p class="text-xs text-gray-400 font-light italic mb-4">Define your timeline events and times. You can edit existing rows, click "+ Add Row" to add more, or <b>delete all rows if you do not want a schedule.</b></p>
                         
                         <div id="scheduleRowsContainer" class="space-y-4">
-                            <!-- Default Row 1 -->
                             <div class="flex items-center space-x-1 md:space-x-2 schedule-row w-full">
                                 <select name="scheduleHour[]" class="border border-gray-300 p-1 md:p-2 text-xs font-bold bg-white text-[#0a1128] focus:outline-none focus:border-[#c5a059]">
                                     <option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07" selected>07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
@@ -555,7 +528,6 @@
                 </div>
             </div>
 
-            <!-- STEP 10: AESTHETICS (Color Code) -->
             <div class="border-b border-gray-200 pb-4">
                 <div class="step-header flex justify-between items-center" onclick="toggleStep(10)">
                     <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
@@ -574,7 +546,6 @@
                 </div>
             </div>
 
-            <!-- STEP 11: OPTIONAL ADD-ONS -->
             <div class="border-b border-gray-200 pb-4">
                 <div class="step-header flex justify-between items-center" onclick="toggleStep(11)">
                     <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
@@ -615,7 +586,6 @@
                 </div>
             </div>
 
-            <!-- STEP 12: WHATSAPP CONFIRMATION (MANDATORY) -->
             <div class="border-b border-gray-200 pb-4">
                 <div class="step-header flex justify-between items-center" onclick="toggleStep(12)">
                     <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
@@ -643,7 +613,6 @@
                 </div>
             </div>
 
-            <!-- STEP 13: ADDITIONAL COMMENTS -->
             <div class="border-b border-gray-200 pb-4">
                 <div class="step-header flex justify-between items-center" onclick="toggleStep(13)">
                     <h3 class="text-[#0a1128] text-sm font-bold uppercase tracking-widest">
@@ -662,7 +631,6 @@
                 </div>
             </div>
 
-            <!-- SUBMIT BUTTON -->
             <div id="submitContainer" class="text-center pt-8 mt-12">
                 <button type="submit" class="bg-[#0a1128] text-white px-16 py-5 uppercase text-xs tracking-[0.2em] font-bold hover:bg-[#c5a059] transition-colors shadow-xl">
                     Review & Submit Request
@@ -671,7 +639,6 @@
             
         </form>
 
-        <!-- Success Confirmation Message -->
         <div id="successMessageContainer" class="hidden text-center py-20 bg-white border border-gray-200 shadow-xl mt-12 p-8 space-y-6">
             <div class="w-16 h-16 bg-[#c5a059]/20 text-[#c5a059] rounded-full flex items-center justify-center mx-auto text-2xl">
                 <i class="fa-solid fa-check"></i>
@@ -695,7 +662,6 @@
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="py-16 bg-[#fdfbf7] border-t border-gray-100 text-center">
         <div class="mb-6 flex flex-wrap justify-center items-center gap-6 text-[9px] uppercase tracking-widest text-gray-900">
             <span class="font-bold text-[#0a1128]">Legal</span>
@@ -706,7 +672,6 @@
         <div class="text-[10px] tracking-[0.6em] uppercase text-[#0a1128] font-bold">© 2026 MIRZAM EGYPT</div>
     </footer>
 
-    <!-- Authentication Modal -->
     <div id="authModal" class="fixed inset-0 bg-[#0a1128]/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
         <div class="bg-[#fdfbf7] p-8 md:p-10 max-w-md w-full relative border-t-4 border-[#c5a059] shadow-2xl rounded-sm">
             <button id="closeModalBtn" class="absolute top-4 right-5 text-gray-900 hover:text-[#0a1128] transition-colors">
@@ -735,7 +700,6 @@
         </div>
     </div>
 
-    <!-- Wizard, Pre-select Plan & Calendar Logic -->
     <script>
         function toggleStep(stepNum) {
             const targetStep = document.getElementById(`step-${stepNum}`);
@@ -972,7 +936,6 @@
         }
     </script>
 
-    <!-- Firebase Integration & Auth UI Logic (Module) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
