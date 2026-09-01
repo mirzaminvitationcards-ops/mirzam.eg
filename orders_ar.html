@@ -58,11 +58,13 @@
         .btn-theme { 
             background: linear-gradient(135deg, #c5a059 0%, #a67c33 100%);
             color: white; 
-            letter-spacing: 0.15em;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
             box-shadow: 0 10px 20px -5px rgba(197, 160, 89, 0.4);
             position: relative;
             overflow: hidden;
+        }
+        .btn-theme.btn-en {
+            letter-spacing: 0.15em;
             text-transform: uppercase;
         }
         .btn-theme::after {
@@ -81,6 +83,8 @@
             border: 1px solid var(--gold);
             color: var(--navy);
             transition: all 0.3s ease;
+        }
+        .btn-outline.btn-en {
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
@@ -124,7 +128,7 @@
                         <span id="langLabelDesktop">EN</span>
                     </button>
                     <div id="navAuthContainer" class="flex items-center">
-                        <button id="openModalBtn" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-wide whitespace-nowrap flex items-center gap-2">
+                        <button id="openModalBtn" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors whitespace-nowrap flex items-center gap-2">
                             <i class="fa-regular fa-user text-[#c5a059]"></i> تسجيل الدخول
                         </button>
                     </div>
@@ -170,7 +174,7 @@
         <div class="relative z-10 text-center px-4 text-white mt-12" data-aos="fade-up" data-aos-duration="1500">
             <h1 class="text-5xl md:text-7xl mb-4 font-serif-ar tracking-tight drop-shadow-2xl">طلباتي</h1>
             <div class="w-24 h-[1px] bg-[#c5a059] mx-auto mb-6"></div>
-            <p class="text-sm md:text-base font-light tracking-widest text-[#dfc282] font-tajawal uppercase">
+            <p class="text-sm md:text-base font-light text-[#dfc282] font-tajawal">
                 دعواتك وحالة الطلب
             </p>
         </div>
@@ -184,7 +188,7 @@
             <div class="absolute top-0 right-0 w-32 h-32 bg-[#c5a059] opacity-10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
             
             <div class="w-20 h-20 bg-[#0a1128] text-[#c5a059] rounded-full flex items-center justify-center mx-auto text-3xl shadow-lg"><i class="fa-solid fa-lock"></i></div>
-            <h2 class="text-3xl font-serif-ar text-[#0a1128] tracking-widest">يرجى تسجيل الدخول لعرض طلباتك</h2>
+            <h2 class="text-3xl font-serif-ar text-[#0a1128]">يرجى تسجيل الدخول لعرض طلباتك</h2>
             <p class="text-sm font-light text-gray-500 max-w-md mx-auto leading-relaxed">ادخل إلى لوحة التحكم الخاصة بك لمتابعة حالة طلباتك، الروابط النهائية، وتحديثات الحفل.</p>
             <button onclick="openModal()" class="btn-theme px-12 py-4 rounded-full mt-6 inline-block text-sm font-bold shadow-xl">تسجيل الدخول الآن</button>
         </div>
@@ -213,11 +217,11 @@
                     
                     <!-- Admin Sorting Filters -->
                     <div id="adminFilters" class="hidden flex flex-wrap gap-2">
-                        <button data-filter="All" onclick="setFilter('All')" class="filter-btn bg-[#c5a059] text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest rounded-full shadow-md">الكل</button>
-                        <button data-filter="Pending" onclick="setFilter('Pending')" class="filter-btn bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-gray-100 transition-colors">قيد المراجعة</button>
-                        <button data-filter="Confirmed" onclick="setFilter('Confirmed')" class="filter-btn bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-gray-100 transition-colors">مؤكد</button>
-                        <button data-filter="Delivered" onclick="setFilter('Delivered')" class="filter-btn bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-gray-100 transition-colors">تم التسليم</button>
-                        <button data-filter="Cancelled" onclick="setFilter('Cancelled')" class="filter-btn bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-gray-100 transition-colors">ملغى</button>
+                        <button data-filter="All" onclick="setFilter('All')" class="filter-btn bg-[#c5a059] text-white px-4 py-2 text-[10px] font-bold rounded-full shadow-md">الكل</button>
+                        <button data-filter="Pending" onclick="setFilter('Pending')" class="filter-btn bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 text-[10px] font-bold rounded-full hover:bg-gray-100 transition-colors">قيد المراجعة</button>
+                        <button data-filter="Confirmed" onclick="setFilter('Confirmed')" class="filter-btn bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 text-[10px] font-bold rounded-full hover:bg-gray-100 transition-colors">مؤكد</button>
+                        <button data-filter="Delivered" onclick="setFilter('Delivered')" class="filter-btn bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 text-[10px] font-bold rounded-full hover:bg-gray-100 transition-colors">تم التسليم</button>
+                        <button data-filter="Cancelled" onclick="setFilter('Cancelled')" class="filter-btn bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 text-[10px] font-bold rounded-full hover:bg-gray-100 transition-colors">ملغى</button>
                     </div>
                 </div>
 
@@ -378,9 +382,9 @@
             currentFilter = filterStatus;
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 if (btn.dataset.filter === filterStatus) {
-                    btn.className = "filter-btn bg-[#c5a059] text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest rounded-full shadow-md";
+                    btn.className = "filter-btn bg-[#c5a059] text-white px-4 py-2 text-[10px] font-bold rounded-full shadow-md";
                 } else {
-                    btn.className = "filter-btn bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-gray-100 transition-colors";
+                    btn.className = "filter-btn bg-gray-50 border border-gray-200 text-gray-700 px-4 py-2 text-[10px] font-bold rounded-full hover:bg-gray-100 transition-colors";
                 }
             });
             renderOrdersUI();
@@ -442,7 +446,7 @@
                 const noOrdersMessage = currentFilter === 'All' ? 'لم يتم العثور على طلبات.' : 'لا توجد طلبات بهذه الحالة.';
                 container.innerHTML = `
                     <div class="text-center py-12 bg-[#fdfbf7] border border-[#c5a059]/10 rounded-2xl space-y-3">
-                        <p class="text-sm uppercase tracking-widest text-gray-500 font-bold">${noOrdersMessage}</p>
+                        <p class="text-sm text-gray-500 font-bold">${noOrdersMessage}</p>
                     </div>`;
                 return;
             }
@@ -472,7 +476,7 @@
 
                 let scheduleHTML = '';
                 if (order.schedule && order.schedule.length > 0) {
-                    scheduleHTML = `<div class="col-span-1 md:col-span-2 mt-4"><strong class="text-[#0a1128] block mb-2 uppercase text-[10px] tracking-widest font-bold border-b border-gray-100 pb-1">جدول اليوم</strong><ul class="list-none space-y-2 mt-2">`;
+                    scheduleHTML = `<div class="col-span-1 md:col-span-2 mt-4"><strong class="text-[#0a1128] block mb-2 text-[10px] font-bold border-b border-gray-100 pb-1">جدول اليوم</strong><ul class="list-none space-y-2 mt-2">`;
                     order.schedule.forEach(item => {
                         scheduleHTML += `<li class="flex gap-2"><span class="font-numbers text-[#c5a059] font-bold min-w-[80px]" dir="ltr">${item.split(' - ')[0]}</span> <span class="text-gray-600">${item.split(' - ')[1]}</span></li>`;
                     });
@@ -481,41 +485,41 @@
 
                 let wordingHTML = '';
                 if ((order.wordingTop && order.wordingTop !== 'none') || (order.wordingMiddle && order.wordingMiddle !== 'none') || (order.wordingBottom && order.wordingBottom !== 'none')) {
-                    wordingHTML = `<div class="col-span-1 md:col-span-2 mt-4"><strong class="text-[#0a1128] block mb-2 uppercase text-[10px] tracking-widest font-bold border-b border-gray-100 pb-1">النص المخصص</strong><div class="space-y-1.5 mt-2">`;
-                    if(order.wordingTop && order.wordingTop !== 'none') wordingHTML += `<div><span class="text-[#c5a059] font-bold text-[10px] uppercase tracking-wider w-16 inline-block">العلوي:</span> <span class="text-gray-600 italic">"${order.wordingTop}"</span></div>`;
-                    if(order.wordingMiddle && order.wordingMiddle !== 'none') wordingHTML += `<div><span class="text-[#c5a059] font-bold text-[10px] uppercase tracking-wider w-16 inline-block">الأوسط:</span> <span class="text-gray-600 italic">"${order.wordingMiddle}"</span></div>`;
-                    if(order.wordingBottom && order.wordingBottom !== 'none') wordingHTML += `<div><span class="text-[#c5a059] font-bold text-[10px] uppercase tracking-wider w-16 inline-block">السفلي:</span> <span class="text-gray-600 italic">"${order.wordingBottom}"</span></div>`;
+                    wordingHTML = `<div class="col-span-1 md:col-span-2 mt-4"><strong class="text-[#0a1128] block mb-2 text-[10px] font-bold border-b border-gray-100 pb-1">النص المخصص</strong><div class="space-y-1.5 mt-2">`;
+                    if(order.wordingTop && order.wordingTop !== 'none') wordingHTML += `<div><span class="text-[#c5a059] font-bold text-[10px] w-16 inline-block">العلوي:</span> <span class="text-gray-600 italic">"${order.wordingTop}"</span></div>`;
+                    if(order.wordingMiddle && order.wordingMiddle !== 'none') wordingHTML += `<div><span class="text-[#c5a059] font-bold text-[10px] w-16 inline-block">الأوسط:</span> <span class="text-gray-600 italic">"${order.wordingMiddle}"</span></div>`;
+                    if(order.wordingBottom && order.wordingBottom !== 'none') wordingHTML += `<div><span class="text-[#c5a059] font-bold text-[10px] w-16 inline-block">السفلي:</span> <span class="text-gray-600 italic">"${order.wordingBottom}"</span></div>`;
                     wordingHTML += `</div></div>`;
                 }
 
                 const detailsGrid = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 text-[13px] text-gray-700 mt-6 p-6 bg-gray-50 border border-gray-100 rounded-xl shadow-inner">
-                        <div><strong class="text-[#0a1128] block text-[10px] uppercase tracking-widest mb-0.5">الباقة</strong> ${planArabic || '-'}</div>
-                        <div><strong class="text-[#0a1128] block text-[10px] uppercase tracking-widest mb-0.5">العروسين</strong> ${order.partner1 || '-'} و ${order.partner2 || '-'}</div>
-                        <div><strong class="text-[#0a1128] block text-[10px] uppercase tracking-widest mb-0.5">تاريخ ووقت الحفل</strong> <span class="font-numbers">${order.eventDate || '-'} ${order.eventTime && order.eventTime !== 'none' ? `الساعة ${order.eventTime}` : ''}</span></div>
+                        <div><strong class="text-[#0a1128] block text-[10px] mb-0.5">الباقة</strong> ${planArabic || '-'}</div>
+                        <div><strong class="text-[#0a1128] block text-[10px] mb-0.5">العروسين</strong> ${order.partner1 || '-'} و ${order.partner2 || '-'}</div>
+                        <div><strong class="text-[#0a1128] block text-[10px] mb-0.5">تاريخ ووقت الحفل</strong> <span class="font-numbers">${order.eventDate || '-'} ${order.eventTime && order.eventTime !== 'none' ? `الساعة ${order.eventTime}` : ''}</span></div>
                         
-                        <div><strong class="text-[#0a1128] block text-[10px] uppercase tracking-widest mb-0.5">القاعة</strong> ${order.venueName || '-'}</div>
+                        <div><strong class="text-[#0a1128] block text-[10px] mb-0.5">القاعة</strong> ${order.venueName || '-'}</div>
                         ${order.venueLocation && order.venueLocation !== 'none' ? `
-                        <div><strong class="text-[#0a1128] block text-[10px] uppercase tracking-widest mb-0.5">العنوان</strong> ${order.venueLocation} 
+                        <div><strong class="text-[#0a1128] block text-[10px] mb-0.5">العنوان</strong> ${order.venueLocation} 
                             ${order.venueMap && order.venueMap !== 'none' ? `<a href="${order.venueMap}" target="_blank" class="text-[#c5a059] font-bold hover:text-[#0a1128] mr-2 transition-colors"><i class="fa-solid fa-map-location-dot"></i> الخريطة</a>` : ''}
                         </div>` : ''}
                         
                         ${order.isSecretLocation === 'Yes' ? `
-                        <div><strong class="text-[#0a1128] block text-[10px] uppercase tracking-widest mb-0.5">موقع سري</strong> نعم 
+                        <div><strong class="text-[#0a1128] block text-[10px] mb-0.5">موقع سري</strong> نعم 
                             ${order.secretLocationMap && order.secretLocationMap !== 'none' ? `<a href="${order.secretLocationMap}" target="_blank" class="text-[#c5a059] font-bold hover:text-[#0a1128] mr-2 transition-colors"><i class="fa-solid fa-map-location-dot"></i> الخريطة</a>` : ''}
                         </div>` : ''}
 
-                        ${order.whatsappNumber && order.whatsappNumber !== 'none' ? `<div><strong class="text-[#0a1128] block text-[10px] uppercase tracking-widest mb-0.5">واتساب</strong> <span class="font-numbers" dir="ltr">${order.whatsappNumber}</span> ${order.whatsappName && order.whatsappName !== 'none' ? `(${order.whatsappName})` : ''}</div>` : ''}
-                        ${order.musicPref && order.musicPref !== 'none' ? `<div><strong class="text-[#0a1128] block text-[10px] uppercase tracking-widest mb-0.5">الموسيقى</strong> ${order.musicPref === 'Yes' ? 'نعم' : 'لا'} ${order.musicChoice && order.musicChoice !== 'none' ? `<br><span class="text-gray-500 italic mt-0.5 inline-block">${order.musicChoice}</span>` : ''}</div>` : ''}
-                        ${order.photoPref && order.photoPref !== 'none' ? `<div><strong class="text-[#0a1128] block text-[10px] uppercase tracking-widest mb-0.5">تتضمن صورة</strong> ${order.photoPref === 'Yes' ? 'نعم' : 'لا'}</div>` : ''}
-                        ${order.colorCode && order.colorCode !== 'none' ? `<div><strong class="text-[#0a1128] block text-[10px] uppercase tracking-widest mb-0.5">قواعد الملابس</strong> <span class="font-numbers">${order.colorCode}</span></div>` : ''}
-                        ${order.guestPhotoGallery === 'Yes' ? `<div><strong class="text-[#0a1128] block text-[10px] uppercase tracking-widest mb-0.5">معرض الضيوف</strong> نعم</div>` : ''}
-                        ${order.voiceMessages === 'Yes' ? `<div><strong class="text-[#0a1128] block text-[10px] uppercase tracking-widest mb-0.5">الرسائل الصوتية</strong> نعم</div>` : ''}
+                        ${order.whatsappNumber && order.whatsappNumber !== 'none' ? `<div><strong class="text-[#0a1128] block text-[10px] mb-0.5">واتساب</strong> <span class="font-numbers" dir="ltr">${order.whatsappNumber}</span> ${order.whatsappName && order.whatsappName !== 'none' ? `(${order.whatsappName})` : ''}</div>` : ''}
+                        ${order.musicPref && order.musicPref !== 'none' ? `<div><strong class="text-[#0a1128] block text-[10px] mb-0.5">الموسيقى</strong> ${order.musicPref === 'Yes' ? 'نعم' : 'لا'} ${order.musicChoice && order.musicChoice !== 'none' ? `<br><span class="text-gray-500 italic mt-0.5 inline-block">${order.musicChoice}</span>` : ''}</div>` : ''}
+                        ${order.photoPref && order.photoPref !== 'none' ? `<div><strong class="text-[#0a1128] block text-[10px] mb-0.5">تتضمن صورة</strong> ${order.photoPref === 'Yes' ? 'نعم' : 'لا'}</div>` : ''}
+                        ${order.colorCode && order.colorCode !== 'none' ? `<div><strong class="text-[#0a1128] block text-[10px] mb-0.5">قواعد الملابس</strong> <span class="font-numbers">${order.colorCode}</span></div>` : ''}
+                        ${order.guestPhotoGallery === 'Yes' ? `<div><strong class="text-[#0a1128] block text-[10px] mb-0.5">معرض الضيوف</strong> نعم</div>` : ''}
+                        ${order.voiceMessages === 'Yes' ? `<div><strong class="text-[#0a1128] block text-[10px] mb-0.5">الرسائل الصوتية</strong> نعم</div>` : ''}
                         
                         ${scheduleHTML}
                         ${wordingHTML}
 
-                        ${order.customerComments && order.customerComments !== 'none' ? `<div class="col-span-1 md:col-span-2 mt-2"><strong class="text-[#0a1128] block mb-2 uppercase text-[10px] tracking-widest font-bold border-b border-gray-100 pb-1">ملاحظات إضافية</strong><p class="text-gray-600 bg-white p-4 border border-[#c5a059]/20 rounded-lg italic text-sm mt-2">${order.customerComments}</p></div>` : ''}
+                        ${order.customerComments && order.customerComments !== 'none' ? `<div class="col-span-1 md:col-span-2 mt-2"><strong class="text-[#0a1128] block mb-2 text-[10px] font-bold border-b border-gray-100 pb-1">ملاحظات إضافية</strong><p class="text-gray-600 bg-white p-4 border border-[#c5a059]/20 rounded-lg italic text-sm mt-2">${order.customerComments}</p></div>` : ''}
                     </div>
                 `;
 
@@ -527,16 +531,16 @@
                     <div class="mt-8 pt-6 border-t border-gray-100 flex flex-col sm:flex-row gap-4">
                         ${order.invitationLink ? `
                         <div class="flex-1 flex shadow-lg rounded-xl overflow-hidden group flex-row-reverse">
-                            <a href="${order.invitationLink}" target="_blank" class="flex-grow btn-theme text-center py-4 px-4 text-[12px] tracking-[0.2em] font-bold flex items-center justify-center rounded-none"><i class="fa-solid fa-link ml-3"></i> عرض الدعوة</a>
+                            <a href="${order.invitationLink}" target="_blank" class="flex-grow btn-theme text-center py-4 px-4 text-[12px] font-bold flex items-center justify-center rounded-none"><i class="fa-solid fa-link ml-3"></i> عرض الدعوة</a>
                             <button onclick="copyToClipboard('${order.invitationLink}')" class="bg-[#0a1128] text-white px-6 hover:bg-[#c5a059] transition-colors border-r border-white/20 flex items-center justify-center" title="نسخ الرابط"><i class="fa-regular fa-copy text-lg"></i></button>
                         </div>` : ''}
-                        ${order.adminLink ? `<a href="${order.adminLink}" target="_blank" class="flex-1 border-2 border-[#0a1128] text-[#0a1128] text-center py-4 px-4 text-[12px] tracking-[0.2em] uppercase font-bold hover:bg-[#0a1128] hover:text-white transition-colors shadow-sm rounded-xl flex items-center justify-center"><i class="fa-solid fa-key ml-3"></i> إدارة الدعوة</a>` : ''}
+                        ${order.adminLink ? `<a href="${order.adminLink}" target="_blank" class="flex-1 border-2 border-[#0a1128] text-[#0a1128] text-center py-4 px-4 text-[12px] font-bold hover:bg-[#0a1128] hover:text-white transition-colors shadow-sm rounded-xl flex items-center justify-center"><i class="fa-solid fa-key ml-3"></i> إدارة الدعوة</a>` : ''}
                     </div>`;
 
                     if (order.adminLink && !isAdminGlobal) {
                         customerUI += `
                         <div class="mt-6 bg-red-50 border border-red-200 p-5 text-center rounded-xl shadow-sm">
-                            <p class="text-xs text-red-600 font-bold uppercase tracking-widest leading-relaxed">
+                            <p class="text-xs text-red-600 font-bold leading-relaxed">
                                 <i class="fa-solid fa-triangle-exclamation ml-2 text-red-600 text-lg"></i><br class="md:hidden"> هام: عند تأكيد طلبك، لا تشارك رابط "إدارة الدعوة" مع ضيوفك.
                             </p>
                         </div>`;
@@ -549,18 +553,18 @@
                         <p class="text-xs font-bold uppercase tracking-widest mb-4 text-red-800 border-b border-red-200 pb-2 font-en">Admin Control Panel</p>
                         
                         <div class="grid grid-cols-2 gap-3 mb-6">
-                            <button onclick="changeFirebaseStatus('${order.id}', 'Pending')" class="w-full bg-gray-300 py-3 text-[10px] uppercase font-bold text-gray-800 hover:bg-gray-400 transition-colors rounded-lg shadow-sm">Set Pending</button>
-                            <button onclick="changeFirebaseStatus('${order.id}', 'Confirmed')" class="w-full bg-[#c5a059] py-3 text-[10px] uppercase font-bold text-white hover:bg-[#a68444] transition-colors rounded-lg shadow-sm">Set Confirmed</button>
-                            <button onclick="changeFirebaseStatus('${order.id}', 'Delivered')" class="w-full bg-[#8f9f8b] py-3 text-[10px] uppercase font-bold text-white hover:bg-[#778673] transition-colors rounded-lg shadow-sm">Set Delivered</button>
-                            <button onclick="changeFirebaseStatus('${order.id}', 'Cancelled')" class="w-full bg-red-500 py-3 text-[10px] uppercase font-bold text-white hover:bg-red-600 transition-colors rounded-lg shadow-sm">Cancel Order</button>
-                            <button onclick="deleteOrder('${order.id}')" class="col-span-2 w-full bg-[#0a1128] py-3 text-[10px] uppercase font-bold text-white hover:bg-black transition-colors rounded-lg mt-2 shadow-sm"><i class="fa-solid fa-trash-can ml-2"></i> Delete Order Permanently</button>
+                            <button onclick="changeFirebaseStatus('${order.id}', 'Pending')" class="w-full bg-gray-300 py-3 text-[10px] uppercase font-bold text-gray-800 hover:bg-gray-400 transition-colors rounded-lg shadow-sm font-en">Set Pending</button>
+                            <button onclick="changeFirebaseStatus('${order.id}', 'Confirmed')" class="w-full bg-[#c5a059] py-3 text-[10px] uppercase font-bold text-white hover:bg-[#a68444] transition-colors rounded-lg shadow-sm font-en">Set Confirmed</button>
+                            <button onclick="changeFirebaseStatus('${order.id}', 'Delivered')" class="w-full bg-[#8f9f8b] py-3 text-[10px] uppercase font-bold text-white hover:bg-[#778673] transition-colors rounded-lg shadow-sm font-en">Set Delivered</button>
+                            <button onclick="changeFirebaseStatus('${order.id}', 'Cancelled')" class="w-full bg-red-500 py-3 text-[10px] uppercase font-bold text-white hover:bg-red-600 transition-colors rounded-lg shadow-sm font-en">Cancel Order</button>
+                            <button onclick="deleteOrder('${order.id}')" class="col-span-2 w-full bg-[#0a1128] py-3 text-[10px] uppercase font-bold text-white hover:bg-black transition-colors rounded-lg mt-2 shadow-sm font-en"><i class="fa-solid fa-trash-can ml-2"></i> Delete Order Permanently</button>
                         </div>
                         
                         <div class="pt-6 border-t border-red-200">
                             <p class="text-xs font-bold uppercase tracking-widest mb-4 text-red-800 font-en">Assign Invitation Links</p>
                             <div class="space-y-3 mb-4">
-                                <input type="url" id="invLink_${order.id}" class="w-full border border-red-200 bg-white px-4 py-3 text-sm focus:outline-none focus:border-[#c5a059] rounded-lg shadow-sm text-left" dir="ltr" placeholder="Guest Invitation Link (URL)" value="${order.invitationLink || ''}">
-                                <input type="url" id="admLink_${order.id}" class="w-full border border-red-200 bg-white px-4 py-3 text-sm focus:outline-none focus:border-[#c5a059] rounded-lg shadow-sm text-left" dir="ltr" placeholder="Admin Powers Link (URL)" value="${order.adminLink || ''}">
+                                <input type="url" id="invLink_${order.id}" class="w-full border border-red-200 bg-white px-4 py-3 text-sm focus:outline-none focus:border-[#c5a059] rounded-lg shadow-sm text-left font-en" dir="ltr" placeholder="Guest Invitation Link (URL)" value="${order.invitationLink || ''}">
+                                <input type="url" id="admLink_${order.id}" class="w-full border border-red-200 bg-white px-4 py-3 text-sm focus:outline-none focus:border-[#c5a059] rounded-lg shadow-sm text-left font-en" dir="ltr" placeholder="Admin Powers Link (URL)" value="${order.adminLink || ''}">
                             </div>
                             <button onclick="saveLinks('${order.id}')" class="bg-gray-800 text-white px-6 py-4 text-[11px] uppercase tracking-widest font-bold hover:bg-black transition-all w-full shadow-lg rounded-lg font-en">Save Links & Publish to Customer</button>
                         </div>
@@ -590,12 +594,12 @@
                     
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center pb-6 border-b border-gray-100 relative z-10">
                         <div>
-                            <span class="text-[10px] uppercase tracking-[0.2em] font-bold ${statusColorClass}">الحالة: ${statusArabic}</span>
+                            <span class="text-[10px] font-bold ${statusColorClass}">الحالة: ${statusArabic}</span>
                             <h4 class="text-3xl font-serif-ar mt-2 text-[#0a1128]">${eventArabic} — ${designArabic}</h4>
                             ${isAdminGlobal ? `<p class="text-[11px] text-gray-400 mt-2 font-bold font-numbers tracking-wide">Customer: ${order.userEmail}</p>` : ''}
                         </div>
                         <div class="mt-6 md:mt-0 text-right md:text-left bg-gray-50 px-5 py-3 rounded-xl border border-gray-100">
-                            <span class="text-[9px] tracking-widest text-gray-400 uppercase block mb-1">رقم الطلب الإشاري</span>
+                            <span class="text-[9px] text-gray-400 block mb-1">رقم الطلب الإشاري</span>
                             <span class="text-sm font-bold text-[#c5a059] font-numbers tracking-wider">${order.requestId}</span>
                         </div>
                     </div>
@@ -607,11 +611,11 @@
                     <div class="grid grid-cols-2 gap-6 pt-4 relative z-10">
                         <div class="status-box ${isConfirmed && !isCancelled ? 'active-confirmed' : ''} p-5 text-center flex flex-col items-center justify-center shadow-sm">
                             <i class="fa-solid fa-circle-check mb-2 text-xl"></i>
-                            <p class="text-[10px] uppercase tracking-widest font-bold mt-1">مؤكد</p>
+                            <p class="text-[10px] font-bold mt-1">مؤكد</p>
                         </div>
                         <div class="status-box ${isDelivered && !isCancelled ? 'active-delivered' : ''} p-5 text-center flex flex-col items-center justify-center shadow-sm">
                             <i class="fa-solid fa-box-open mb-2 text-xl"></i>
-                            <p class="text-[10px] uppercase tracking-widest font-bold mt-1">تم التسليم</p>
+                            <p class="text-[10px] font-bold mt-1">تم التسليم</p>
                         </div>
                     </div>
                     
@@ -753,7 +757,7 @@
                 document.getElementById('loggedInView').classList.remove('hidden');
                 
                 const displayName = user.displayName || user.email.split('@')[0];
-                document.getElementById('userDisplayName').innerText = displayName.toUpperCase();
+                document.getElementById('userDisplayName').innerText = displayName;
                 document.getElementById('userDisplayEmail').innerText = user.email.includes('@mirzam.auth') ? '' : user.email;
 
                 fetchOrders(user);
@@ -762,7 +766,7 @@
                 document.getElementById('loggedInView').classList.add('hidden');
                 document.getElementById('loggedOutView').classList.remove('hidden');
                 
-                const loginHtml = `<button class="openModalBtnDynamic text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-wide whitespace-nowrap flex items-center gap-2"><i class="fa-regular fa-user text-[#c5a059]"></i> تسجيل الدخول</button>`;
+                const loginHtml = `<button class="openModalBtnDynamic text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors whitespace-nowrap flex items-center gap-2"><i class="fa-regular fa-user text-[#c5a059]"></i> تسجيل الدخول</button>`;
                 document.getElementById('navAuthContainer').innerHTML = loginHtml;
                 document.getElementById('navAuthContainerMobile').innerHTML = loginHtml;
                 
