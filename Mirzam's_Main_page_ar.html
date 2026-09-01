@@ -51,6 +51,7 @@
         .btn-theme { 
             background: linear-gradient(135deg, #c5a059 0%, #a67c33 100%);
             color: white; 
+            
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
             box-shadow: 0 10px 20px -5px rgba(197, 160, 89, 0.4);
             position: relative;
@@ -133,7 +134,7 @@
 
            <!-- Mobile Controls -->
             <div class="md:hidden flex items-center space-x-4 space-x-reverse pr-4">
-                <button onclick="toggleLanguage()" class="border border-[#c5a059]/50 rounded-full px-3 py-1 text-[#0a1128] font-bold text-[11px] uppercase tracking-widest hover:bg-[#c5a059] hover:text-white transition-all flex items-center justify-center min-w-[36px] font-en">
+                <button onclick="toggleLanguage()" class="border border-[#c5a059]/50 rounded-full px-2.5 py-0.5 text-[#0a1128] font-bold text-[11px] uppercase tracking-widest hover:bg-[#c5a059] hover:text-white transition-all flex items-center justify-center min-w-[36px] font-en">
                     <span id="langLabelMobile">EN</span>
                 </button>
                 <button id="mobileMenuBtn" class="text-[#0a1128] text-2xl focus:outline-none hover:text-[#c5a059] transition-colors">
@@ -170,8 +171,8 @@
         <div class="relative z-10 text-center px-4 text-white" data-aos="fade-up" data-aos-duration="1500">
             <h1 class="text-7xl md:text-9xl mb-4 font-serif-ar tracking-tight drop-shadow-2xl">مِرزّم</h1>
             <div class="w-24 h-[1px] bg-[#c5a059] mx-auto mb-6"></div>
-            <p class="text-xl md:text-3xl font-light max-w-2xl mx-auto mb-12 font-serif-ar">
-                فن الدعوات الرقمية
+            <p class="text-xl md:text-3xl font-light max-w-2xl mx-auto mb-12 tracking-widest text-[#dfc282] font-serif-ar">
+                فـــن الدعـــوات الرقـمـيـة
             </p>
             <a href="order_ar.html" class="btn-theme px-12 py-4 inline-block text-[15px] font-bold rounded-sm">
                 ابدأ تصميم دعوتك
@@ -239,7 +240,7 @@
         <div class="max-w-3xl mx-auto relative z-10" data-aos="zoom-in" data-aos-duration="1000">
             <i class="fa-solid fa-quote-right text-4xl text-[#c5a059] mb-6 opacity-50"></i>
             <h2 class="text-4xl md:text-5xl font-serif-ar mb-8 text-white leading-tight">أناقة بمفهوم جديد</h2>
-            <p class="text-[#dfc282] font-serif-ar text-2xl md:text-3xl mb-8">
+            <p class="text-[#dfc282] font-serif-ar text-2xl md:text-3xl mb-8 tracking-wide">
                 "يوم زفافك يبدأ من لحظة فتحهم للدعوة."
             </p>
             <div class="w-16 h-[1px] bg-[#c5a059] mx-auto mb-8"></div>
@@ -259,14 +260,14 @@
                     <span class="w-20 h-20 flex items-center justify-center rounded-full border-2 border-gray-200 mb-4 group-hover:border-[#c5a059] group-hover:bg-[#c5a059] bg-white transition-all duration-300 shadow-sm group-hover:shadow-xl group-hover:-translate-y-2">
                         <i class="fab fa-instagram text-3xl text-[#0a1128] group-hover:text-white transition-colors"></i>
                     </span>
-                    <span class="text-[14px] font-bold text-gray-600 group-hover:text-[#c5a059] transition-colors">انستجرام</span>
+                    <span class="text-[14px] font-bold tracking-widest text-gray-600 group-hover:text-[#c5a059] transition-colors">انستجرام</span>
                 </a>
 
                 <a href="https://www.tiktok.com/@mirzam.eg?_r=1&_t=ZS-98gnVz79sYv" target="_blank" class="group flex flex-col items-center">
                     <span class="w-20 h-20 flex items-center justify-center rounded-full border-2 border-gray-200 mb-4 group-hover:border-[#c5a059] group-hover:bg-[#c5a059] bg-white transition-all duration-300 shadow-sm group-hover:shadow-xl group-hover:-translate-y-2">
                         <i class="fab fa-tiktok text-3xl text-[#0a1128] group-hover:text-white transition-colors"></i>
                     </span>
-                    <span class="text-[14px] font-bold text-gray-600 group-hover:text-[#c5a059] transition-colors">تيك توك</span>
+                    <span class="text-[14px] font-bold tracking-widest text-gray-600 group-hover:text-[#c5a059] transition-colors">تيك توك</span>
                 </a>
             </div>
         </div>
@@ -407,6 +408,7 @@
 
         const openModal = () => {
             authModal.style.display = 'flex';
+            // Slight delay for animation effect
             setTimeout(() => { authModal.classList.add('opacity-100'); }, 10);
             statusMessage.innerText = '';
             mobileMenu.classList.add('hidden');
@@ -432,6 +434,7 @@
                 firebaseIdentifier = cleanPhone + "@mirzam.auth";
             }
 
+            // Button loading state
             const originalBtnText = authSubmitBtn.innerText;
             authSubmitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...';
             authSubmitBtn.disabled = true;
