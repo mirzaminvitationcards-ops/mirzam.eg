@@ -125,7 +125,7 @@
                         <span id="langLabelDesktop">EN</span>
                     </button>
                     <div id="navAuthContainer" class="flex items-center">
-                        <button id="openModalBtn" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-wide whitespace-nowrap flex items-center gap-2">
+                        <button id="openModalBtn" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors whitespace-nowrap flex items-center gap-2">
                             <i class="fa-regular fa-user text-[#c5a059]"></i> تسجيل الدخول
                         </button>
                     </div>
@@ -171,8 +171,8 @@
         <div class="relative z-10 text-center px-4 text-white" data-aos="fade-up" data-aos-duration="1500">
             <h1 class="text-7xl md:text-9xl mb-4 font-serif-ar tracking-tight drop-shadow-2xl">مِرزّم</h1>
             <div class="w-24 h-[1px] bg-[#c5a059] mx-auto mb-6"></div>
-            <p class="text-xl md:text-3xl font-light max-w-2xl mx-auto mb-12 tracking-widest text-[#dfc282] font-serif-ar">
-                فـــن الدعـــوات الرقـمـيـة
+            <p class="text-xl md:text-3xl font-light max-w-2xl mx-auto mb-12 text-[#dfc282] font-serif-ar">
+                فن الدعوات الرقمية
             </p>
             <a href="order_ar.html" class="btn-theme px-12 py-4 inline-block text-[15px] font-bold rounded-sm">
                 ابدأ تصميم دعوتك
@@ -240,7 +240,7 @@
         <div class="max-w-3xl mx-auto relative z-10" data-aos="zoom-in" data-aos-duration="1000">
             <i class="fa-solid fa-quote-right text-4xl text-[#c5a059] mb-6 opacity-50"></i>
             <h2 class="text-4xl md:text-5xl font-serif-ar mb-8 text-white leading-tight">أناقة بمفهوم جديد</h2>
-            <p class="text-[#dfc282] font-serif-ar text-2xl md:text-3xl mb-8 tracking-wide">
+            <p class="text-[#dfc282] font-serif-ar text-2xl md:text-3xl mb-8">
                 "يوم زفافك يبدأ من لحظة فتحهم للدعوة."
             </p>
             <div class="w-16 h-[1px] bg-[#c5a059] mx-auto mb-8"></div>
@@ -253,21 +253,21 @@
     <!-- Social Media Section -->
     <section id="media" class="py-24 text-center bg-[#fdfbf7]">
         <div class="max-w-7xl mx-auto px-6" data-aos="fade-up">
-            <h3 class="text-[#c5a059] uppercase tracking-widest text-[13px] font-bold mb-16 font-en">تواصل معنا</h3>
+            <h3 class="text-[#c5a059] text-[15px] font-bold mb-16">تواصل معنا</h3>
             
             <div class="flex flex-col md:flex-row justify-center items-center space-y-10 md:space-y-0 md:space-x-20 md:space-x-reverse">
                 <a href="https://instagram.com/mirzam.eg" target="_blank" class="group flex flex-col items-center">
                     <span class="w-20 h-20 flex items-center justify-center rounded-full border-2 border-gray-200 mb-4 group-hover:border-[#c5a059] group-hover:bg-[#c5a059] bg-white transition-all duration-300 shadow-sm group-hover:shadow-xl group-hover:-translate-y-2">
                         <i class="fab fa-instagram text-3xl text-[#0a1128] group-hover:text-white transition-colors"></i>
                     </span>
-                    <span class="text-[14px] font-bold tracking-widest text-gray-600 group-hover:text-[#c5a059] transition-colors">انستجرام</span>
+                    <span class="text-[14px] font-bold text-gray-600 group-hover:text-[#c5a059] transition-colors">انستجرام</span>
                 </a>
 
                 <a href="https://www.tiktok.com/@mirzam.eg?_r=1&_t=ZS-98gnVz79sYv" target="_blank" class="group flex flex-col items-center">
                     <span class="w-20 h-20 flex items-center justify-center rounded-full border-2 border-gray-200 mb-4 group-hover:border-[#c5a059] group-hover:bg-[#c5a059] bg-white transition-all duration-300 shadow-sm group-hover:shadow-xl group-hover:-translate-y-2">
                         <i class="fab fa-tiktok text-3xl text-[#0a1128] group-hover:text-white transition-colors"></i>
                     </span>
-                    <span class="text-[14px] font-bold tracking-widest text-gray-600 group-hover:text-[#c5a059] transition-colors">تيك توك</span>
+                    <span class="text-[14px] font-bold text-gray-600 group-hover:text-[#c5a059] transition-colors">تيك توك</span>
                 </a>
             </div>
         </div>
@@ -329,7 +329,7 @@
                     إنشاء حساب
                 </button>
             </form>
-            <div id="statusMessage" class="text-center mt-6 text-sm font-bold tracking-wide relative z-10"></div>
+            <div id="statusMessage" class="text-center mt-6 text-sm font-bold relative z-10"></div>
         </div>
     </div>
 
@@ -484,7 +484,7 @@
         onAuthStateChanged(auth, (user) => {
             if (user) { updateNavigationBar(user); } 
             else {
-                const loginHtml = `<button class="openModalBtnDynamic text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors flex items-center gap-2"><i class="fa-regular fa-user text-[#c5a059]"></i> تسجيل الدخول</button>`;
+                const loginHtml = `<button class="openModalBtnDynamic text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors whitespace-nowrap flex items-center gap-2"><i class="fa-regular fa-user text-[#c5a059]"></i> تسجيل الدخول</button>`;
                 navAuthContainer.innerHTML = loginHtml;
                 navAuthContainerMobile.innerHTML = loginHtml;
                 document.querySelectorAll('.openModalBtnDynamic').forEach(btn => { btn.addEventListener('click', openModal); });
