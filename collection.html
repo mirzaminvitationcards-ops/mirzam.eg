@@ -1,312 +1,350 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Collections | Mirzam</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@200;400;600&family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Premium Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700&family=Cinzel:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <style>
         :root { 
             --navy: #0a1128; 
             --gold: #c5a059;
             --sage: #8f9f8b;
-            --bg-soft: #f7f4ee;
+            --bg-soft: #fdfbf7;
         }
 
         body { 
             font-family: 'Montserrat', sans-serif; 
             background-color: var(--bg-soft); 
             color: var(--navy);
-            opacity: 0.95; 
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
-        h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
+        /* Luxury Typography */
+        h1, h2, h3, .font-en { font-family: 'Cinzel', serif; }
+        .font-numbers { font-family: 'Montserrat', sans-serif; }
 
-        .fade-in {
-            animation: fadeIn 1.2s ease-out forwards;
+        /* Subtle Background Zoom for Hero */
+        @keyframes subtleZoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .transition-card { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
-        .transition-card:hover { transform: translateY(-10px); }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(10, 17, 40, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
+        .animate-hero { animation: subtleZoom 20s infinite alternate ease-in-out; }
+        
+        /* Elegant Gradient Overlay */
+        .hero-overlay { 
+            background: linear-gradient(180deg, rgba(10,17,40,0.4) 0%, rgba(10,17,40,0.8) 100%); 
         }
 
-        .lang-box {
-            background-color: #8f9f8b; 
-            width: 90%;
-            max-width: 400px;
-            padding: 50px 30px;
-            text-align: center;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+        /* Glassmorphism Nav */
+        .glass-nav {
+            background: rgba(253, 251, 247, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
         }
 
-        .lang-btn {
-            width: 100%;
-            height: 50px; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Premium Buttons */
+        .btn-theme { 
+            background: linear-gradient(135deg, #c5a059 0%, #a67c33 100%);
+            color: white; 
+            letter-spacing: 0.15em;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            box-shadow: 0 10px 20px -5px rgba(197, 160, 89, 0.4);
+            position: relative;
+            overflow: hidden;
             text-transform: uppercase;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 0.2em;
+        }
+        .btn-theme::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg); transition: all 0.75s;
+        }
+        .btn-theme:hover::after { left: 150%; }
+        .btn-theme:hover { 
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px -5px rgba(197, 160, 89, 0.6);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--gold);
+            color: var(--navy);
             transition: all 0.3s ease;
         }
+        .btn-outline:hover {
+            background-color: var(--gold);
+            color: white;
+            box-shadow: 0 10px 20px -5px rgba(197, 160, 89, 0.3);
+        }
+
+        /* Modals */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(10, 17, 40, 0.9); backdrop-filter: blur(8px); z-index: 1000; align-items: center; justify-content: center;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-soft); }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased text-[#0a1128] flex flex-col min-h-screen">
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-[#f7f4ee]/90 backdrop-blur-xl border-b border-gray-200/50 px-6 py-5">
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 glass-nav px-6 py-4 transition-all duration-300">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            
-            <div class="text-2xl font-bold tracking-[0.2em] uppercase text-[#0a1128]">
-                MIRZAM<span class="text-[#c5a059] font-light">.EG</span>
+            <!-- Logo -->
+            <div class="text-3xl font-bold tracking-[0.15em] text-[#0a1128] font-en">
+                MIRZAM<span class="text-[#c5a059]">.</span>
             </div>
             
-            <div class="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-semibold items-center">
-                <a href="Mirzam's_Main_page.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Home</a>
-                <a href="collection.html" class="text-[#c5a059]">Collections</a>
-                <a href="pricing.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Pricing</a>
-                <a href="order.html" class="text-[#0a1128] hover:text-[#c5a059] transition-colors">Create Suite</a>
-                <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
+            <!-- Desktop Nav Links -->
+            <div class="hidden md:flex space-x-8 text-[13px] tracking-widest uppercase font-semibold items-center">
+                <a href="Mirzam's_Main_page.html" class="text-[#0a1128] hover:text-[#c5a059] transition-colors duration-300">Home</a>
+                <a href="collection.html" class="text-[#c5a059] relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-[#c5a059]">Collections</a>
+                <a href="pricing.html" class="text-[#0a1128] hover:text-[#c5a059] transition-colors duration-300">Pricing</a>
+                <a href="order.html" class="text-[#0a1128] hover:text-[#c5a059] transition-colors duration-300">Create Suite</a>
+                <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors duration-300">Contact Us</a>
                 
-                <div id="navAuthContainer" class="border-l border-gray-300 pl-10 flex items-center">
-                    <button id="openModalBtn" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest whitespace-nowrap">LOG IN</button>
+                <div class="border-l border-[#c5a059]/30 pl-8 flex items-center space-x-6">
+                    <button onclick="toggleLanguage()" class="border border-[#c5a059]/50 rounded-full px-3 py-1 text-[#0a1128] font-bold text-[12px] uppercase tracking-widest hover:bg-[#c5a059] hover:text-white transition-all duration-300 flex items-center justify-center min-w-[45px] font-en">
+                        <span id="langLabelDesktop">AR</span>
+                    </button>
+                    <div id="navAuthContainer" class="flex items-center">
+                        <button id="openModalBtn" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-wide whitespace-nowrap flex items-center gap-2">
+                            <i class="fa-regular fa-user text-[#c5a059]"></i> LOG IN
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <button id="mobileMenuBtn" class="md:hidden text-[#0a1128] text-xl focus:outline-none pl-4">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+            <!-- Mobile Controls -->
+            <div class="md:hidden flex items-center space-x-4 pr-4">
+                <button onclick="toggleLanguage()" class="border border-[#c5a059]/50 rounded-full px-2.5 py-0.5 text-[#0a1128] font-bold text-[11px] uppercase tracking-widest hover:bg-[#c5a059] hover:text-white transition-all flex items-center justify-center min-w-[36px] font-en">
+                    <span id="langLabelMobile">AR</span>
+                </button>
+                <button id="mobileMenuBtn" class="text-[#0a1128] text-2xl focus:outline-none hover:text-[#c5a059] transition-colors">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </div>
         </div>
 
-        <div id="mobileMenu" class="hidden md:hidden pt-4 pb-6 border-t border-gray-200/50 mt-4 flex flex-col space-y-4 text-[11px] uppercase tracking-[0.2em] font-semibold">
-            <a href="Mirzam's_Main_page.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Home</a>
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobileMenu" class="hidden md:hidden pt-6 pb-6 border-t border-[#c5a059]/20 mt-4 flex flex-col space-y-5 text-[14px] uppercase tracking-widest font-semibold text-center bg-[#fdfbf7]">
+            <a href="Mirzam's_Main_page.html" class="text-[#0a1128] hover:text-[#c5a059]">Home</a>
             <a href="collection.html" class="text-[#c5a059]">Collections</a>
-            <a href="pricing.html" class="hover:text-[#c5a059] transition-colors text-[#0a1128]">Pricing</a>
-            <a href="order.html" class="text-[#0a1128] hover:text-[#c5a059] transition-colors">Create Suite</a>
-            <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors">Contact Us</a>
+            <a href="pricing.html" class="text-[#0a1128] hover:text-[#c5a059]">Pricing</a>
+            <a href="order.html" class="text-[#0a1128] hover:text-[#c5a059]">Create Suite</a>
+            <a href="https://ig.me/m/mirzam.eg" target="_blank" class="text-[#0a1128] hover:text-[#c5a059]">Contact Us</a>
             
-            <div id="navAuthContainerMobile" class="pt-2 border-t border-gray-200/50">
-                <button id="openModalBtnMobile" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest whitespace-nowrap">LOG IN</button>
+            <div class="pt-5 border-t border-[#c5a059]/20 flex items-center justify-center">
+                <div id="navAuthContainerMobile" class="flex items-center">
+                    <button id="openModalBtnMobile" class="text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors whitespace-nowrap flex items-center gap-2">
+                        <i class="fa-regular fa-user text-[#c5a059]"></i> LOG IN
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
 
-    <!-- Header Section -->
-    <header class="pt-48 pb-16 text-center fade-in">
-        <h1 class="text-5xl md:text-6xl italic text-[#0a1128] mb-4">Our Collections</h1>
-        <div class="w-20 h-[1px] bg-[#c5a059] mx-auto mb-4"></div>
-        <p class="text-[10px] uppercase tracking-[0.5em] text-gray-900">Exquisite Digital Artistry</p>
-    </header>
+    <!-- Hero Section -->
+    <section class="relative h-[60vh] flex items-center justify-center overflow-hidden mb-20">
+        <div class="absolute inset-0 z-0 bg-[#0a1128]">
+            <img src="mainphoto.webp" alt="Mirzam Background" class="w-full h-full object-cover animate-hero opacity-80" onerror="this.src='https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2000&auto=format&fit=crop'">
+            <div class="absolute inset-0 hero-overlay"></div>
+        </div>
+        
+        <div class="relative z-10 text-center px-4 text-white mt-16" data-aos="fade-up" data-aos-duration="1500">
+            <h1 class="text-5xl md:text-7xl mb-4 font-en tracking-widest drop-shadow-2xl uppercase">Our Collections</h1>
+            <div class="w-24 h-[1px] bg-[#c5a059] mx-auto mb-6"></div>
+            <p class="text-sm uppercase tracking-[0.4em] text-[#dfc282] font-bold">
+                Exquisite Digital Artistry
+            </p>
+        </div>
+    </section>
 
-    <!-- Combined Designs Section -->
-    <main class="max-w-7xl mx-auto px-6 pb-24 fade-in" style="animation-delay: 0.2s;">
+    <!-- Main Collections Grid -->
+    <main class="max-w-7xl mx-auto px-6 pb-32 flex-grow relative z-10">
+        <!-- Background decorative elements -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-[#c5a059] opacity-5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 -z-10"></div>
+        <div class="absolute bottom-0 left-0 w-80 h-80 bg-[#0a1128] opacity-5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 -z-10"></div>
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
             
             <!-- The Mirzam Night Suite -->
-            <div onclick="openLangModal()" class="group block transition-card">
-                <div class="text-center">
-                    <div class="relative aspect-[3/4] overflow-hidden p-6 flex flex-col justify-center shadow-2xl mb-6 bg-cover bg-center border border-[#c5a059]/60" style="background-image: url('back1.webp'); background-color: #fdfaf3;">
-                        
-                        <!-- Made the border completely opaque (darker) instead of /50 -->
+            <div onclick="openLangModal()" class="bg-[#fdfbf7] p-8 md:p-10 rounded-[2rem] border border-[#c5a059]/20 hover:border-[#c5a059]/50 shadow-lg hover:shadow-2xl transition-all duration-500 relative group cursor-pointer" data-aos="fade-up" data-aos-delay="100">
+                <span class="absolute top-6 left-8 text-6xl font-en font-bold text-[#c5a059]/10 group-hover:text-[#c5a059]/20 transition-colors z-0">01</span>
+                
+                <div class="relative z-10 text-center">
+                    <!-- Original Inner Card Design -->
+                    <div class="card-preview relative aspect-[3/4] overflow-hidden p-6 flex flex-col justify-center shadow-lg group-hover:shadow-xl mb-8 bg-cover bg-center border border-[#c5a059]/40 transition-all duration-500 rounded-md" style="background-image: url('back1.webp'); background-color: #fdfaf3;">
                         <div class="text-[#000000] border border-[#c5a059] p-4 h-full flex flex-col justify-center text-center rounded-[2rem] relative">
-                            
                             <h2 class="text-3xl font-bold tracking-[0.1em] mb-0" style="font-family: 'Cinzel', serif;">ISMAIL</h2>
                             <span class="text-3xl italic my-2" style="font-family: 'Playfair Display', serif;">&</span>
                             <h2 class="text-3xl font-bold tracking-[0.1em] mb-6" style="font-family: 'Cinzel', serif;">YARA</h2>
-                            
                             <div class="w-12 h-px bg-[#000000] mx-auto mb-5"></div>
                             <p class="text-[11px] font-bold tracking-widest uppercase" style="font-family: 'Times New Roman', Times, serif;">September 04, 2026</p>
                         </div>
                     </div>
-                    <h3 class="text-lg italic">The Mirzam Night</h3>
-                    <p class="text-[9px] text-[#c5a059] font-bold uppercase tracking-widest mt-1">View Live Sample</p>
+                    
+                    <h3 class="text-2xl font-en font-bold text-[#0a1128] mb-6 tracking-widest uppercase">The Mirzam Night</h3>
+                    <span class="btn-outline px-8 py-3 rounded-full text-[12px] font-bold tracking-widest inline-block uppercase w-full">View Sample</span>
                 </div>
             </div>
 
             <!-- The Midnight Suite -->
-            <a href="https://mirzaminvitationcards-ops.github.io/The-Midnight-Suite/The%20Midnight%20Suite"  class="group block transition-card text-center">
+            <a href="https://mirzaminvitationcards-ops.github.io/The-Midnight-Suite/The%20Midnight%20Suite" class="bg-[#fdfbf7] p-8 md:p-10 rounded-[2rem] border border-[#c5a059]/20 hover:border-[#c5a059]/50 shadow-lg hover:shadow-2xl transition-all duration-500 relative group block text-center" data-aos="fade-up" data-aos-delay="200">
+                <span class="absolute top-6 left-8 text-6xl font-en font-bold text-[#c5a059]/10 group-hover:text-[#c5a059]/20 transition-colors z-0">02</span>
                 
-                <div class="relative aspect-[3/4] overflow-hidden bg-[#151F38] p-6 flex flex-col justify-center shadow-2xl mb-6 border border-[#FDE29F]/50" 
-                     style="background-image: 
-                        radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.3) 1px, transparent 2px),
-                        radial-gradient(circle at 85% 45%, rgba(255, 255, 255, 0.4) 1.5px, transparent 3px),
-                        radial-gradient(circle at 20% 10%, rgba(253, 226, 159, 0.3) 2px, transparent 3px);
-                        background-size: 150px 200px, 200px 250px, 250px 200px;">
-                    
-                    <div class="text-[#ffffff] border border-[#FDE29F]/50 p-4 h-full flex flex-col justify-center text-center rounded-[2rem] relative">
+                <div class="relative z-10 text-center">
+                    <!-- Original Inner Card Design -->
+                    <div class="card-preview relative aspect-[3/4] overflow-hidden bg-[#151F38] p-6 flex flex-col justify-center shadow-lg group-hover:shadow-xl mb-8 border border-[#FDE29F]/30 transition-all duration-500 rounded-md" 
+                         style="background-image: 
+                            radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.3) 1px, transparent 2px),
+                            radial-gradient(circle at 85% 45%, rgba(255, 255, 255, 0.4) 1.5px, transparent 3px),
+                            radial-gradient(circle at 20% 10%, rgba(253, 226, 159, 0.3) 2px, transparent 3px);
+                            background-size: 150px 200px, 200px 250px, 250px 200px;">
                         
-                        <div class="absolute top-6 right-6 w-4 h-4 rounded-full" style="box-shadow: inset 4px -3px 0 0 #EAEDF4; filter: drop-shadow(0 0 3px rgba(234, 237, 244, 0.6));"></div>
-                        
-                        <h2 class="text-3xl font-bold tracking-[0.1em] mb-0 text-[#FDE29F]" style="font-family: 'Cinzel', serif;">MAHEER</h2>
-                        <span class="text-3xl italic my-2 text-[#FDE29F]" style="font-family: 'Playfair Display', serif;">&</span>
-                        <h2 class="text-3xl font-bold tracking-[0.1em] mb-6 text-[#FDE29F]" style="font-family: 'Cinzel', serif;">LAYLA</h2>
-                        
-                        <div class="w-10 h-[1px] bg-[#FDE29F] mx-auto mb-5"></div>
-                        <p class="text-[11px] font-bold tracking-widest uppercase text-[#C0C9D8]" style="font-family: 'Times New Roman', Times, serif;">December 04, 2026</p>
+                        <div class="text-[#ffffff] border border-[#FDE29F]/50 p-4 h-full flex flex-col justify-center text-center rounded-[2rem] relative">
+                            <div class="absolute top-6 right-6 w-4 h-4 rounded-full" style="box-shadow: inset 4px -3px 0 0 #EAEDF4; filter: drop-shadow(0 0 3px rgba(234, 237, 244, 0.6));"></div>
+                            <h2 class="text-3xl font-bold tracking-[0.1em] mb-0 text-[#FDE29F]" style="font-family: 'Cinzel', serif;">MAHEER</h2>
+                            <span class="text-3xl italic my-2 text-[#FDE29F]" style="font-family: 'Playfair Display', serif;">&</span>
+                            <h2 class="text-3xl font-bold tracking-[0.1em] mb-6 text-[#FDE29F]" style="font-family: 'Cinzel', serif;">LAYLA</h2>
+                            
+                            <div class="w-10 h-[1px] bg-[#FDE29F] mx-auto mb-5"></div>
+                            <p class="text-[11px] font-bold tracking-widest uppercase text-[#C0C9D8]" style="font-family: 'Times New Roman', Times, serif;">December 04, 2026</p>
+                        </div>
                     </div>
+                    
+                    <h3 class="text-2xl font-en font-bold text-[#0a1128] mb-6 tracking-widest uppercase">The Midnight</h3>
+                    <span class="btn-outline px-8 py-3 rounded-full text-[12px] font-bold tracking-widest inline-block uppercase w-full">View Sample</span>
                 </div>
-                
-                <h3 class="text-lg italic text-[#0a1128]">The Midnight</h3>
-                <p class="text-[9px] text-[#c5a059] font-bold uppercase tracking-widest mt-1 group-hover:text-[#0a1128] transition-colors">View Sample</p>
             </a>
 
             <!-- Modern Minimalist -->
-            <a href="https://mirzaminvitationcards-ops.github.io/The_Modern_Minimalist/The%20Modern%20Minimalist.html"  class="group block transition-card text-center">
+            <a href="https://mirzaminvitationcards-ops.github.io/The_Modern_Minimalist/The%20Modern%20Minimalist.html" class="bg-[#fdfbf7] p-8 md:p-10 rounded-[2rem] border border-[#c5a059]/20 hover:border-[#c5a059]/50 shadow-lg hover:shadow-2xl transition-all duration-500 relative group block text-center" data-aos="fade-up" data-aos-delay="300">
+                <span class="absolute top-6 left-8 text-6xl font-en font-bold text-[#c5a059]/10 group-hover:text-[#c5a059]/20 transition-colors z-0">03</span>
                 
-                <div class="relative aspect-[3/4] overflow-hidden p-6 flex flex-col justify-center shadow-2xl mb-6 border border-[#a67b82]/40 bg-cover bg-center" style="background-image: url('mobile_background.webp'); background-color: #F8F6F0;">
-                    
-                    <div class="text-[#2c2c2c] border border-[#a67b82]/60 p-4 h-full flex flex-col justify-center text-center rounded-[2rem] relative">
-                        
-                        <h2 class="text-3xl font-bold tracking-[0.1em] mb-0 text-[#2c2c2c]" style="font-family: 'Cinzel', serif;">KHALID</h2>
-                        <span class="text-3xl italic my-2 text-[#a67b82]" style="font-family: 'Playfair Display', serif;">&</span>
-                        <h2 class="text-3xl font-bold tracking-[0.1em] mb-6 text-[#2c2c2c]" style="font-family: 'Cinzel', serif;">HABIBA</h2>
-                        
-                        <div class="w-10 h-[1px] bg-[#a67b82] mx-auto mb-5"></div>
-                        <p class="text-[11px] font-bold tracking-widest uppercase text-[#666666]" style="font-family: 'Times New Roman', Times, serif;">December 04, 2026</p>
+                <div class="relative z-10 text-center">
+                    <!-- Original Inner Card Design -->
+                    <div class="card-preview relative aspect-[3/4] overflow-hidden p-6 flex flex-col justify-center shadow-lg group-hover:shadow-xl mb-8 border border-[#a67b82]/30 bg-cover bg-center transition-all duration-500 rounded-md" style="background-image: url('mobile_background.webp'); background-color: #F8F6F0;">
+                        <div class="text-[#2c2c2c] border border-[#a67b82]/60 p-4 h-full flex flex-col justify-center text-center rounded-[2rem] relative">
+                            <h2 class="text-3xl font-bold tracking-[0.1em] mb-0 text-[#2c2c2c]" style="font-family: 'Cinzel', serif;">KHALID</h2>
+                            <span class="text-3xl italic my-2 text-[#a67b82]" style="font-family: 'Playfair Display', serif;">&</span>
+                            <h2 class="text-3xl font-bold tracking-[0.1em] mb-6 text-[#2c2c2c]" style="font-family: 'Cinzel', serif;">HABIBA</h2>
+                            
+                            <div class="w-10 h-[1px] bg-[#a67b82] mx-auto mb-5"></div>
+                            <p class="text-[11px] font-bold tracking-widest uppercase text-[#666666]" style="font-family: 'Times New Roman', Times, serif;">December 04, 2026</p>
+                        </div>
                     </div>
-                </div>
 
-                <h3 class="text-lg italic text-[#0a1128]">The Modern Minimalist</h3>
-                <p class="text-[9px] text-[#c5a059] font-bold uppercase tracking-widest mt-1 group-hover:text-[#0a1128] transition-colors">View Sample</p>
+                    <h3 class="text-2xl font-en font-bold text-[#0a1128] mb-6 tracking-widest uppercase">The Minimalist</h3>
+                    <span class="btn-outline px-8 py-3 rounded-full text-[12px] font-bold tracking-widest inline-block uppercase w-full">View Sample</span>
+                </div>
             </a>
-
-            <!-- ==============================================
-                 COMMENTED OUT UPCOMING SUITES
-                 ============================================== -->
-
-            <!-- The Sage Suite 
-            <div class="transition-card group cursor-default">
-                <div class="relative aspect-[3/4] bg-[#8f9f8b] rounded-t-full p-10 flex flex-col justify-center items-center shadow-2xl mb-6">
-                    <div class="border border-white/20 w-full h-full rounded-t-full flex flex-col justify-center items-center text-white px-4">
-                        <h3 class="text-3xl italic mb-4">Khaled & Mariam</h3>
-                        <div class="text-lg mb-6 italic opacity-90">Engagement</div>
-                        <p class="text-[10px] tracking-[0.3em] mb-6 uppercase">Save the Date</p>
-                        <span class="text-xs">🌿</span>
-                        <p class="text-[9px] mt-4 tracking-widest opacity-80">JULY 2026</p>
-                    </div>
-                </div>
-                <h4 class="text-lg italic text-[#0a1128]">The Sage Suite</h4>
-                <p class="text-[9px] text-gray-900 uppercase tracking-widest mt-1 italic">Organic Tones & Shapes</p>
-            </div>
-            -->
-
-            <!-- The Signature Suite 
-            <div class="transition-card group cursor-default">
-                <div class="relative aspect-[3/4] bg-[#0a1128] p-10 flex flex-col justify-center items-center shadow-2xl mb-6 border-8 border-double border-white/10">
-                    <div class="border border-white/10 w-full h-full flex flex-col justify-center items-center text-white px-4">
-                        <p class="text-[#c5a059] text-xs mb-4">✦</p>
-                        <h3 class="text-3xl font-bold italic tracking-wide mb-1">Youssef</h3>
-                        <p class="text-xs opacity-70 font-light">&</p>
-                        <h3 class="text-3xl font-bold italic tracking-wide mb-6">Zeina</h3>
-                        <div class="w-12 h-[1px] bg-[#c5a059] mb-6"></div>
-                        <p class="text-[9px] tracking-[0.4em] opacity-90 uppercase leading-relaxed font-semibold">Our Engagement Night<br>September 2026</p>
-                    </div>
-                </div>
-                <h4 class="text-lg italic text-[#0a1128]">The Signature Suite</h4>
-                <p class="text-[9px] text-gray-900 uppercase tracking-widest mt-1 italic">Navy Blue & Gold Accents</p>
-            </div>
-            -->
-
-            <!-- Pearl Suite 
-            <div class="group block opacity-40 grayscale transition-card cursor-default">
-                <div class="text-center">
-                    <div class="relative aspect-[3/4] overflow-hidden bg-[#f7f4ee] p-8 flex flex-col justify-center border border-gray-200 mb-6 shadow-xl">
-                        <div class="text-[#0a1128] p-6 h-full flex flex-col justify-center border border-[#0a1128]/5">
-                            <p class="text-[10px] tracking-[0.4em] mb-8 text-gray-900">THE PEARL SUITE</p>
-                            <h2 class="text-4xl font-light tracking-tighter mb-4 italic">Minimalist</h2>
-                        </div>
-                    </div>
-                    <h3 class="text-lg italic">Coming Soon</h3>
-                </div>
-            </div>
-            -->
-
-            <!-- Botanical Suite 
-            <div class="group block opacity-40 grayscale transition-card cursor-default">
-                <div class="text-center">
-                    <div class="relative aspect-[3/4] overflow-hidden bg-[#8f9f8b] p-8 flex flex-col justify-center mb-6 shadow-2xl rounded-t-full">
-                        <div class="text-white p-6 h-full flex flex-col justify-center border border-white/20 rounded-t-full">
-                            <p class="text-xl mb-4 italic">Botanical Garden</p>
-                            <div class="text-sm">🌿</div>
-                        </div>
-                    </div>
-                    <h3 class="text-lg italic">Coming Soon</h3>
-                </div>
-            </div>
-            -->
 
         </div>
     </main>
 
-    <!-- Language Selection Modal -->
+    <!-- Language Selection Modal (Luxury Upgrade) -->
     <div id="languageModal" class="modal-overlay">
-        <div class="lang-box">
-            <h3 class="text-white text-2xl italic mb-6">Select Language</h3>
+        <div class="bg-[#fdfbf7] p-10 max-w-sm w-full relative rounded-3xl shadow-2xl overflow-hidden border border-[#c5a059]/30 text-center">
+            
+            <button onclick="closeLangModal()" class="absolute top-5 right-5 text-gray-400 hover:text-[#0a1128] transition-colors bg-white w-8 h-8 rounded-full flex items-center justify-center shadow-sm hover:shadow-md z-10">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <h3 class="text-[#0a1128] font-en font-bold text-2xl mb-2 tracking-widest">SELECT LANGUAGE</h3>
+            <p class="text-gray-500 text-sm mb-8 font-numbers">Choose a language to preview the invitation</p>
             
             <div class="flex flex-col space-y-4">
-                <button onclick="redirectTo('ar')" class="lang-btn border border-white text-white hover:bg-white hover:text-[#0a1128]" style="letter-spacing: normal; font-size: 15px;">العربية</button>
-                <button onclick="redirectTo('en')" class="lang-btn border border-white text-white hover:bg-white hover:text-[#0a1128]">English</button>
-                <button onclick="closeLangModal()" class="text-white/40 text-[9px] uppercase tracking-widest pt-4">Cancel</button>
+                <button onclick="redirectTo('en')" class="btn-theme py-4 rounded-md text-[14px] font-bold tracking-widest uppercase w-full shadow-md">ENGLISH</button>
+                <button onclick="redirectTo('ar')" class="bg-white border-2 border-[#0a1128] text-[#0a1128] hover:bg-[#0a1128] hover:text-white py-4 rounded-md text-[15px] font-bold transition-all shadow-sm w-full" style="font-family: 'Tajawal', sans-serif;">العربية</button>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="py-20 bg-[#f7f4ee] border-t border-gray-200/60 text-center">
-        <div class="mb-6 flex flex-wrap justify-center items-center gap-6 text-[9px] uppercase tracking-widest text-gray-900">
-            <span class="font-bold text-[#0a1128]">Legal</span>
-            <a href="privacy.html" class="hover:text-[#c5a059] transition-colors">Privacy policy</a>
-            <a href="terms-of-use.html" class="hover:text-[#c5a059] transition-colors">Terms of use</a>
-            <a href="refund-policy.html" class="hover:text-[#c5a059] transition-colors">Refund policy</a>
+    <!-- Footer (Luxury Upgrade) -->
+    <footer class="py-16 bg-[#0a1128] text-center border-t border-[#c5a059]/20 relative mt-auto">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-3xl font-bold tracking-[0.15em] text-white font-en mb-8 opacity-90">
+                MIRZAM<span class="text-[#c5a059]">.</span>
+            </div>
+            
+            <div class="mb-8 flex flex-wrap justify-center items-center gap-8 text-[13px] text-gray-400 uppercase tracking-widest font-semibold">
+                <a href="privacy.html" class="hover:text-[#c5a059] transition-colors">Privacy Policy</a>
+                <a href="terms-of-use.html" class="hover:text-[#c5a059] transition-colors">Terms of Use</a>
+                <a href="refund-policy.html" class="hover:text-[#c5a059] transition-colors">Refund Policy</a>
+            </div>
+            
+            <div class="w-24 h-[1px] bg-[#c5a059]/30 mx-auto mb-8"></div>
+            
+            <div class="text-[11px] tracking-[0.3em] text-gray-500 font-bold font-en">
+                © 2026 MIRZAM EGYPT. ALL RIGHTS RESERVED.
+            </div>
         </div>
-        <div class="text-[10px] tracking-[0.6em] uppercase text-[#0a1128] font-bold">© 2026 MIRZAM EGYPT</div>
     </footer>
 
-    <!-- Authentication Modal -->
-    <div id="authModal" class="fixed inset-0 bg-[#0a1128]/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
-        <div class="bg-[#f7f4ee] p-8 md:p-10 max-w-md w-full relative border-t-4 border-[#c5a059] shadow-2xl rounded-sm">
-            <button id="closeModalBtn" class="absolute top-4 right-5 text-gray-900 hover:text-[#0a1128] transition-colors">
-                <i class="fa-solid fa-xmark text-2xl"></i>
+    <!-- Auth Modal (Luxury Upgrade) -->
+    <div id="authModal" class="fixed inset-0 bg-[#0a1128]/90 backdrop-blur-md z-[100] hidden items-center justify-center p-4 text-left transition-opacity">
+        <div class="bg-[#fdfbf7] p-8 md:p-12 max-w-md w-full relative rounded-3xl shadow-2xl overflow-hidden border border-[#c5a059]/30">
+            <!-- Decorative corner elements (LTR matched) -->
+            <div class="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-[#c5a059] rounded-tl-3xl m-2 opacity-50"></div>
+            <div class="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-[#c5a059] rounded-br-3xl m-2 opacity-50"></div>
+            
+            <button id="closeModalBtn" class="absolute top-5 right-5 text-gray-400 hover:text-[#0a1128] transition-colors bg-white w-8 h-8 rounded-full flex items-center justify-center shadow-sm hover:shadow-md z-10">
+                <i class="fa-solid fa-xmark"></i>
             </button>
-            <div class="flex items-center space-x-4 mb-8 text-sm font-semibold tracking-wide">
-                <button id="switchToSignIn" class="text-gray-900 hover:text-[#0a1128] transition-colors">Sign in</button>
-                <span class="text-gray-900">|</span>
-                <button id="switchToSignUp" class="text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5">Create account</button>
+            
+            <div class="text-center mb-8 relative z-10">
+                <h3 class="text-2xl font-en text-[#0a1128] mb-2 font-bold tracking-widest">WELCOME</h3>
+                <p class="text-gray-500 text-sm">Sign in to manage your invitations</p>
             </div>
-            <form id="authForm" class="space-y-4">
-                <div id="nameFieldContainer"><input type="text" id="userName" placeholder="Your name" class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700"></div>
-                <div><input type="text" id="userIdentifier" placeholder="Phone or email" required class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700"></div>
-                <div><input type="password" id="userPassword" placeholder="Password (min 6 characters)" required class="w-full border border-gray-300 rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:border-[#c5a059] bg-transparent text-[#0a1128] placeholder-gray-700"></div>
-                <button type="submit" id="authSubmitBtn" class="w-full bg-[#9b7b43] text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors shadow-lg mt-2">Create account</button>
+            
+            <div class="flex items-center justify-center space-x-6 mb-8 text-[14px] font-bold border-b border-gray-200 relative z-10 uppercase tracking-wide">
+                <button id="switchToSignIn" class="text-gray-400 hover:text-[#0a1128] pb-3 px-2 transition-colors">Sign In</button>
+                <button id="switchToSignUp" class="text-[#c5a059] border-b-2 border-[#c5a059] pb-3 px-2">Create Account</button>
+            </div>
+
+            <form id="authForm" class="space-y-5 relative z-10">
+                <div id="nameFieldContainer">
+                    <input type="text" id="userName" placeholder="Your Name" class="w-full border-b border-gray-300 px-4 py-3 text-[14px] focus:outline-none focus:border-[#c5a059] focus:bg-white bg-[#fdfbf7] transition-all text-[#0a1128] placeholder-gray-400 rounded-t-md font-numbers">
+                </div>
+                <div>
+                    <input type="text" id="userIdentifier" placeholder="Phone or Email" required class="w-full border-b border-gray-300 px-4 py-3 text-[14px] focus:outline-none focus:border-[#c5a059] focus:bg-white bg-[#fdfbf7] transition-all text-[#0a1128] placeholder-gray-400 rounded-t-md font-numbers">
+                </div>
+                <div>
+                    <input type="password" id="userPassword" placeholder="Password (min 6 characters)" required class="w-full border-b border-gray-300 px-4 py-3 text-[14px] focus:outline-none focus:border-[#c5a059] focus:bg-white bg-[#fdfbf7] transition-all text-[#0a1128] placeholder-gray-400 rounded-t-md font-numbers">
+                </div>
+                <button type="submit" id="authSubmitBtn" class="w-full btn-theme text-white py-4 rounded-md text-[14px] font-bold mt-6 shadow-lg">
+                    CREATE ACCOUNT
+                </button>
             </form>
-            <div id="statusMessage" class="text-center mt-4 text-xs font-semibold tracking-wide"></div>
+            <div id="statusMessage" class="text-center mt-6 text-sm font-bold tracking-wide relative z-10 text-red-500"></div>
         </div>
     </div>
 
-    <!-- UI Scripts -->
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        function openLangModal() { document.getElementById('languageModal').style.display = 'flex'; }
+        AOS.init({ once: true, offset: 50 });
+    </script>
+
+    <!-- Language Modal Logic -->
+    <script>
+        function openLangModal() { 
+            let modal = document.getElementById('languageModal');
+            modal.style.display = 'flex'; 
+            setTimeout(() => { modal.style.opacity = '1'; }, 10);
+        }
         function closeLangModal() { document.getElementById('languageModal').style.display = 'none'; }
         function redirectTo(lang) {
             if (lang === 'ar') { window.location.href = "https://mirzaminvitationcards-ops.github.io/Ismail-yara-wedding-invitation_ar/main_page"; } 
@@ -318,7 +356,7 @@
         }
     </script>
 
-    <!-- Firebase Integration & Auth UI Logic (Module) -->
+    <!-- Firebase Integration Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -336,6 +374,7 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         
+        // UI Elements
         const authModal = document.getElementById('authModal');
         const openModalBtn = document.getElementById('openModalBtn');
         const openModalBtnMobile = document.getElementById('openModalBtnMobile');
@@ -343,102 +382,186 @@
         const navAuthContainer = document.getElementById('navAuthContainer');
         const navAuthContainerMobile = document.getElementById('navAuthContainerMobile');
         const statusMessage = document.getElementById('statusMessage');
+        
         const switchToSignIn = document.getElementById('switchToSignIn');
         const switchToSignUp = document.getElementById('switchToSignUp');
         const nameFieldContainer = document.getElementById('nameFieldContainer');
         const authSubmitBtn = document.getElementById('authSubmitBtn');
         const authForm = document.getElementById('authForm');
+
+        // Mobile Menu Toggle
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
-        
-        mobileMenuBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = mobileMenuBtn.querySelector('i');
+            if(mobileMenu.classList.contains('hidden')){
+                icon.className = 'fa-solid fa-bars-staggered';
+            } else {
+                icon.className = 'fa-solid fa-xmark';
+            }
+        });
+
         let isSignUpMode = true;
 
+        // Toggle between Sign In and Create Account
         switchToSignIn.addEventListener('click', () => {
             isSignUpMode = false;
-            switchToSignIn.className = "text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5 font-bold";
-            switchToSignUp.className = "text-gray-900 hover:text-[#0a1128] transition-colors font-normal";
+            switchToSignIn.className = "text-[#c5a059] border-b-2 border-[#c5a059] pb-3 px-2 font-bold transition-all";
+            switchToSignUp.className = "text-gray-400 hover:text-[#0a1128] pb-3 px-2 font-normal transition-all";
             nameFieldContainer.style.display = 'none';
-            authSubmitBtn.innerText = 'Sign in';
+            authSubmitBtn.innerText = 'SIGN IN';
             statusMessage.innerText = '';
         });
 
         switchToSignUp.addEventListener('click', () => {
             isSignUpMode = true;
-            switchToSignUp.className = "text-[#c5a059] border-b-2 border-[#c5a059] pb-0.5 font-bold";
-            switchToSignIn.className = "text-gray-900 hover:text-[#0a1128] transition-colors font-normal";
+            switchToSignUp.className = "text-[#c5a059] border-b-2 border-[#c5a059] pb-3 px-2 font-bold transition-all";
+            switchToSignIn.className = "text-gray-400 hover:text-[#0a1128] pb-3 px-2 font-normal transition-all";
             nameFieldContainer.style.display = 'block';
-            authSubmitBtn.innerText = 'Create account';
+            authSubmitBtn.innerText = 'CREATE ACCOUNT';
             statusMessage.innerText = '';
         });
 
-        const openModal = () => {
+        const openAuthModal = () => {
             authModal.style.display = 'flex';
+            setTimeout(() => { authModal.classList.add('opacity-100'); }, 10);
             statusMessage.innerText = '';
             mobileMenu.classList.add('hidden');
+            mobileMenuBtn.querySelector('i').className = 'fa-solid fa-bars-staggered';
         };
-        
-        openModalBtn?.addEventListener('click', openModal);
-        openModalBtnMobile?.addEventListener('click', openModal);
+        openModalBtn?.addEventListener('click', openAuthModal);
+        openModalBtnMobile?.addEventListener('click', openAuthModal);
         closeModalBtn.addEventListener('click', () => authModal.style.display = 'none');
 
+        // Form Submit Handler
         authForm.addEventListener('submit', (e) => {
             e.preventDefault();
             let identifier = document.getElementById('userIdentifier').value.trim();
             const password = document.getElementById('userPassword').value;
             const name = document.getElementById('userName').value.trim();
+
             let firebaseIdentifier = identifier;
             if (!identifier.includes('@')) {
                 const cleanPhone = identifier.replace(/[\s-]/g, '');
                 firebaseIdentifier = cleanPhone + "@mirzam.auth";
             }
 
+            const originalBtnText = authSubmitBtn.innerText;
+            authSubmitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> LOADING...';
+            authSubmitBtn.disabled = true;
+
             if (isSignUpMode) {
-                if (name === "") { showStatus("Please enter your name.", "text-red-500"); return; }
+                if (name === "") {
+                    showStatus("Please enter your name.", "text-red-500");
+                    resetBtn();
+                    return; 
+                }
                 createUserWithEmailAndPassword(auth, firebaseIdentifier, password)
                     .then((userCredential) => {
                         const user = userCredential.user;
-                        if (name) { updateProfile(user, { displayName: name }).then(() => { updateNavigationBar(user, name); }); } 
-                        else { updateNavigationBar(user); }
+                        if (name) {
+                            updateProfile(user, { displayName: name }).then(() => {
+                                updateNavigationBar(user, name);
+                            });
+                        } else {
+                            updateNavigationBar(user);
+                        }
                         authModal.style.display = 'none';
-                    }).catch((error) => { showStatus(error.message, "text-red-500"); });
+                        resetBtn();
+                    })
+                    .catch((error) => {
+                        showStatus(error.message, "text-red-500");
+                        resetBtn();
+                    });
             } else {
                 signInWithEmailAndPassword(auth, firebaseIdentifier, password)
-                    .then(() => { authModal.style.display = 'none'; })
-                    .catch(() => { showStatus("Invalid phone/email or password.", "text-red-500"); });
+                    .then(() => {
+                        authModal.style.display = 'none';
+                        resetBtn();
+                    })
+                    .catch(() => {
+                        showStatus("Invalid phone/email or password.", "text-red-500");
+                        resetBtn();
+                    });
+            }
+
+            function resetBtn() {
+                authSubmitBtn.innerText = originalBtnText;
+                authSubmitBtn.disabled = false;
             }
         });
 
         function updateNavigationBar(user, manualName = null) {
             const displayName = manualName || user.displayName || user.email.split('@')[0];
             const userHtml = `
-                <div class="flex items-center space-x-3 whitespace-nowrap">
-                    <div class="w-7 h-7 rounded-full bg-[#c5a059]/20 text-[#c5a059] flex items-center justify-center text-xs font-bold">
+                <div class="flex items-center space-x-3 bg-white py-1 px-3 rounded-full border border-gray-200 shadow-sm">
+                    <div class="w-7 h-7 rounded-full bg-[#0a1128] text-[#c5a059] flex items-center justify-center text-xs">
                         <i class="fa-solid fa-user"></i>
                     </div>
-                    <span class="text-[#0a1128] tracking-widest text-[10px] font-bold">HELLO, ${displayName.toUpperCase()}</span>
-                    <a href="orders.html" class="bg-[#c5a059] text-white px-3 py-1.5 rounded text-[9px] font-bold uppercase tracking-widest hover:bg-[#0a1128] transition-colors ml-2">Orders</a>
-                    <button class="logoutBtn text-gray-800 hover:text-red-500 transition-colors ml-2" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i></button>
-                </div>`;
+                    <span class="text-[#0a1128] font-bold text-xs truncate max-w-[100px]" title="${displayName}">Hi, ${displayName}</span>
+                    <div class="h-4 w-[1px] bg-gray-300 mx-2"></div>
+                    <a href="orders.html" class="text-[#c5a059] hover:text-[#0a1128] text-[11px] font-bold uppercase tracking-widest transition-colors">Orders</a>
+                    <button class="logoutBtn text-gray-400 hover:text-red-500 transition-colors ml-2" title="Log Out"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+                </div>
+            `;
             navAuthContainer.innerHTML = userHtml;
             navAuthContainerMobile.innerHTML = userHtml;
-            document.querySelectorAll('.logoutBtn').forEach(btn => { btn.addEventListener('click', () => signOut(auth)); });
+
+            document.querySelectorAll('.logoutBtn').forEach(btn => {
+                btn.addEventListener('click', () => signOut(auth));
+            });
         }
 
+        // Monitor Auth State
         onAuthStateChanged(auth, (user) => {
-            if (user) { updateNavigationBar(user); } 
-            else {
-                const loginHtml = `<button class="openModalBtnDynamic text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest text-[11px] whitespace-nowrap">LOG IN</button>`;
+            if (user) {
+                updateNavigationBar(user);
+            } else {
+                const loginHtml = `<button class="openModalBtnDynamic text-[#0a1128] font-bold hover:text-[#c5a059] transition-colors tracking-widest text-[12px] flex items-center gap-2 whitespace-nowrap"><i class="fa-regular fa-user text-[#c5a059]"></i> LOG IN</button>`;
                 navAuthContainer.innerHTML = loginHtml;
                 navAuthContainerMobile.innerHTML = loginHtml;
-                document.querySelectorAll('.openModalBtnDynamic').forEach(btn => { btn.addEventListener('click', openModal); });
+
+                document.querySelectorAll('.openModalBtnDynamic').forEach(btn => {
+                    btn.addEventListener('click', openAuthModal);
+                });
             }
         });
 
         function showStatus(msg, colorClass) {
             statusMessage.innerText = msg;
-            statusMessage.className = `text-center mt-4 text-[10px] uppercase tracking-widest font-bold ${colorClass}`;
+            statusMessage.className = `text-center mt-6 text-sm font-bold tracking-wide relative z-10 ${colorClass}`;
         }
+    </script>
+    
+    <!-- Language Toggle Logic -->
+    <script>
+        function toggleLanguage() {
+            let currentPath = window.location.pathname;
+            let pageName = currentPath.split("/").pop(); 
+
+            if (pageName === "" || pageName === "/") {
+                pageName = "Mirzam's_Main_page.html";
+            }
+
+            if (pageName.includes('_ar')) {
+                window.location.href = pageName.replace('_ar', '');
+            } else {
+                let newPage = pageName.replace('.html', '_ar.html');
+                window.location.href = newPage;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const isArabic = window.location.pathname.includes('_ar');
+            const labelText = isArabic ? "EN" : "AR";
+            
+            const desktopLabel = document.getElementById('langLabelDesktop');
+            const mobileLabel = document.getElementById('langLabelMobile');
+            
+            if(desktopLabel) desktopLabel.innerText = labelText;
+            if(mobileLabel) mobileLabel.innerText = labelText;
+        });
     </script>
 </body>
 </html>
