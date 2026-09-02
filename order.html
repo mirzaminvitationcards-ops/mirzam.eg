@@ -540,34 +540,39 @@
             <!-- Step 7 -->
             <div class="border-b border-[#c5a059]/20 pb-6 mb-6">
                 <div class="step-header flex justify-between items-center bg-[#fdfbf7] p-4 rounded-xl shadow-sm border border-[#c5a059]/10" onclick="toggleStep(7)">
-                    <h3 class="text-[#0a1128] text-[15px] font-bold uppercase tracking-widest font-en flex items-center gap-3">
-                        <span class="text-[#c5a059] text-xl font-numbers">07.</span> Add Couple Photo <span id="summary-7" class="step-summary text-[#c5a059] text-xs pl-4 font-body lowercase tracking-normal"></span>
+                    <h3 class="text-[#0a1128] text-[15px] font-bold font-serif-ar flex items-center gap-3">
+                        <span class="text-[#c5a059] text-xl font-numbers">07.</span> Add Couple Photo <span id="summary-7" class="step-summary text-[#c5a059] text-xs pr-4 font-tajawal tracking-normal"></span>
                     </h3>
                     <i class="fa-solid fa-chevron-down text-gray-400 text-xs transition-transform duration-300"></i>
                 </div>
                 <div id="step-7" class="step-content">
                     <div class="bg-[#fdfbf7] p-8 md:p-10 border border-[#c5a059]/20 shadow-lg rounded-2xl space-y-8">
-                        <p class="text-sm text-gray-500 font-light text-center">Note: If you do not add a photo, the photo section will be automatically removed from your invitation.</p>
                         
                         <div class="grid grid-cols-2 gap-6">
                             <label class="custom-radio block h-full">
                                 <input type="radio" name="addPhotoPreference" value="Yes" onchange="handlePhotoPreference(this.value)" required>
                                 <div class="radio-card p-6 text-center rounded-2xl h-full flex flex-col justify-center items-center shadow-sm">
-                                    <h4 class="text-xl font-bold mb-1 font-en">Yes</h4>
+                                    <h4 class="text-xl font-bold mb-1 font-serif-ar">Yes</h4>
                                     <p class="text-[11px] text-gray-500 sub-text mt-1">We want to add a photo</p>
                                 </div>
                             </label>
                             <label class="custom-radio block h-full">
                                 <input type="radio" name="addPhotoPreference" value="No" onchange="handlePhotoPreference(this.value)">
                                 <div class="radio-card p-6 text-center rounded-2xl h-full flex flex-col justify-center items-center shadow-sm">
-                                    <h4 class="text-xl font-bold mb-1 font-en">No</h4>
-                                    <p class="text-[11px] text-gray-500 sub-text mt-1">Let's skip adding a photo</p>
+                                    <h4 class="text-xl font-bold mb-1 font-serif-ar">No</h4>
+                                    <p class="text-[11px] text-gray-500 sub-text mt-1">Skip adding a photo</p>
                                 </div>
                             </label>
                         </div>
 
+                        <!-- Note for Yes selection -->
                         <div id="photoWhatsAppNote" class="hidden p-6 bg-white border border-[#c5a059]/30 text-sm text-gray-700 font-bold rounded-xl text-center shadow-inner">
-                            <i class="fa-solid fa-camera text-[#c5a059] mr-2 text-lg"></i> You will be asked to send your photo via WhatsApp when our team contacts you.
+                            <i class="fa-solid fa-camera text-[#c5a059] ml-2 text-lg"></i> You will be asked to send your photo via WhatsApp when our team contacts you.
+                        </div>
+
+                        <!-- Note for No selection -->
+                        <div id="noPhotoNote" class="hidden p-6 bg-gray-50 border border-gray-200 text-sm text-gray-600 font-bold rounded-xl text-center shadow-inner">
+                            The photo section will be automatically removed from your invitation.
                         </div>
                         
                         <button type="button" onclick="validateAndAdvanceStep7()" class="w-full mt-6 btn-theme py-4 text-[15px] font-bold rounded-lg shadow-lg">Save & Continue</button>
@@ -789,7 +794,7 @@
             <!-- Submit Container -->
             <div id="submitContainer" class="text-center pt-8 pb-4">
                 <button type="submit" class="btn-theme px-16 py-5 text-[16px] font-bold rounded-full shadow-2xl tracking-widest w-full md:w-auto hover:scale-105 transition-transform duration-300">
-                    Review & Submit Request <i class="fa-solid fa-paper-plane ml-2"></i>
+                    Submit Request <i class="fa-solid fa-paper-plane ml-2"></i>
                 </button>
             </div>
             
@@ -1090,14 +1095,17 @@
         }
 
         function handlePhotoPreference(val) {
-            const noteBox = document.getElementById('photoWhatsAppNote');
+            const noteBoxYes = document.getElementById('photoWhatsAppNote');
+            const noteBoxNo = document.getElementById('noPhotoNote');
+            
             if (val === 'Yes') {
-                noteBox.classList.remove('hidden');
+                noteBoxYes.classList.remove('hidden');
+                if (noteBoxNo) noteBoxNo.classList.add('hidden');
             } else {
-                noteBox.classList.add('hidden');
+                noteBoxYes.classList.add('hidden');
+                if (noteBoxNo) noteBoxNo.classList.remove('hidden');
             }
         }
-
         function validateAndAdvanceStep7() {
             const selectedPref = document.querySelector('input[name="addPhotoPreference"]:checked');
             if (!selectedPref) {
