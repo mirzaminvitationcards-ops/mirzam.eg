@@ -210,11 +210,11 @@
                     <h3 class="font-bold text-[#0a1128] text-xl mb-4 font-en tracking-wider">CHOOSE</h3>
                     <p class="text-[14px] text-gray-600 font-light leading-relaxed mb-8 flex-grow">Browse our digital collections and select the design and the plan that resonates with your vision.</p>
                     
-                    <div class="flex flex-col xl:flex-row items-center justify-center gap-3 w-full">
-                        <a href="collection.html" class="btn-outline w-full xl:w-auto px-5 py-2.5 rounded-full text-[11px] font-bold inline-block">
+                    <div class="flex flex-col items-center justify-center gap-3 w-full mt-auto">
+                        <a href="collection.html" class="btn-outline w-full py-2.5 rounded-full text-[12px] font-bold block text-center">
                             VIEW COLLECTIONS
                         </a>
-                        <a href="pricing.html" class="btn-outline w-full xl:w-auto px-5 py-2.5 rounded-full text-[11px] font-bold inline-block">
+                        <a href="pricing.html" class="btn-outline w-full py-2.5 rounded-full text-[12px] font-bold block text-center">
                             VIEW PLANS
                         </a>
                     </div>
@@ -228,7 +228,7 @@
                     </div>
                     <h3 class="font-bold text-[#0a1128] text-xl mb-4 font-en tracking-wider">PLACE ORDER</h3>
                     <p class="text-[14px] text-gray-600 font-light leading-relaxed mb-8 flex-grow">Fill out the step-by-step order form to customize your suite details and submit your request.</p>
-                    <a href="order.html" class="btn-outline px-8 py-2.5 rounded-full text-[12px] font-bold inline-block mt-auto w-full">
+                    <a href="order.html" class="btn-outline px-8 py-2.5 rounded-full text-[12px] font-bold block text-center mt-auto w-full">
                         CREATE SUITE
                     </a>
                 </div>
@@ -241,7 +241,7 @@
                     </div>
                     <h3 class="font-bold text-[#0a1128] text-xl mb-4 font-en tracking-wider">RECEIVE LINK</h3>
                     <p class="text-[14px] text-gray-600 font-light leading-relaxed mb-8 flex-grow">Access your personal dashboard to track your order status and receive your final invitation links.</p>
-                    <a href="orders.html" class="bg-[#0a1128] text-[#c5a059] hover:bg-[#c5a059] hover:text-white transition-colors px-8 py-2.5 rounded-full text-[12px] font-bold inline-block shadow-md tracking-wider uppercase mt-auto w-full">
+                    <a href="orders.html" class="bg-[#0a1128] text-[#c5a059] hover:bg-[#c5a059] hover:text-white transition-colors px-8 py-2.5 rounded-full text-[12px] font-bold block text-center shadow-md tracking-wider uppercase mt-auto w-full">
                         VIEW MY ORDERS
                     </a>
                 </div>
@@ -538,33 +538,74 @@
         }
     </script>
     
-    <!-- Language Toggle Logic -->
+    <!-- Language Toggle & Position Restore Logic -->
     <script>
         function toggleLanguage() {
+            // 1. حفظ مكان النزول الحالي
+            sessionStorage.setItem('langToggleScroll', window.scrollY);
+            
+            // 2. حفظ الخطوة المفتوحة حالياً (إذا كنا في صفحة صمم دعوتك)
+            const activeStep = document.querySelector('.step-content.active');
+            if (activeStep) {
+                const stepId = activeStep.id.split('-')[1];
+                sessionStorage.setItem('activeOrderStep', stepId);
+            }
+
             let currentPath = window.location.pathname;
             let pageName = currentPath.split("/").pop(); 
-
-            if (pageName === "" || pageName === "/") {
-                pageName = "Mirzam's_Main_page.html";
-            }
-
+            if (pageName === "" || pageName === "/") { pageName = "Mirzam's_Main_page.html"; }
+            
+            // 3. التحويل للصفحة باللغة الأخرى مع الاحتفاظ بالروابط الإضافية
+            let newPage = "";
             if (pageName.includes('_ar')) {
-                window.location.href = pageName.replace('_ar', '');
+                newPage = pageName.replace('_ar', '');
             } else {
-                let newPage = pageName.replace('.html', '_ar.html');
-                window.location.href = newPage;
+                newPage = pageName.replace('.html', '_ar.html');
             }
+            window.location.href = newPage + window.location.search + window.location.hash;
         }
 
+        // 4. استرجاع البيانات عند تحميل الصفحة الجديدة
         document.addEventListener("DOMContentLoaded", () => {
+            // تحديث نص زر اللغة (EN / AR)
             const isArabic = window.location.pathname.includes('_ar');
             const labelText = isArabic ? "EN" : "AR";
-            
             const desktopLabel = document.getElementById('langLabelDesktop');
             const mobileLabel = document.getElementById('langLabelMobile');
-            
             if(desktopLabel) desktopLabel.innerText = labelText;
             if(mobileLabel) mobileLabel.innerText = labelText;
+
+            // استرجاع الخطوة المفتوحة (خاص بصفحة صمم دعوتك)
+            const savedStep = sessionStorage.getItem('activeOrderStep');
+            if (savedStep && document.getElementById(`step-${savedStep}`)) {
+                sessionStorage.removeItem('activeOrderStep');
+                
+                // إغلاق الخطوة الأولى المفتوحة افتراضياً
+                const step1 = document.getElementById('step-1');
+                if(step1 && savedStep !== '1') {
+                    step1.classList.remove('active');
+                    const icon1 = step1.previousElementSibling?.querySelector('.fa-chevron-down');
+                    if(icon1) icon1.style.transform = 'rotate(0deg)';
+                }
+
+                // فتح الخطوة المحفوظة
+                const targetStep = document.getElementById(`step-${savedStep}`);
+                if (targetStep && savedStep !== '1') {
+                    targetStep.classList.add('active');
+                    const targetIcon = targetStep.previousElementSibling?.querySelector('.fa-chevron-down');
+                    if(targetIcon) targetIcon.style.transform = 'rotate(180deg)';
+                }
+            }
+
+            // استرجاع مكان النزول (يعمل في كل الصفحات)
+            const savedScroll = sessionStorage.getItem('langToggleScroll');
+            if (savedScroll !== null) {
+                sessionStorage.removeItem('langToggleScroll');
+                // تأخير بسيط جداً لضمان تحميل عناصر الصفحة قبل النزول
+                setTimeout(() => {
+                    window.scrollTo({ top: parseInt(savedScroll), behavior: 'instant' });
+                }, 100); 
+            }
         });
     </script>
 </body>
